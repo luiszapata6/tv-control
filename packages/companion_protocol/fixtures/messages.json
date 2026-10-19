@@ -1,0 +1,311 @@
+{
+ "hello": {
+  "id": 1,
+  "type": "hello",
+  "client": "TV Control iPhone",
+  "version": 1,
+  "token": "dG9rZW4"
+ },
+ "hello_ok": {
+  "id": 1,
+  "type": "result",
+  "data": {
+   "authenticated": true,
+   "server": {
+    "name": "Hisense 65U6GA",
+    "version": 1,
+    "deviceId": "a1b2c3"
+   }
+  }
+ },
+ "auth_required": {
+  "id": 1,
+  "type": "error",
+  "code": "auth_required",
+  "message": "pair first"
+ },
+ "pair_request": {
+  "id": 2,
+  "type": "pair.request",
+  "client": "TV Control iPhone"
+ },
+ "pair_pending": {
+  "id": 2,
+  "type": "result",
+  "data": {
+   "pending": true
+  }
+ },
+ "pair_confirm": {
+  "id": 3,
+  "type": "pair.confirm",
+  "code": "482915"
+ },
+ "pair_token": {
+  "id": 3,
+  "type": "result",
+  "data": {
+   "token": "q83vEjRWeJAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+  }
+ },
+ "bad_code": {
+  "id": 3,
+  "type": "error",
+  "code": "bad_code",
+  "message": "wrong code, 4 attempts left"
+ },
+ "locked": {
+  "id": 3,
+  "type": "error",
+  "code": "locked",
+  "message": "try again in 60 s"
+ },
+ "ping": {
+  "id": 4,
+  "type": "ping"
+ },
+ "pong": {
+  "id": 4,
+  "type": "result",
+  "data": {
+   "time": 1760000000000
+  }
+ },
+ "apps_list": {
+  "id": 5,
+  "type": "apps.list"
+ },
+ "apps_list_result": {
+  "id": 5,
+  "type": "result",
+  "data": {
+   "apps": [
+    {
+     "package": "com.google.android.youtube.tv",
+     "label": "YouTube",
+     "versionCode": 123,
+     "isSystem": false
+    },
+    {
+     "package": "com.android.vending",
+     "label": "Google Play Store",
+     "versionCode": 9,
+     "isSystem": true
+    }
+   ]
+  }
+ },
+ "apps_icon": {
+  "id": 6,
+  "type": "apps.icon",
+  "package": "com.netflix.ninja"
+ },
+ "apps_icon_result": {
+  "id": 6,
+  "type": "result",
+  "data": {
+   "package": "com.netflix.ninja",
+   "png": "iVBORw0KGgo="
+  }
+ },
+ "apps_launch": {
+  "id": 7,
+  "type": "apps.launch",
+  "package": "com.netflix.ninja"
+ },
+ "empty_result": {
+  "id": 7,
+  "type": "result",
+  "data": {}
+ },
+ "not_found": {
+  "id": 7,
+  "type": "error",
+  "code": "not_found",
+  "message": "app not installed"
+ },
+ "launcher_get": {
+  "id": 8,
+  "type": "launcher.get"
+ },
+ "launcher_result": {
+  "id": 8,
+  "type": "result",
+  "data": {
+   "layout": {
+    "order": [
+     "com.google.android.youtube.tv",
+     "com.netflix.ninja"
+    ],
+    "hidden": [
+     "com.example.junk"
+    ],
+    "columns": 6
+   }
+  }
+ },
+ "launcher_set": {
+  "id": 9,
+  "type": "launcher.set",
+  "layout": {
+   "order": [
+    "com.google.android.youtube.tv",
+    "com.netflix.ninja"
+   ],
+   "hidden": [
+    "com.example.junk"
+   ],
+   "columns": 6
+  }
+ },
+ "inputs_list": {
+  "id": 10,
+  "type": "inputs.list"
+ },
+ "inputs_result": {
+  "id": 10,
+  "type": "result",
+  "data": {
+   "inputs": [
+    {
+     "id": "com.mediatek.tvinput/.hdmi.HDMIInputService/HW2",
+     "label": "HDMI 1",
+     "kind": "hdmi"
+    }
+   ]
+  }
+ },
+ "inputs_open": {
+  "id": 11,
+  "type": "inputs.open",
+  "input": "com.mediatek.tvinput/.hdmi.HDMIInputService/HW2"
+ },
+ "now_playing_get": {
+  "id": 12,
+  "type": "nowPlaying.get"
+ },
+ "now_playing_result": {
+  "id": 12,
+  "type": "result",
+  "data": {
+   "nowPlaying": {
+    "package": "com.google.android.youtube.tv",
+    "title": "Lo-fi beats",
+    "subtitle": "Lofi Girl",
+    "state": "playing",
+    "positionMs": 61000,
+    "durationMs": 3600000
+   }
+  }
+ },
+ "now_playing_none": {
+  "id": 12,
+  "type": "result",
+  "data": {
+   "nowPlaying": null
+  }
+ },
+ "usage_get": {
+  "id": 13,
+  "type": "usage.get",
+  "days": 7
+ },
+ "usage_result": {
+  "id": 13,
+  "type": "result",
+  "data": {
+   "since": 1759395200000,
+   "entries": [
+    {
+     "package": "com.netflix.ninja",
+     "label": "Netflix",
+     "foregroundMs": 7200000
+    }
+   ]
+  }
+ },
+ "backup_export": {
+  "id": 14,
+  "type": "backup.export"
+ },
+ "backup_result": {
+  "id": 14,
+  "type": "result",
+  "data": {
+   "backup": {
+    "version": 1,
+    "layout": {
+     "order": [
+      "com.google.android.youtube.tv",
+      "com.netflix.ninja"
+     ],
+     "hidden": [
+      "com.example.junk"
+     ],
+     "columns": 6
+    },
+    "exportedAt": 1760000000000
+   }
+  }
+ },
+ "backup_import": {
+  "id": 15,
+  "type": "backup.import",
+  "backup": {
+   "version": 1,
+   "layout": {
+    "order": [
+     "com.google.android.youtube.tv",
+     "com.netflix.ninja"
+    ],
+    "hidden": [
+     "com.example.junk"
+    ],
+    "columns": 6
+   },
+   "exportedAt": 1760000000000
+  }
+ },
+ "event_now_playing": {
+  "type": "event",
+  "event": "nowPlaying",
+  "data": {
+   "nowPlaying": {
+    "package": "com.google.android.youtube.tv",
+    "title": "Lo-fi beats",
+    "subtitle": "Lofi Girl",
+    "state": "playing",
+    "positionMs": 61000,
+    "durationMs": 3600000
+   }
+  }
+ },
+ "event_foreground": {
+  "type": "event",
+  "event": "foregroundApp",
+  "data": {
+   "package": "com.netflix.ninja"
+  }
+ },
+ "event_layout": {
+  "type": "event",
+  "event": "layoutChanged",
+  "data": {
+   "layout": {
+    "order": [
+     "com.google.android.youtube.tv",
+     "com.netflix.ninja"
+    ],
+    "hidden": [
+     "com.example.junk"
+    ],
+    "columns": 6
+   }
+  }
+ },
+ "event_apps_changed": {
+  "type": "event",
+  "event": "appsChanged",
+  "data": {}
+ }
+}

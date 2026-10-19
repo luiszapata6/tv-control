@@ -43,9 +43,11 @@ jobs:
       - uses: dart-lang/setup-dart@v1
         with:
           sdk: stable
-      - run: tools/ci/step.sh setup "pip install -r tools/sim/requirements.txt && dart --version && cd packages/atv_remote && dart pub get"
+      - run: tools/ci/step.sh setup "pip install -r tools/sim/requirements.txt && dart --version && (cd packages/atv_remote && dart pub get) && (cd packages/companion_protocol && dart pub get)"
       - run: tools/ci/step.sh atv-analyze "cd packages/atv_remote && dart analyze --fatal-infos"
       - run: tools/ci/step.sh atv-test "cd packages/atv_remote && ATV_SIM_PYTHON=$(which python) dart test --reporter expanded"
+      - run: tools/ci/step.sh companion-analyze "cd packages/companion_protocol && dart analyze --fatal-infos"
+      - run: tools/ci/step.sh companion-test "cd packages/companion_protocol && dart test --reporter expanded"
       - if: always()
         uses: actions/upload-artifact@v4
         with:

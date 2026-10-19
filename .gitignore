@@ -1,0 +1,15 @@
+.dart_tool/
+.packages
+build/
+pubspec.lock
+!apps/*/pubspec.lock
+.venv/
+__pycache__/
+*.pyc
+tools/validate/out/
+ci-logs/
+.idea/
+.vscode/
+*.iml
+.DS_Store
+local.properties

@@ -1,0 +1,46 @@
+name: scaffold
+
+# Generates the Flutter platform folders (android/, ios/, macos/) with the
+# official `flutter create` and commits them, since they cannot be generated
+# in the development environment. Triggered by editing tools/ci/scaffold.request.
+on:
+  push:
+    branches: [main]
+    paths: [tools/ci/scaffold.request]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  scaffold:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+      - name: Generate platform folders
+        run: |
+          set -eux
+          flutter --version | tee flutter-version.txt
+          tmp=$(mktemp -d)
+          flutter create --no-pub --project-name tv_launcher --org com.luiszapata.tvcontrol \
+            --platforms android --android-language kotlin "$tmp/tv_launcher"
+          flutter create --no-pub --project-name tv_remote --org com.luiszapata.tvcontrol \
+            --platforms ios,macos --ios-language swift "$tmp/tv_remote"
+          mkdir -p apps/launcher apps/remote
+          [ -d apps/launcher/android ] || cp -r "$tmp/tv_launcher/android" apps/launcher/android
+          [ -d apps/remote/ios ] || cp -r "$tmp/tv_remote/ios" apps/remote/ios
+          [ -d apps/remote/macos ] || cp -r "$tmp/tv_remote/macos" apps/remote/macos
+          cp "$tmp/tv_launcher/.metadata" apps/launcher/.metadata
+          cp "$tmp/tv_remote/.metadata" apps/remote/.metadata
+          mkdir -p tools/ci && cp flutter-version.txt tools/ci/flutter-version.txt
+      - name: Commit
+        run: |
+          git config user.name "scaffold-bot"
+          git config user.email "scaffold-bot@users.noreply.github.com"
+          git add apps tools/ci/flutter-version.txt
+          git diff --cached --quiet && exit 0
+          git commit -m "chore: flutter create platform folders"
+          git push
