@@ -1,0 +1,8 @@
+Analyzing atv_remote...
+
+warning - lib/src/crypto/certificate.dart:135:20 - Unnecessary cast. Try removing the cast. - unnecessary_cast
+warning - lib/src/crypto/certificate.dart:136:21 - Unnecessary cast. Try removing the cast. - unnecessary_cast
+warning - test/protocol_test.dart:26:28 - Dead code. Try removing the code, or fixing the code before it so that it can be reached. - dead_code
+warning - test/protocol_test.dart:82:45 - The '!' will have no effect because the receiver can't be null. Try removing the '!' operator. - unnecessary_non_null_assertion
+
+4 issues found.
