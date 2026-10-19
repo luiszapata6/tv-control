@@ -1,0 +1,169 @@
+00:00 +0: loading test/protocol_test.dart
+00:00 +0 -1: loading test/protocol_test.dart [E]
+  Failed to load "test/protocol_test.dart":
+  lib/src/proto/remotemessage.pb.dart:1220:64: Error: The parameter 'editInfo' can't have a value of 'null' because of its type 'List<RemoteEditInfo>', but the implicit default value is 'null'.
+   - 'List' is from 'dart:core'.
+   - 'RemoteEditInfo' is from 'package:atv_remote/src/proto/remotemessage.pb.dart' ('lib/src/proto/remotemessage.pb.dart').
+  Try adding either an explicit non-'null' default value or the 'required' modifier.
+    RemoteImeBatchEdit({this.imeCounter, this.fieldCounter, this.editInfo});
+                                                                 ^^^^^^^^
+  lib/src/proto/polo.pb.dart:314:17: Error: The parameter 'inputEncodings' can't have a value of 'null' because of its type 'List<Options_Encoding>', but the implicit default value is 'null'.
+   - 'List' is from 'dart:core'.
+   - 'Options_Encoding' is from 'package:atv_remote/src/proto/polo.pb.dart' ('lib/src/proto/polo.pb.dart').
+  Try adding either an explicit non-'null' default value or the 'required' modifier.
+    Options({this.inputEncodings, this.outputEncodings, this.preferredRole});
+                  ^^^^^^^^^^^^^^
+  lib/src/proto/polo.pb.dart:314:38: Error: The parameter 'outputEncodings' can't have a value of 'null' because of its type 'List<Options_Encoding>', but the implicit default value is 'null'.
+   - 'List' is from 'dart:core'.
+   - 'Options_Encoding' is from 'package:atv_remote/src/proto/polo.pb.dart' ('lib/src/proto/polo.pb.dart').
+  Try adding either an explicit non-'null' default value or the 'required' modifier.
+    Options({this.inputEncodings, this.outputEncodings, this.preferredRole});
+                                       ^^^^^^^^^^^^^^^
+00:00 +0 -2: loading test/integration_sim_test.dart [E]
+  Failed to load "test/integration_sim_test.dart":
+  lib/src/proto/remotemessage.pb.dart:1220:64: Error: The parameter 'editInfo' can't have a value of 'null' because of its type 'List<RemoteEditInfo>', but the implicit default value is 'null'.
+   - 'List' is from 'dart:core'.
+   - 'RemoteEditInfo' is from 'package:atv_remote/src/proto/remotemessage.pb.dart' ('lib/src/proto/remotemessage.pb.dart').
+  Try adding either an explicit non-'null' default value or the 'required' modifier.
+    RemoteImeBatchEdit({this.imeCounter, this.fieldCounter, this.editInfo});
+                                                                 ^^^^^^^^
+  lib/src/proto/polo.pb.dart:314:17: Error: The parameter 'inputEncodings' can't have a value of 'null' because of its type 'List<Options_Encoding>', but the implicit default value is 'null'.
+   - 'List' is from 'dart:core'.
+   - 'Options_Encoding' is from 'package:atv_remote/src/proto/polo.pb.dart' ('lib/src/proto/polo.pb.dart').
+  Try adding either an explicit non-'null' default value or the 'required' modifier.
+    Options({this.inputEncodings, this.outputEncodings, this.preferredRole});
+                  ^^^^^^^^^^^^^^
+  lib/src/proto/polo.pb.dart:314:38: Error: The parameter 'outputEncodings' can't have a value of 'null' because of its type 'List<Options_Encoding>', but the implicit default value is 'null'.
+   - 'List' is from 'dart:core'.
+   - 'Options_Encoding' is from 'package:atv_remote/src/proto/polo.pb.dart' ('lib/src/proto/polo.pb.dart').
+  Try adding either an explicit non-'null' default value or the 'required' modifier.
+    Options({this.inputEncodings, this.outputEncodings, this.preferredRole});
+                                       ^^^^^^^^^^^^^^^
+00:00 +0 -3: loading test/client_test.dart [E]
+  Failed to load "test/client_test.dart":
+  lib/src/proto/remotemessage.pb.dart:1220:64: Error: The parameter 'editInfo' can't have a value of 'null' because of its type 'List<RemoteEditInfo>', but the implicit default value is 'null'.
+   - 'List' is from 'dart:core'.
+   - 'RemoteEditInfo' is from 'package:atv_remote/src/proto/remotemessage.pb.dart' ('lib/src/proto/remotemessage.pb.dart').
+  Try adding either an explicit non-'null' default value or the 'required' modifier.
+    RemoteImeBatchEdit({this.imeCounter, this.fieldCounter, this.editInfo});
+                                                                 ^^^^^^^^
+  lib/src/proto/polo.pb.dart:314:17: Error: The parameter 'inputEncodings' can't have a value of 'null' because of its type 'List<Options_Encoding>', but the implicit default value is 'null'.
+   - 'List' is from 'dart:core'.
+   - 'Options_Encoding' is from 'package:atv_remote/src/proto/polo.pb.dart' ('lib/src/proto/polo.pb.dart').
+  Try adding either an explicit non-'null' default value or the 'required' modifier.
+    Options({this.inputEncodings, this.outputEncodings, this.preferredRole});
+                  ^^^^^^^^^^^^^^
+  lib/src/proto/polo.pb.dart:314:38: Error: The parameter 'outputEncodings' can't have a value of 'null' because of its type 'List<Options_Encoding>', but the implicit default value is 'null'.
+   - 'List' is from 'dart:core'.
+   - 'Options_Encoding' is from 'package:atv_remote/src/proto/polo.pb.dart' ('lib/src/proto/polo.pb.dart').
+  Try adding either an explicit non-'null' default value or the 'required' modifier.
+    Options({this.inputEncodings, this.outputEncodings, this.preferredRole});
+                                       ^^^^^^^^^^^^^^^
+00:00 +0 -4: loading test/proto_golden_test.dart [E]
+  Failed to load "test/proto_golden_test.dart":
+  lib/src/proto/remotemessage.pb.dart:1220:64: Error: The parameter 'editInfo' can't have a value of 'null' because of its type 'List<RemoteEditInfo>', but the implicit default value is 'null'.
+   - 'List' is from 'dart:core'.
+   - 'RemoteEditInfo' is from 'package:atv_remote/src/proto/remotemessage.pb.dart' ('lib/src/proto/remotemessage.pb.dart').
+  Try adding either an explicit non-'null' default value or the 'required' modifier.
+    RemoteImeBatchEdit({this.imeCounter, this.fieldCounter, this.editInfo});
+                                                                 ^^^^^^^^
+  lib/src/proto/polo.pb.dart:314:17: Error: The parameter 'inputEncodings' can't have a value of 'null' because of its type 'List<Options_Encoding>', but the implicit default value is 'null'.
+   - 'List' is from 'dart:core'.
+   - 'Options_Encoding' is from 'package:atv_remote/src/proto/polo.pb.dart' ('lib/src/proto/polo.pb.dart').
+  Try adding either an explicit non-'null' default value or the 'required' modifier.
+    Options({this.inputEncodings, this.outputEncodings, this.preferredRole});
+                  ^^^^^^^^^^^^^^
+  lib/src/proto/polo.pb.dart:314:38: Error: The parameter 'outputEncodings' can't have a value of 'null' because of its type 'List<Options_Encoding>', but the implicit default value is 'null'.
+   - 'List' is from 'dart:core'.
+   - 'Options_Encoding' is from 'package:atv_remote/src/proto/polo.pb.dart' ('lib/src/proto/polo.pb.dart').
+  Try adding either an explicit non-'null' default value or the 'required' modifier.
+    Options({this.inputEncodings, this.outputEncodings, this.preferredRole});
+                                       ^^^^^^^^^^^^^^^
+00:00 +0 -5: loading test/misc_test.dart [E]
+  Failed to load "test/misc_test.dart":
+  lib/src/proto/remotemessage.pb.dart:1220:64: Error: The parameter 'editInfo' can't have a value of 'null' because of its type 'List<RemoteEditInfo>', but the implicit default value is 'null'.
+   - 'List' is from 'dart:core'.
+   - 'RemoteEditInfo' is from 'package:atv_remote/src/proto/remotemessage.pb.dart' ('lib/src/proto/remotemessage.pb.dart').
+  Try adding either an explicit non-'null' default value or the 'required' modifier.
+    RemoteImeBatchEdit({this.imeCounter, this.fieldCounter, this.editInfo});
+                                                                 ^^^^^^^^
+  lib/src/proto/polo.pb.dart:314:17: Error: The parameter 'inputEncodings' can't have a value of 'null' because of its type 'List<Options_Encoding>', but the implicit default value is 'null'.
+   - 'List' is from 'dart:core'.
+   - 'Options_Encoding' is from 'package:atv_remote/src/proto/polo.pb.dart' ('lib/src/proto/polo.pb.dart').
+  Try adding either an explicit non-'null' default value or the 'required' modifier.
+    Options({this.inputEncodings, this.outputEncodings, this.preferredRole});
+                  ^^^^^^^^^^^^^^
+  lib/src/proto/polo.pb.dart:314:38: Error: The parameter 'outputEncodings' can't have a value of 'null' because of its type 'List<Options_Encoding>', but the implicit default value is 'null'.
+   - 'List' is from 'dart:core'.
+   - 'Options_Encoding' is from 'package:atv_remote/src/proto/polo.pb.dart' ('lib/src/proto/polo.pb.dart').
+  Try adding either an explicit non-'null' default value or the 'required' modifier.
+    Options({this.inputEncodings, this.outputEncodings, this.preferredRole});
+                                       ^^^^^^^^^^^^^^^
+00:00 +0 -6: loading test/certificate_test.dart [E]
+  Failed to load "test/certificate_test.dart":
+  lib/src/proto/remotemessage.pb.dart:1220:64: Error: The parameter 'editInfo' can't have a value of 'null' because of its type 'List<RemoteEditInfo>', but the implicit default value is 'null'.
+   - 'List' is from 'dart:core'.
+   - 'RemoteEditInfo' is from 'package:atv_remote/src/proto/remotemessage.pb.dart' ('lib/src/proto/remotemessage.pb.dart').
+  Try adding either an explicit non-'null' default value or the 'required' modifier.
+    RemoteImeBatchEdit({this.imeCounter, this.fieldCounter, this.editInfo});
+                                                                 ^^^^^^^^
+  lib/src/proto/polo.pb.dart:314:17: Error: The parameter 'inputEncodings' can't have a value of 'null' because of its type 'List<Options_Encoding>', but the implicit default value is 'null'.
+   - 'List' is from 'dart:core'.
+   - 'Options_Encoding' is from 'package:atv_remote/src/proto/polo.pb.dart' ('lib/src/proto/polo.pb.dart').
+  Try adding either an explicit non-'null' default value or the 'required' modifier.
+    Options({this.inputEncodings, this.outputEncodings, this.preferredRole});
+                  ^^^^^^^^^^^^^^
+  lib/src/proto/polo.pb.dart:314:38: Error: The parameter 'outputEncodings' can't have a value of 'null' because of its type 'List<Options_Encoding>', but the implicit default value is 'null'.
+   - 'List' is from 'dart:core'.
+   - 'Options_Encoding' is from 'package:atv_remote/src/proto/polo.pb.dart' ('lib/src/proto/polo.pb.dart').
+  Try adding either an explicit non-'null' default value or the 'required' modifier.
+    Options({this.inputEncodings, this.outputEncodings, this.preferredRole});
+                                       ^^^^^^^^^^^^^^^
+00:00 +0 -7: loading test/framing_test.dart [E]
+  Failed to load "test/framing_test.dart":
+  lib/src/proto/remotemessage.pb.dart:1220:64: Error: The parameter 'editInfo' can't have a value of 'null' because of its type 'List<RemoteEditInfo>', but the implicit default value is 'null'.
+   - 'List' is from 'dart:core'.
+   - 'RemoteEditInfo' is from 'package:atv_remote/src/proto/remotemessage.pb.dart' ('lib/src/proto/remotemessage.pb.dart').
+  Try adding either an explicit non-'null' default value or the 'required' modifier.
+    RemoteImeBatchEdit({this.imeCounter, this.fieldCounter, this.editInfo});
+                                                                 ^^^^^^^^
+  lib/src/proto/polo.pb.dart:314:17: Error: The parameter 'inputEncodings' can't have a value of 'null' because of its type 'List<Options_Encoding>', but the implicit default value is 'null'.
+   - 'List' is from 'dart:core'.
+   - 'Options_Encoding' is from 'package:atv_remote/src/proto/polo.pb.dart' ('lib/src/proto/polo.pb.dart').
+  Try adding either an explicit non-'null' default value or the 'required' modifier.
+    Options({this.inputEncodings, this.outputEncodings, this.preferredRole});
+                  ^^^^^^^^^^^^^^
+  lib/src/proto/polo.pb.dart:314:38: Error: The parameter 'outputEncodings' can't have a value of 'null' because of its type 'List<Options_Encoding>', but the implicit default value is 'null'.
+   - 'List' is from 'dart:core'.
+   - 'Options_Encoding' is from 'package:atv_remote/src/proto/polo.pb.dart' ('lib/src/proto/polo.pb.dart').
+  Try adding either an explicit non-'null' default value or the 'required' modifier.
+    Options({this.inputEncodings, this.outputEncodings, this.preferredRole});
+                                       ^^^^^^^^^^^^^^^
+00:00 +0 -8: loading test/pairing_secret_test.dart [E]
+  Failed to load "test/pairing_secret_test.dart":
+  lib/src/proto/remotemessage.pb.dart:1220:64: Error: The parameter 'editInfo' can't have a value of 'null' because of its type 'List<RemoteEditInfo>', but the implicit default value is 'null'.
+   - 'List' is from 'dart:core'.
+   - 'RemoteEditInfo' is from 'package:atv_remote/src/proto/remotemessage.pb.dart' ('lib/src/proto/remotemessage.pb.dart').
+  Try adding either an explicit non-'null' default value or the 'required' modifier.
+    RemoteImeBatchEdit({this.imeCounter, this.fieldCounter, this.editInfo});
+                                                                 ^^^^^^^^
+  lib/src/proto/polo.pb.dart:314:17: Error: The parameter 'inputEncodings' can't have a value of 'null' because of its type 'List<Options_Encoding>', but the implicit default value is 'null'.
+   - 'List' is from 'dart:core'.
+   - 'Options_Encoding' is from 'package:atv_remote/src/proto/polo.pb.dart' ('lib/src/proto/polo.pb.dart').
+  Try adding either an explicit non-'null' default value or the 'required' modifier.
+    Options({this.inputEncodings, this.outputEncodings, this.preferredRole});
+                  ^^^^^^^^^^^^^^
+  lib/src/proto/polo.pb.dart:314:38: Error: The parameter 'outputEncodings' can't have a value of 'null' because of its type 'List<Options_Encoding>', but the implicit default value is 'null'.
+   - 'List' is from 'dart:core'.
+   - 'Options_Encoding' is from 'package:atv_remote/src/proto/polo.pb.dart' ('lib/src/proto/polo.pb.dart').
+  Try adding either an explicit non-'null' default value or the 'required' modifier.
+    Options({this.inputEncodings, this.outputEncodings, this.preferredRole});
+                                       ^^^^^^^^^^^^^^^
+00:00 +0 -8: Some tests failed.
+
+Failing tests:
+  test/certificate_test.dart: loading test/certificate_test.dart
+  test/client_test.dart: loading test/client_test.dart
+  test/framing_test.dart: loading test/framing_test.dart
+  test/integration_sim_test.dart: loading test/integration_sim_test.dart
+  ... and 4 more
