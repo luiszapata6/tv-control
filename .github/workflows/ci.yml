@@ -55,8 +55,38 @@ jobs:
           path: ci-logs
       - run: tools/ci/finish.sh
 
+  launcher:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+      - run: tools/ci/step.sh launcher-pub "cd apps/launcher && flutter --version && flutter pub get"
+      - run: tools/ci/step.sh launcher-analyze "cd apps/launcher && flutter analyze --fatal-infos"
+      - run: tools/ci/step.sh launcher-test "cd apps/launcher && flutter test --reporter expanded"
+      - run: tools/ci/step.sh launcher-apk "cd apps/launcher && flutter build apk --release --target-platform android-arm,android-arm64"
+      - run: tools/ci/step.sh launcher-kotlin-tests "cd apps/launcher/android && ./gradlew --no-daemon :app:testReleaseUnitTest"
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: logs-launcher
+          path: ci-logs
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: apk
+          path: apps/launcher/build/app/outputs/flutter-apk/app-release.apk
+          if-no-files-found: ignore
+      - run: tools/ci/finish.sh
+
   report:
-    needs: [python, dart]
+    needs: [python, dart, launcher]
     if: always()
     runs-on: ubuntu-latest
     steps:
@@ -64,6 +94,7 @@ jobs:
       - uses: actions/download-artifact@v4
         with:
           path: artifacts
+          pattern: logs-*
       - name: Publish results to the ci-results branch
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

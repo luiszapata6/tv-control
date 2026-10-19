@@ -132,8 +132,8 @@ class ClientIdentity {
     final generator = RSAKeyGenerator()
       ..init(ParametersWithRandom(RSAKeyGeneratorParameters(BigInt.from(65537), bits, 64), random));
     final pair = generator.generateKeyPair();
-    final public = pair.publicKey as RSAPublicKey;
-    final private = pair.privateKey as RSAPrivateKey;
+    final public = pair.publicKey;
+    final private = pair.privateKey;
 
     final name = Der.sequence([
       Der.set([

@@ -19,7 +19,8 @@ android {
         applicationId = "com.luiszapata.tvcontrol.tv_launcher"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
-        minSdk = flutter.minSdkVersion
+        // Android TV 8.0+ (java.util.Base64, adaptive banners).
+        minSdk = maxOf(26, flutter.minSdkVersion)
         targetSdk = flutter.targetSdkVersion
         // Uses the version code from pubspec.yaml. When using split APKs, 1000 * ABI_VERSION
         // is added automatically by Flutter. (https://developer.android.com/studio/build/configure-apk-splits#configure-APK-versions)
@@ -27,6 +28,11 @@ android {
         // flag during build.
         versionCode = flutter.versionCode
         versionName = flutter.versionName
+    }
+
+    sourceSets {
+        // Shared protocol fixtures, also used by the Dart client tests.
+        getByName("test").resources.srcDir("../../../../packages/companion_protocol/fixtures")
     }
 
     buildTypes {
@@ -46,4 +52,10 @@ kotlin {
 
 flutter {
     source = "../.."
+}
+
+dependencies {
+    implementation("org.java-websocket:Java-WebSocket:1.6.0")
+    testImplementation("junit:junit:4.13.2")
+    testImplementation("org.json:json:20240303")
 }

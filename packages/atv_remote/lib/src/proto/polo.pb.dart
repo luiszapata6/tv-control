@@ -311,10 +311,10 @@ class Options_Encoding {
 
 /// Protobuf message `Options`.
 class Options {
-  Options({this.inputEncodings, this.outputEncodings, this.preferredRole});
+  Options({List<Options_Encoding>? inputEncodings, List<Options_Encoding>? outputEncodings, this.preferredRole}) : inputEncodings = inputEncodings ?? [], outputEncodings = outputEncodings ?? [];
 
-  List<Options_Encoding> inputEncodings = [];
-  List<Options_Encoding> outputEncodings = [];
+  List<Options_Encoding> inputEncodings;
+  List<Options_Encoding> outputEncodings;
   Options_RoleType? preferredRole;
 
   /// Serializes this message (fields in tag order, like the reference).

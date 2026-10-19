@@ -21,21 +21,17 @@ void main() {
 
     setUp(() {
       connector = FakeConnector(serverCertDer: serverDer);
-      // Choose a nonce and derive the code like the TV would.
+      // Take nonce 0000 and derive the code (check byte) like the TV would.
       final server = CertificateInfo.parse(serverDer).publicNumbers;
-      for (var nonce = 0;; nonce++) {
-        final candidate = nonce.toRadixString(16).padLeft(4, '0').toUpperCase();
-        for (var check = 0; check < 256; check++) {
-          final code = '${check.toRadixString(16).padLeft(2, '0').toUpperCase()}$candidate';
-          try {
-            computePairingSecret(client: identity.publicNumbers, server: server, code: code);
-            expectedCode = code;
-            break;
-          } on AtvPairingException {
-            continue;
-          }
+      for (var check = 0; check < 256; check++) {
+        final code = '${check.toRadixString(16).padLeft(2, '0').toUpperCase()}0000';
+        try {
+          computePairingSecret(client: identity.publicNumbers, server: server, code: code);
+          expectedCode = code;
+          break;
+        } on AtvPairingException {
+          continue;
         }
-        break;
       }
       connector.onConnect = (channel, port) {
         FakePairingTv(
@@ -79,7 +75,7 @@ void main() {
         }
       }
       final session = await PairingSession.start(host: 'tv', identity: identity, connector: connector);
-      await expectLater(session.finish(other!), throwsA(isA<AtvPairingException>()));
+      await expectLater(session.finish(other), throwsA(isA<AtvPairingException>()));
     });
 
     test('connection errors surface as AtvConnectionException', () async {

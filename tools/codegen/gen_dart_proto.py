@@ -114,8 +114,18 @@ class Gen:
         self.emit(f"/// Protobuf message `{m.name}`.")
         self.emit(f"class {name} {{")
         if fields:
-            args = ", ".join(f"this.{camel(f.name)}" for f in fields)
-            self.emit(f"  {name}({{{args}}});")
+            args = []
+            inits = []
+            for f in fields:
+                n = camel(f.name)
+                if f.label == F.LABEL_REPEATED:
+                    inner = self.tname(f) if f.type in (F.TYPE_MESSAGE, F.TYPE_ENUM) else SCALARS[f.type][0]
+                    args.append(f"List<{inner}>? {n}")
+                    inits.append(f"{n} = {n} ?? []")
+                else:
+                    args.append(f"this.{n}")
+            init = f" : {', '.join(inits)}" if inits else ""
+            self.emit(f"  {name}({{{', '.join(args)}}}){init};")
         else:
             self.emit(f"  {name}();")
         self.emit()
@@ -167,7 +177,7 @@ class Gen:
         n = camel(f.name)
         if f.label == F.LABEL_REPEATED:
             inner = self.tname(f) if f.type in (F.TYPE_MESSAGE, F.TYPE_ENUM) else SCALARS[f.type][0]
-            return f"List<{inner}> {n} = [];"
+            return f"List<{inner}> {n};"
         if f.type in (F.TYPE_MESSAGE, F.TYPE_ENUM):
             return f"{self.tname(f)}? {n};"
         return f"{SCALARS[f.type][0]}? {n};"

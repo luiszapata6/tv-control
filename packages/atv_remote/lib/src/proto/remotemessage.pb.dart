@@ -1217,11 +1217,11 @@ class RemoteImeObject {
 
 /// Protobuf message `RemoteImeBatchEdit`.
 class RemoteImeBatchEdit {
-  RemoteImeBatchEdit({this.imeCounter, this.fieldCounter, this.editInfo});
+  RemoteImeBatchEdit({this.imeCounter, this.fieldCounter, List<RemoteEditInfo>? editInfo}) : editInfo = editInfo ?? [];
 
   int? imeCounter;
   int? fieldCounter;
-  List<RemoteEditInfo> editInfo = [];
+  List<RemoteEditInfo> editInfo;
 
   /// Serializes this message (fields in tag order, like the reference).
   List<int> writeToBuffer() {
