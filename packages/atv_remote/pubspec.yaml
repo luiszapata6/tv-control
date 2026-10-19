@@ -1,0 +1,22 @@
+name: atv_remote
+description: >-
+  Pure Dart client for the Android TV Remote v2 protocol (pairing on 6467,
+  commands on 6466): keys, text, app links, power/volume/app state and
+  Wake-on-LAN. No Flutter dependency.
+version: 1.0.0
+publish_to: none
+
+environment:
+  sdk: ">=3.5.0 <4.0.0"
+
+dependencies:
+  args: ^2.5.0
+  crypto: ^3.0.3
+  pointycastle: ">=3.9.1 <5.0.0"
+
+dev_dependencies:
+  lints: ">=4.0.0 <7.0.0"
+  test: ^1.25.0
+
+executables:
+  atv: atv

@@ -1,0 +1,87 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  CI_LOG_DIR: ${{ github.workspace }}/ci-logs
+
+jobs:
+  python:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: tools/ci/step.sh pip "pip install -r tools/sim/requirements.txt"
+      - run: tools/ci/step.sh sim-tests "cd tools/sim && python -m pytest -q -p no:cacheprovider"
+      - run: tools/ci/step.sh codegen-up-to-date "python tools/codegen/gen_dart_proto.py && git diff --exit-code -- packages/atv_remote/lib/src/proto"
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: logs-python
+          path: ci-logs
+      - run: tools/ci/finish.sh
+
+  dart:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: dart-lang/setup-dart@v1
+        with:
+          sdk: stable
+      - run: tools/ci/step.sh setup "pip install -r tools/sim/requirements.txt && dart --version && cd packages/atv_remote && dart pub get"
+      - run: tools/ci/step.sh atv-analyze "cd packages/atv_remote && dart analyze --fatal-infos"
+      - run: tools/ci/step.sh atv-test "cd packages/atv_remote && ATV_SIM_PYTHON=$(which python) dart test --reporter expanded"
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: logs-dart
+          path: ci-logs
+      - run: tools/ci/finish.sh
+
+  report:
+    needs: [python, dart]
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+      - name: Publish results to the ci-results branch
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
+          JOB_RESULTS: ${{ toJSON(needs.*.result) }}
+        run: |
+          set -eu
+          mkdir -p artifacts
+          remote="https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          if git clone -q --depth 1 --branch ci-results "$remote" out 2>/dev/null; then :; else
+            mkdir out && cd out && git init -q && git checkout -q -b ci-results && git remote add origin "$remote" && cd ..
+          fi
+          python tools/ci/report.py artifacts out
+          cd out
+          git config user.name "ci-results"
+          git config user.email "ci-results@users.noreply.github.com"
+          git add -A
+          git commit -q -m "results for ${GITHUB_SHA::12}"
+          for i in 1 2 3; do
+            git push -q origin ci-results && exit 0
+            git pull -q --rebase origin ci-results || true
+          done
+          exit 1

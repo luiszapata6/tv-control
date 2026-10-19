@@ -1,0 +1,5 @@
+androidtvremote2==0.3.2
+pyOpenSSL>=24.2
+cryptography>=43
+pytest>=8
+pytest-asyncio>=0.24
