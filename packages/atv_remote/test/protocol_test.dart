@@ -1,11 +1,9 @@
 import 'dart:async';
 
 import 'package:atv_remote/atv_remote.dart';
-import 'package:atv_remote/src/message_channel.dart';
-import 'package:atv_remote/src/proto/remotemessage.pb.dart';
+import 'package:atv_remote/testing.dart';
 import 'package:test/test.dart';
 
-import 'support/fake_tv.dart';
 import 'support/golden.dart';
 
 void main() {

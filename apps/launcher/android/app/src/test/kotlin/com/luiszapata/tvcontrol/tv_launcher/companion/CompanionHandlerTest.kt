@@ -91,7 +91,7 @@ class CompanionHandlerTest {
         assertEquals(listOf("e.f"), saved.getJSONArray("hidden").strings())
         assertEquals(Layout.MAX_COLUMNS, saved.getInt("columns"))
         assertEquals(backend.layout, lastLayout)
-        assertTrue(saved.similar(call("launcher.get").getJSONObject("data").getJSONObject("layout")))
+        assertTrue(jsonEquals(saved, call("launcher.get").getJSONObject("data").getJSONObject("layout")))
         assertEquals("bad_request", call("launcher.set").getString("code"))
     }
 

@@ -85,8 +85,75 @@ jobs:
           if-no-files-found: ignore
       - run: tools/ci/finish.sh
 
+  remote:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+      - run: tools/ci/step.sh remote-pub "cd apps/remote && flutter --version && flutter pub get"
+      - run: tools/ci/step.sh remote-analyze "cd apps/remote && flutter analyze --fatal-infos"
+      - run: tools/ci/step.sh remote-test "cd apps/remote && flutter test --reporter expanded"
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: logs-remote
+          path: ci-logs
+      - run: tools/ci/finish.sh
+
+  ios:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+      - run: tools/ci/step.sh ios-pub "cd apps/remote && flutter pub get"
+      - run: tools/ci/step.sh ios-build "cd apps/remote && flutter build ios --release --no-codesign"
+      - run: tools/ci/step.sh ios-ipa "tools/ci/package_ipa.sh apps/remote/build/ios/iphoneos/Runner.app TVControl.ipa"
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: logs-ios
+          path: ci-logs
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ipa
+          path: TVControl.ipa
+          if-no-files-found: ignore
+      - run: tools/ci/finish.sh
+
+  release:
+    needs: [launcher, remote, ios]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: apk
+          path: dist
+      - uses: actions/download-artifact@v4
+        with:
+          name: ipa
+          path: dist
+      - name: Update the rolling "latest" release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -eu
+          ls -la dist
+          mv dist/app-release.apk dist/TVControl-launcher.apk
+          gh release delete latest --yes --cleanup-tag 2>/dev/null || true
+          gh release create latest dist/TVControl-launcher.apk dist/TVControl.ipa \
+            --title "Última build (${GITHUB_SHA::7})" --prerelease --target "$GITHUB_SHA" \
+            --notes "Build automática de ${GITHUB_SHA::12}. IPA sin firmar para SideStore; APK del launcher para instalar por ADB."
+
   report:
-    needs: [python, dart, launcher]
+    needs: [python, dart, launcher, remote, ios]
     if: always()
     runs-on: ubuntu-latest
     steps:

@@ -1,10 +1,11 @@
 import 'dart:async';
 import 'dart:typed_data';
 
-import 'package:atv_remote/atv_remote.dart';
-import 'package:atv_remote/src/message_channel.dart';
-import 'package:atv_remote/src/proto/polo.pb.dart';
-import 'package:atv_remote/src/proto/remotemessage.pb.dart';
+import '../crypto/certificate.dart';
+import '../message_channel.dart';
+import '../proto/polo.pb.dart';
+import '../proto/remotemessage.pb.dart';
+import '../transport.dart';
 
 /// Connector that hands out in-memory sockets and lets a test play the TV.
 class FakeConnector implements AtvConnector {

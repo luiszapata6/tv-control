@@ -42,7 +42,8 @@ class SavedTv {
 
 /// Saved TVs, the selected one, the client identity and companion tokens.
 class DeviceStore extends ChangeNotifier {
-  DeviceStore({required this.settings, required this.secrets, this.identityBits = 2048});
+  DeviceStore({required this.settings, required this.secrets, this.identityBits = 2048, ClientIdentity? identity})
+      : _identity = identity;
 
   final SettingsStore settings;
   final SecretStore secrets;

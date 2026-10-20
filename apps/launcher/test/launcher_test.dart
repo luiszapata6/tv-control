@@ -1,5 +1,5 @@
 import 'package:companion_protocol/companion_protocol.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' show Icons, Size;
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:tv_launcher/main.dart';
@@ -12,7 +12,9 @@ import 'fake_platform.dart';
 
 void main() {
   late FakeLauncherPlatform platform;
-  late HomeController controller;
+  HomeController? controllerRef;
+  HomeController get controller => controllerRef!;
+  set controller(HomeController c) => controllerRef = c;
 
   Future<void> pumpLauncher(WidgetTester tester) async {
     tester.view.physicalSize = const Size(1920, 1080);
@@ -25,7 +27,10 @@ void main() {
   }
 
   setUp(() => platform = FakeLauncherPlatform());
-  tearDown(() => controller.dispose());
+  tearDown(() {
+    controllerRef?.dispose();
+    controllerRef = null;
+  });
 
   testWidgets('home shows clock, weather, pinned apps in order and inputs', (tester) async {
     await pumpLauncher(tester);
@@ -113,7 +118,7 @@ void main() {
 
   testWidgets('settings cycles grid columns', (tester) async {
     await pumpLauncher(tester);
-    await tester.tap(find.bySemanticsLabel('Ajustes'));
+    await tester.tap(find.byIcon(Icons.settings_outlined));
     await tester.pumpAndSettle();
     expect(find.text('Columnas en inicio'), findsOneWidget);
     await tester.tap(find.text('Columnas en inicio'));

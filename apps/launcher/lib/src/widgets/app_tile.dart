@@ -39,7 +39,11 @@ class _AppTileState extends State<AppTile> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: widget.onSelect,
+      onLongPress: widget.onLongPress,
+      child: Column(
       mainAxisSize: MainAxisSize.min,
       children: [
         AspectRatio(
@@ -80,6 +84,7 @@ class _AppTileState extends State<AppTile> {
           child: Text(widget.app.label, maxLines: 1, overflow: TextOverflow.ellipsis),
         ),
       ],
+      ),
     );
   }
 }

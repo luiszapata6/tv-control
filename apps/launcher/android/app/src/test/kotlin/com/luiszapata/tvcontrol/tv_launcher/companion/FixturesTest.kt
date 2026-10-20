@@ -18,7 +18,7 @@ class FixturesTest {
     private fun frame(name: String): JSONObject = fixtures.getJSONObject(name)
 
     private fun assertSimilar(expected: JSONObject, actual: JSONObject) =
-        assertTrue("expected $expected\nactual   $actual", expected.similar(actual))
+        assertTrue("expected $expected\nactual   $actual", jsonEquals(expected, actual))
 
     @Test
     fun `all request fixtures parse`() {

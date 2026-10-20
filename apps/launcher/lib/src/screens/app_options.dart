@@ -38,7 +38,7 @@ Future<void> showAppOptions(BuildContext context, HomeController c, LauncherApp 
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Text(app.label, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w800)),
+                Text(app.label, maxLines: 1, overflow: TextOverflow.ellipsis, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w800)),
                 const SizedBox(height: 14),
                 for (final (i, (icon, label, action)) in options.indexed) ...[
                   SizedBox(
@@ -57,7 +57,9 @@ Future<void> showAppOptions(BuildContext context, HomeController c, LauncherApp 
                         child: Row(children: [
                           Icon(icon, size: 20, color: Palette.ink),
                           const SizedBox(width: 12),
-                          Text(label, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w700)),
+                          Expanded(
+                            child: Text(label, maxLines: 1, overflow: TextOverflow.ellipsis, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w700)),
+                          ),
                         ]),
                       ),
                     ),

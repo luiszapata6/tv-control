@@ -119,21 +119,29 @@ class _Header extends StatelessWidget {
             Text(formatDate(now), style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: Palette.ink2)),
           ],
         ),
+        const SizedBox(width: 24),
         const Spacer(),
         if (w != null)
-          Container(
-            height: 52,
-            padding: const EdgeInsets.symmetric(horizontal: 18),
-            decoration: BoxDecoration(color: Palette.card, borderRadius: BorderRadius.circular(26), border: Border.all(color: Palette.line)),
-            child: Row(
-              children: [
-                Icon(w.icon, color: Palette.warn, size: 26),
-                const SizedBox(width: 10),
-                Text(w.temperatureLabel, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w800)),
-                const SizedBox(width: 10),
-                Text('${controller.place.name} · ${w.label}',
-                    style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: Palette.ink2)),
-              ],
+          Flexible(
+            child: Container(
+              height: 52,
+              padding: const EdgeInsets.symmetric(horizontal: 18),
+              decoration: BoxDecoration(color: Palette.card, borderRadius: BorderRadius.circular(26), border: Border.all(color: Palette.line)),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(w.icon, color: Palette.warn, size: 26),
+                  const SizedBox(width: 10),
+                  Text(w.temperatureLabel, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w800)),
+                  const SizedBox(width: 10),
+                  Flexible(
+                    child: Text('${controller.place.name} · ${w.label}',
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: Palette.ink2)),
+                  ),
+                ],
+              ),
             ),
           ),
         const SizedBox(width: 12),
@@ -204,7 +212,10 @@ class _InputsRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FocusTraversalGroup(
-      child: Row(
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        clipBehavior: Clip.none,
+        child: Row(
         children: [
           for (final input in controller.inputs.where((i) => i.kind == InputKind.hdmi).take(4)) ...[
             _PillButton(icon: Icons.settings_input_hdmi, label: input.label, onSelect: () => controller.openInput(input)),
@@ -212,6 +223,7 @@ class _InputsRow extends StatelessWidget {
           ],
           _PillButton(icon: Icons.apps_rounded, label: 'Todas las apps', onSelect: onAllApps, dashed: true),
         ],
+        ),
       ),
     );
   }
@@ -240,7 +252,9 @@ class _PillButton extends StatelessWidget {
             children: [
               Icon(icon, size: 18, color: dashed ? Palette.ink2 : Palette.ink),
               const SizedBox(width: 8),
-              Text(label, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w700)),
+              Flexible(
+                child: Text(label, maxLines: 1, overflow: TextOverflow.ellipsis, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w700)),
+              ),
             ],
           ),
         ),
@@ -264,13 +278,20 @@ class _Footer extends StatelessWidget {
           decoration: BoxDecoration(shape: BoxShape.circle, color: clients.isEmpty ? Palette.ink3 : Palette.success),
         ),
         const SizedBox(width: 8),
-        Text(
-          clients.isEmpty ? 'Sin iPhone conectado' : '${clients.join(', ')} conectado',
-          style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: Palette.ink2),
+        Expanded(
+          child: Text(
+            clients.isEmpty ? 'Sin iPhone conectado' : '${clients.join(', ')} conectado',
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: Palette.ink2),
+          ),
         ),
-        const Spacer(),
-        const Text('Mantén OK sobre una app para más opciones',
-            style: TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: Palette.ink3)),
+        const Flexible(
+          child: Text('Mantén OK sobre una app para más opciones',
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: Palette.ink3)),
+        ),
       ],
     );
   }

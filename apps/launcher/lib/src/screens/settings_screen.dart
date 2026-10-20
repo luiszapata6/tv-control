@@ -106,10 +106,16 @@ class _Row extends StatelessWidget {
               children: [
                 Icon(icon, size: 22, color: Palette.accent),
                 const SizedBox(width: 14),
-                Text(title, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w700)),
-                const Spacer(),
+                Expanded(
+                  flex: 3,
+                  child: Text(title, maxLines: 1, overflow: TextOverflow.ellipsis, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w700)),
+                ),
+                const SizedBox(width: 12),
                 Flexible(
+                  flex: 4,
                   child: Text(value,
+                      maxLines: 1,
+                      textAlign: TextAlign.end,
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(fontSize: 13, color: Palette.ink2, fontWeight: FontWeight.w600)),
                 ),
