@@ -1,0 +1,6 @@
+Analyzing remote...                                             
+
+  error • The function 'FakeConnector' isn't defined. Try importing the library that defines 'FakeConnector', correcting the name to the name of an existing function, or defining a function named 'FakeConnector' • test/session_test.dart:83:20 • undefined_function
+  error • The function 'FakeRemoteTv' isn't defined. Try importing the library that defines 'FakeRemoteTv', correcting the name to the name of an existing function, or defining a function named 'FakeRemoteTv' • test/session_test.dart:83:68 • undefined_function
+
+2 issues found. (ran in 11.2s)

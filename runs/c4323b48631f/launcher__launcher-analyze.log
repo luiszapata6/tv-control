@@ -1,0 +1,19 @@
+Analyzing launcher...                                           
+
+warning • The value of the local variable 'get' isn't used. Try removing the variable or using it • test/launcher_test.dart:16:18 • unused_local_variable
+  error • Expected to find ';' • test/launcher_test.dart:16:18 • expected_token
+  error • Functions must have an explicit list of parameters. Try adding a parameter list • test/launcher_test.dart:16:33 • missing_function_parameters
+  error • Unexpected text 'set'. Try removing the text • test/launcher_test.dart:17:3 • unexpected_token
+warning • The declaration 'controller' isn't referenced. Try removing the declaration of 'controller' • test/launcher_test.dart:17:7 • unused_element
+  error • The name 'controller' is already defined. Try renaming one of the declarations • test/launcher_test.dart:17:7 • duplicate_definition
+  error • Functions can't be assigned a value • test/launcher_test.dart:23:5 • assignment_to_function
+  error • The method 'start' isn't defined for the type 'Function'. Try correcting the name to the name of an existing method, or defining a method named 'start' • test/launcher_test.dart:24:22 • undefined_method
+  error • The argument type 'HomeController Function()' can't be assigned to the parameter type 'HomeController'.  • test/launcher_test.dart:25:52 • argument_type_not_assignable
+  error • Functions can't be assigned a value • test/launcher_test.dart:134:7 • assignment_to_function
+  error • The method 'refresh' isn't defined for the type 'Function'. Try correcting the name to the name of an existing method, or defining a method named 'refresh' • test/launcher_test.dart:135:24 • undefined_method
+  error • The getter 'pinned' isn't defined for the type 'HomeController Function()'. Try importing the library that defines 'pinned', correcting the name to the name of an existing getter, or defining a getter or field named 'pinned' • test/launcher_test.dart:136:25 • undefined_getter
+  error • The method 'hide' isn't defined for the type 'Function'. Try correcting the name to the name of an existing method, or defining a method named 'hide' • test/launcher_test.dart:137:24 • undefined_method
+  error • The getter 'pinned' isn't defined for the type 'HomeController Function()'. Try importing the library that defines 'pinned', correcting the name to the name of an existing getter, or defining a getter or field named 'pinned' • test/launcher_test.dart:137:40 • undefined_getter
+  error • The getter 'visibleApps' isn't defined for the type 'HomeController Function()'. Try importing the library that defines 'visibleApps', correcting the name to the name of an existing getter, or defining a getter or field named 'visibleApps' • test/launcher_test.dart:140:25 • undefined_getter
+
+15 issues found. (ran in 7.6s)

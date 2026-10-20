@@ -1,0 +1,120 @@
+00:00 +0: loading /home/runner/work/tv-control/tv-control/apps/launcher/test/launcher_test.dart
+test/launcher_test.dart:16:18: Error: Expected ';' after this.
+  HomeController get controller => controllerRef!;
+                 ^^^
+test/launcher_test.dart:16:33: Error: A function declaration needs an explicit list of parameters.
+Try adding a parameter list to the function declaration.
+  HomeController get controller => controllerRef!;
+                                ^^
+test/launcher_test.dart:17:3: Error: Unexpected token 'set'.
+  set controller(HomeController c) => controllerRef = c;
+  ^^^
+test/launcher_test.dart:17:7: Error: 'controller' is already declared in this scope.
+  set controller(HomeController c) => controllerRef = c;
+      ^^^^^^^^^^
+test/launcher_test.dart:16:22: Context: Previous declaration of 'controller'.
+  HomeController get controller => controllerRef!;
+                     ^^^^^^^^^^
+test/launcher_test.dart:23:5: Error: Can't assign to the final variable 'controller'.
+    controller = HomeController(platform, weather: WeatherService(get: (_) async => '{"current":{"temperature_2m":22.4,"weather_code":2,"is_day":1}}'));
+    ^^^^^^^^^^
+test/launcher_test.dart:134:7: Error: Can't assign to the final variable 'controller'.
+      controller = HomeController(platform, weather: WeatherService(get: (_) async => '{}'));
+      ^^^^^^^^^^
+test/launcher_test.dart:24:22: Error: The method 'start' isn't defined for the type 'HomeController Function()'.
+ - 'HomeController' is from 'package:tv_launcher/src/home_controller.dart' ('lib/src/home_controller.dart').
+Try correcting the name to the name of an existing method, or defining a method named 'start'.
+    await controller.start();
+                     ^^^^^
+test/launcher_test.dart:25:52: Error: The argument type 'HomeController Function()' can't be assigned to the parameter type 'HomeController'.
+ - 'HomeController' is from 'package:tv_launcher/src/home_controller.dart' ('lib/src/home_controller.dart').
+    await tester.pumpWidget(TvLauncher(controller: controller, now: () => DateTime(2026, 10, 18, 21, 5)));
+                                                   ^
+test/launcher_test.dart:135:24: Error: The method 'refresh' isn't defined for the type 'HomeController Function()'.
+ - 'HomeController' is from 'package:tv_launcher/src/home_controller.dart' ('lib/src/home_controller.dart').
+Try correcting the name to the name of an existing method, or defining a method named 'refresh'.
+      await controller.refresh();
+                       ^^^^^^^
+test/launcher_test.dart:136:25: Error: The getter 'pinned' isn't defined for the type 'HomeController Function()'.
+ - 'HomeController' is from 'package:tv_launcher/src/home_controller.dart' ('lib/src/home_controller.dart').
+Try correcting the name to the name of an existing getter, or defining a getter or field named 'pinned'.
+      expect(controller.pinned.map((a) => a.label), ['YouTube', 'Netflix', 'Disney+']);
+                        ^^^^^^
+test/launcher_test.dart:137:40: Error: The getter 'pinned' isn't defined for the type 'HomeController Function()'.
+ - 'HomeController' is from 'package:tv_launcher/src/home_controller.dart' ('lib/src/home_controller.dart').
+Try correcting the name to the name of an existing getter, or defining a getter or field named 'pinned'.
+      await controller.hide(controller.pinned.first);
+                                       ^^^^^^
+test/launcher_test.dart:137:24: Error: The method 'hide' isn't defined for the type 'HomeController Function()'.
+ - 'HomeController' is from 'package:tv_launcher/src/home_controller.dart' ('lib/src/home_controller.dart').
+Try correcting the name to the name of an existing method, or defining a method named 'hide'.
+      await controller.hide(controller.pinned.first);
+                       ^^^^
+test/launcher_test.dart:140:25: Error: The getter 'visibleApps' isn't defined for the type 'HomeController Function()'.
+ - 'HomeController' is from 'package:tv_launcher/src/home_controller.dart' ('lib/src/home_controller.dart').
+Try correcting the name to the name of an existing getter, or defining a getter or field named 'visibleApps'.
+      expect(controller.visibleApps.map((a) => a.label), isNot(contains('YouTube')));
+                        ^^^^^^^^^^^
+00:00 +0 -1: loading /home/runner/work/tv-control/tv-control/apps/launcher/test/launcher_test.dart [E]
+  Failed to load "/home/runner/work/tv-control/tv-control/apps/launcher/test/launcher_test.dart":
+  Compilation failed for testPath=/home/runner/work/tv-control/tv-control/apps/launcher/test/launcher_test.dart: test/launcher_test.dart:16:18: Error: Expected ';' after this.
+    HomeController get controller => controllerRef!;
+                   ^^^
+  test/launcher_test.dart:16:33: Error: A function declaration needs an explicit list of parameters.
+  Try adding a parameter list to the function declaration.
+    HomeController get controller => controllerRef!;
+                                  ^^
+  test/launcher_test.dart:17:3: Error: Unexpected token 'set'.
+    set controller(HomeController c) => controllerRef = c;
+    ^^^
+  test/launcher_test.dart:17:7: Error: 'controller' is already declared in this scope.
+    set controller(HomeController c) => controllerRef = c;
+        ^^^^^^^^^^
+  test/launcher_test.dart:16:22: Context: Previous declaration of 'controller'.
+    HomeController get controller => controllerRef!;
+                       ^^^^^^^^^^
+  test/launcher_test.dart:23:5: Error: Can't assign to the final variable 'controller'.
+      controller = HomeController(platform, weather: WeatherService(get: (_) async => '{"current":{"temperature_2m":22.4,"weather_code":2,"is_day":1}}'));
+      ^^^^^^^^^^
+  test/launcher_test.dart:134:7: Error: Can't assign to the final variable 'controller'.
+        controller = HomeController(platform, weather: WeatherService(get: (_) async => '{}'));
+        ^^^^^^^^^^
+  test/launcher_test.dart:24:22: Error: The method 'start' isn't defined for the type 'HomeController Function()'.
+   - 'HomeController' is from 'package:tv_launcher/src/home_controller.dart' ('lib/src/home_controller.dart').
+  Try correcting the name to the name of an existing method, or defining a method named 'start'.
+      await controller.start();
+                       ^^^^^
+  test/launcher_test.dart:25:52: Error: The argument type 'HomeController Function()' can't be assigned to the parameter type 'HomeController'.
+   - 'HomeController' is from 'package:tv_launcher/src/home_controller.dart' ('lib/src/home_controller.dart').
+      await tester.pumpWidget(TvLauncher(controller: controller, now: () => DateTime(2026, 10, 18, 21, 5)));
+                                                     ^
+  test/launcher_test.dart:135:24: Error: The method 'refresh' isn't defined for the type 'HomeController Function()'.
+   - 'HomeController' is from 'package:tv_launcher/src/home_controller.dart' ('lib/src/home_controller.dart').
+  Try correcting the name to the name of an existing method, or defining a method named 'refresh'.
+        await controller.refresh();
+                         ^^^^^^^
+  test/launcher_test.dart:136:25: Error: The getter 'pinned' isn't defined for the type 'HomeController Function()'.
+   - 'HomeController' is from 'package:tv_launcher/src/home_controller.dart' ('lib/src/home_controller.dart').
+  Try correcting the name to the name of an existing getter, or defining a getter or field named 'pinned'.
+        expect(controller.pinned.map((a) => a.label), ['YouTube', 'Netflix', 'Disney+']);
+                          ^^^^^^
+  test/launcher_test.dart:137:40: Error: The getter 'pinned' isn't defined for the type 'HomeController Function()'.
+   - 'HomeController' is from 'package:tv_launcher/src/home_controller.dart' ('lib/src/home_controller.dart').
+  Try correcting the name to the name of an existing getter, or defining a getter or field named 'pinned'.
+        await controller.hide(controller.pinned.first);
+                                         ^^^^^^
+  test/launcher_test.dart:137:24: Error: The method 'hide' isn't defined for the type 'HomeController Function()'.
+   - 'HomeController' is from 'package:tv_launcher/src/home_controller.dart' ('lib/src/home_controller.dart').
+  Try correcting the name to the name of an existing method, or defining a method named 'hide'.
+        await controller.hide(controller.pinned.first);
+                         ^^^^
+  test/launcher_test.dart:140:25: Error: The getter 'visibleApps' isn't defined for the type 'HomeController Function()'.
+   - 'HomeController' is from 'package:tv_launcher/src/home_controller.dart' ('lib/src/home_controller.dart').
+  Try correcting the name to the name of an existing getter, or defining a getter or field named 'visibleApps'.
+        expect(controller.visibleApps.map((a) => a.label), isNot(contains('YouTube')));
+                          ^^^^^^^^^^^
+  .
+00:00 +0 -1: Some tests failed.
+
+Failing tests:
+  /home/runner/work/tv-control/tv-control/apps/launcher/test/launcher_test.dart: loading /home/runner/work/tv-control/tv-control/apps/launcher/test/launcher_test.dart

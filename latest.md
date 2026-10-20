@@ -1,74 +1,160 @@
-# CI FAIL — b439805bf105
+# CI FAIL — c4323b48631f
 
-Run: https://github.com/luiszapata6/tv-control/actions/runs/39346751458
-Commit: feat: iPhone remote app, its tests, iOS build and rolling release
+Run: https://github.com/luiszapata6/tv-control/actions/runs/39347637306
+Commit: fix: audit findings in protocol client and iPhone app; xcodebuild iOS build; ADB install scripts
 Job results: [
   "success",
-  "success",
   "failure",
   "failure",
-  "failure"
+  "failure",
+  "success"
 ]
 
 | job | step | result | time |
 | --- | --- | --- | --- |
-| dart | atv-analyze | PASS | 2s |
-| dart | atv-test | PASS | 12s |
+| dart | atv-analyze | PASS | 1s |
+| dart | atv-test | FAIL | 11s |
 | dart | companion-analyze | PASS | 1s |
-| dart | companion-test | PASS | 7s |
-| dart | setup | PASS | 7s |
-| ios | ios-build | FAIL | 82s |
-| ios | ios-ipa | FAIL | 0s |
-| ios | ios-pub | PASS | 11s |
+| dart | companion-test | PASS | 6s |
+| dart | setup | PASS | 5s |
+| ios | ios-build | PASS | 137s |
+| ios | ios-ipa | PASS | 2s |
+| ios | ios-pub | PASS | 13s |
 | launcher | launcher-analyze | FAIL | 8s |
-| launcher | launcher-apk | PASS | 222s |
+| launcher | launcher-apk | PASS | 214s |
 | launcher | launcher-kotlin-tests | PASS | 44s |
 | launcher | launcher-pub | PASS | 5s |
-| launcher | launcher-test | FAIL | 8s |
+| launcher | launcher-test | FAIL | 9s |
 | python | codegen-up-to-date | PASS | 0s |
-| python | pip | PASS | 3s |
+| python | pip | PASS | 4s |
 | python | sim-tests | PASS | 8s |
-| remote | remote-analyze | FAIL | 10s |
-| remote | remote-pub | PASS | 8s |
-| remote | remote-test | FAIL | 11s |
+| remote | remote-analyze | FAIL | 12s |
+| remote | remote-pub | PASS | 9s |
+| remote | remote-test | FAIL | 24s |
 
-## ios / ios-build (last 150 lines)
-
-```
-Warning: Building for device with codesigning disabled. You will have to manually codesign before deploying to device.
-Xcode is fetching Swift Package Manager dependencies. This may take several minutes...
-  Fetching from https://github.com/mattgallagher/CwlCatchException.git...     
-Building com.luiszapata.tvcontrol.tvRemote for device (ios-release)...
-Running Xcode build...                                          
-Xcode build done.                                           58.9s
-Failed to build iOS app
-════════════════════════════════════════════════════════════════════════════════
-Building a deployable iOS app requires a selected Development Team with a 
-Provisioning Profile. Please ensure that a Development Team is selected by:
-  1- Open the Flutter project's Xcode target with
-       open ios/Runner.xcworkspace
-  2- Select the 'Runner' project in the navigator then the 'Runner' target
-     in the project settings
-  3- Make sure a 'Development Team' is selected under Signing & Capabilities > Team. 
-     You may need to:
-         - Log in with your Apple ID in Xcode first
-         - Ensure you have a valid unique Bundle ID
-         - Register your device with your Apple Developer Account
-         - Let Xcode automatically provision a profile for your app
-  4- Build or run your project again
-
-For more information, please visit:
-  https://flutter.dev/to/ios-development-team
-
-Or run on an iOS simulator without code signing
-════════════════════════════════════════════════════════════════════════════════
-Encountered error while building for device.
-```
-
-## ios / ios-ipa (last 150 lines)
+## dart / atv-test (last 150 lines)
 
 ```
-missing apps/remote/build/ios/iphoneos/Runner.app
+00:00 +0: loading test/protocol_test.dart
+00:00 +0: test/protocol_test.dart: (setUpAll)
+00:00 +0: test/integration_sim_test.dart: (setUpAll)
+00:00 +1: test/integration_sim_test.dart: (setUpAll)
+00:00 +2: test/integration_sim_test.dart: (setUpAll)
+00:00 +3: test/integration_sim_test.dart: (setUpAll)
+00:00 +4: test/integration_sim_test.dart: (setUpAll)
+00:00 +4: test/protocol_test.dart: pairing flow a TV that never answers times out
+00:00 +5: test/integration_sim_test.dart: pairs with the code the TV shows
+00:00 +6: test/integration_sim_test.dart: pairs with the code the TV shows
+00:00 +7: test/integration_sim_test.dart: pairs with the code the TV shows
+00:00 +8: test/integration_sim_test.dart: pairs with the code the TV shows
+00:00 +9: test/integration_sim_test.dart: pairs with the code the TV shows
+00:00 +10: test/integration_sim_test.dart: pairs with the code the TV shows
+00:00 +11: test/integration_sim_test.dart: pairs with the code the TV shows
+00:00 +12: test/protocol_test.dart: remote connection a TV that never sends remote_start times out
+00:00 +13: test/protocol_test.dart: remote connection a TV that never sends remote_start times out
+00:00 +14: test/integration_sim_test.dart: connects, reads state and drives the TV
+00:00 +15: test/integration_sim_test.dart: connects, reads state and drives the TV
+00:00 +16: test/integration_sim_test.dart: connects, reads state and drives the TV
+00:01 +17: test/integration_sim_test.dart: connects, reads state and drives the TV
+00:01 +18: test/integration_sim_test.dart: connects, reads state and drives the TV
+00:01 +19: test/integration_sim_test.dart: connects, reads state and drives the TV
+00:01 +20: test/client_test.dart: stops and reports needsPairing when the TV rejects the identity
+00:01 +21: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:01 +21 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:01 +21 -1: test/client_test.dart: repeated handshake drops end in needsPairing, a single one does not [E]
+  Bad state: Cannot fire new event. Controller is already firing an event
+  dart:async                                 _BroadcastStreamController.add
+  package:atv_remote/src/client.dart 78:36   AtvClient._setStatus
+  package:atv_remote/src/client.dart 196:5   AtvClient.stop
+  package:atv_remote/src/client.dart 201:11  AtvClient.dispose
+  test/client_test.dart 90:18                main.<fn>
+  
+00:01 +22 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:01 +23 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:01 +24 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:01 +25 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:01 +26 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:01 +27 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:01 +28 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:01 +29 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:01 +30 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:01 +31 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:01 +32 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:01 +33 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:01 +34 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:01 +35 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:01 +36 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:01 +37 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:01 +38 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:01 +39 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:01 +40 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:01 +41 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:01 +42 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:01 +43 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:01 +44 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:01 +45 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:01 +46 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:01 +47 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:01 +48 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:01 +49 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:01 +50 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:01 +51 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:01 +52 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:01 +53 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:01 +54 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:01 +55 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:01 +56 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:01 +57 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:01 +58 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:01 +59 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:01 +60 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:01 +61 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:01 +62 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:01 +63 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:01 +64 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:01 +65 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:01 +66 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:01 +67 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:01 +68 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:01 +69 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:02 +70 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:02 +71 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:02 +72 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:02 +73 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:02 +74 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:02 +75 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:02 +76 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:02 +77 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:02 +78 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:02 +79 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:02 +80 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:02 +81 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:02 +82 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:02 +83 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:02 +84 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:02 +85 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:02 +86 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:02 +87 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:02 +88 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:02 +89 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:02 +90 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:02 +91 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:02 +92 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:02 +93 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:02 +94 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:02 +95 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:02 +96 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:03 +97 -1: test/integration_sim_test.dart: client reconnects after the TV drops the connection
+00:03 +98 -1: test/integration_sim_test.dart: an unknown identity is rejected and needs pairing
+00:04 +99 -1: test/integration_sim_test.dart: a wrong code is rejected by the TV
+00:04 +100 -1: test/integration_sim_test.dart: (tearDownAll)
+00:04 +100 -1: Some tests failed.
+
+Failing tests:
+  test/client_test.dart: repeated handshake drops end in needsPairing, a single one does not
+
+Consider enabling the flag chain-stack-traces to receive more detailed exceptions.
+For example, 'dart test --chain-stack-traces'.
 ```
 
 ## launcher / launcher-analyze (last 150 lines)
@@ -92,7 +178,7 @@ warning • The declaration 'controller' isn't referenced. Try removing the decl
   error • The getter 'pinned' isn't defined for the type 'HomeController Function()'. Try importing the library that defines 'pinned', correcting the name to the name of an existing getter, or defining a getter or field named 'pinned' • test/launcher_test.dart:137:40 • undefined_getter
   error • The getter 'visibleApps' isn't defined for the type 'HomeController Function()'. Try importing the library that defines 'visibleApps', correcting the name to the name of an existing getter, or defining a getter or field named 'visibleApps' • test/launcher_test.dart:140:25 • undefined_getter
 
-15 issues found. (ran in 7.1s)
+15 issues found. (ran in 7.6s)
 ```
 
 ## launcher / launcher-test (last 150 lines)
@@ -225,65 +311,163 @@ Failing tests:
 ```
 Analyzing remote...                                             
 
-   info • 'onReorder' is deprecated and shouldn't be used. Use the onReorderItem callback instead. The onReorderItem callback adjusts the newIndex parameter for a removed item at the oldIndex. This feature was deprecated after v3.41.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • lib/src/screens/home/apps_page.dart:311:9 • deprecated_member_use
-   info • Unnecessary use of multiple underscores. Try using '_' • lib/src/screens/home/control_page.dart:251:31 • unnecessary_underscores
-   info • Use the null-aware marker '?' rather than a null check via an 'if'. Try using '?' • lib/src/screens/home/settings_sheet.dart:37:55 • use_null_aware_elements
-   info • Unnecessary use of multiple underscores. Try using '_' • lib/src/screens/onboarding/discover_screen.dart:93:49 • unnecessary_underscores
-   info • 'localeId' is deprecated and shouldn't be used. Use SpeechListenOptions.localeId instead. Try replacing the use of the deprecated member with the replacement • lib/src/services/dictation.dart:27:7 • deprecated_member_use
-   info • 'listenFor' is deprecated and shouldn't be used. Use SpeechListenOptions.listenFor instead. Try replacing the use of the deprecated member with the replacement • lib/src/services/dictation.dart:28:7 • deprecated_member_use
-   info • 'pauseFor' is deprecated and shouldn't be used. Use SpeechListenOptions.pauseFor instead. Try replacing the use of the deprecated member with the replacement • lib/src/services/dictation.dart:29:7 • deprecated_member_use
-   info • The import of 'dart:typed_data' is unnecessary because all of the used elements are also provided by the import of 'package:flutter/foundation.dart'. Try removing the import directive • lib/src/services/tv_session.dart:2:8 • unnecessary_import
-   info • Use the null-aware marker '?' rather than a null check via an 'if'. Try using '?' • lib/src/services/tv_session.dart:351:9 • use_null_aware_elements
-  error • Invalid constant value • lib/src/theme/theme.dart:37:27 • invalid_constant
-  error • The function 'CupertinoPageTransitionsBuilder' isn't defined. Try importing the library that defines 'CupertinoPageTransitionsBuilder', correcting the name to the name of an existing function, or defining a function named 'CupertinoPageTransitionsBuilder' • lib/src/theme/theme.dart:37:27 • undefined_function
-  error • The values in a const map literal must be constant. Try removing the keyword 'const' from the map literal • lib/src/theme/theme.dart:37:27 • non_constant_map_value
-  error • The function 'CupertinoPageTransitionsBuilder' isn't defined. Try importing the library that defines 'CupertinoPageTransitionsBuilder', correcting the name to the name of an existing function, or defining a function named 'CupertinoPageTransitionsBuilder' • lib/src/theme/theme.dart:38:29 • undefined_function
-  error • The values in a const map literal must be constant. Try removing the keyword 'const' from the map literal • lib/src/theme/theme.dart:38:29 • non_constant_map_value
-  error • The function 'CupertinoPageTransitionsBuilder' isn't defined. Try importing the library that defines 'CupertinoPageTransitionsBuilder', correcting the name to the name of an existing function, or defining a function named 'CupertinoPageTransitionsBuilder' • lib/src/theme/theme.dart:39:31 • undefined_function
-  error • The values in a const map literal must be constant. Try removing the keyword 'const' from the map literal • lib/src/theme/theme.dart:39:31 • non_constant_map_value
-warning • Unused import: 'package:material_symbols_icons/symbols.dart'. Try removing the import directive • lib/src/widgets/common.dart:4:8 • unused_import
+  error • The function 'FakeConnector' isn't defined. Try importing the library that defines 'FakeConnector', correcting the name to the name of an existing function, or defining a function named 'FakeConnector' • test/session_test.dart:83:20 • undefined_function
+  error • The function 'FakeRemoteTv' isn't defined. Try importing the library that defines 'FakeRemoteTv', correcting the name to the name of an existing function, or defining a function named 'FakeRemoteTv' • test/session_test.dart:83:68 • undefined_function
 
-17 issues found. (ran in 8.9s)
+2 issues found. (ran in 11.2s)
 ```
 
 ## remote / remote-test (last 150 lines)
 
 ```
-00:00 +0: loading /home/runner/work/tv-control/tv-control/apps/remote/test/session_test.dart
-00:00 +0: /home/runner/work/tv-control/tv-control/apps/remote/test/session_test.dart: (setUpAll)
-00:00 +0: /home/runner/work/tv-control/tv-control/apps/remote/test/session_test.dart: connects and mirrors the TV state
-00:00 +1: /home/runner/work/tv-control/tv-control/apps/remote/test/session_test.dart: volume drag steps the TV towards the target
-lib/src/theme/theme.dart:37:27: Error: Method not found: 'CupertinoPageTransitionsBuilder'.
-      TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
-                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-lib/src/theme/theme.dart:38:29: Error: Method not found: 'CupertinoPageTransitionsBuilder'.
-      TargetPlatform.macOS: CupertinoPageTransitionsBuilder(),
-                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-lib/src/theme/theme.dart:39:31: Error: Method not found: 'CupertinoPageTransitionsBuilder'.
-      TargetPlatform.android: CupertinoPageTransitionsBuilder(),
-                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-00:01 +2: /home/runner/work/tv-control/tv-control/apps/remote/test/session_test.dart: text mirroring: full text, then deletes when cleared
-00:01 +3: /home/runner/work/tv-control/tv-control/apps/remote/test/session_test.dart: power wakes the TV over the network when it is not connected
-00:01 +4: /home/runner/work/tv-control/tv-control/apps/remote/test/session_test.dart: without the launcher, apps fall back to well-known ones and app links
-00:01 +5: /home/runner/work/tv-control/tv-control/apps/remote/test/session_test.dart: companion: pairing, real apps, launching and layout
-00:01 +6: /home/runner/work/tv-control/tv-control/apps/remote/test/session_test.dart: companion: a stored token connects directly
-00:01 +7: /home/runner/work/tv-control/tv-control/apps/remote/test/session_test.dart: device store save, select, remove and persist
-00:01 +8: /home/runner/work/tv-control/tv-control/apps/remote/test/session_test.dart: device store identity is generated once and kept in the secret store
-00:01 +9: /home/runner/work/tv-control/tv-control/apps/remote/test/session_test.dart: (tearDownAll)
-00:02 +9 -1: loading /home/runner/work/tv-control/tv-control/apps/remote/test/app_test.dart [E]
-  Failed to load "/home/runner/work/tv-control/tv-control/apps/remote/test/app_test.dart":
-  Compilation failed for testPath=/home/runner/work/tv-control/tv-control/apps/remote/test/app_test.dart: lib/src/theme/theme.dart:37:27: Error: Method not found: 'CupertinoPageTransitionsBuilder'.
-        TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
-                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  lib/src/theme/theme.dart:38:29: Error: Method not found: 'CupertinoPageTransitionsBuilder'.
-        TargetPlatform.macOS: CupertinoPageTransitionsBuilder(),
-                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  lib/src/theme/theme.dart:39:31: Error: Method not found: 'CupertinoPageTransitionsBuilder'.
-        TargetPlatform.android: CupertinoPageTransitionsBuilder(),
-                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  .
-00:02 +9 -1: Some tests failed.
+Multiple exceptions (2) were detected during the running of the current test, and at least one was
+unexpected.
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:03 +2 -8: /home/runner/work/tv-control/tv-control/apps/remote/test/app_test.dart: remote apps page opens well-known apps without the launcher [E]
+  Test failed. See exception logs above.
+  The test description was: apps page opens well-known apps without the launcher
+  
+00:03 +2 -8: /home/runner/work/tv-control/tv-control/apps/remote/test/app_test.dart: remote settings sheet lists TVs and changes the accent
+══╡ EXCEPTION CAUGHT BY RENDERING LIBRARY ╞═════════════════════════════════════════════════════════
+The following assertion was thrown during layout:
+A RenderFlex overflowed by 2.0 pixels on the bottom.
+
+The relevant error-causing widget was:
+  Column
+  Column:file:///home/runner/work/tv-control/tv-control/apps/remote/lib/src/screens/home/header.dart:148:30
+
+The overflowing RenderFlex has an orientation of Axis.vertical.
+The edge of the RenderFlex that is overflowing has been marked in the rendering with a yellow and
+black striped pattern. This is usually caused by the contents being too big for the RenderFlex.
+Consider applying a flex factor (e.g. using an Expanded widget) to force the children of the
+RenderFlex to fit within the available space instead of being sized to their natural size.
+This is considered an error condition because it indicates that there is content that cannot be
+seen. If the content is legitimately bigger than the available space, consider clipping it with a
+ClipRect widget before putting it in the flex, or using a scrollable container rather than a Flex,
+like a ListView.
+The specific RenderFlex in question is: RenderFlex#58442 relayoutBoundary=up7 OVERFLOWING:
+  creator: Column ← Padding ← DecoratedBox ← Container ← AnimatedContainer ← Transform ←
+    ScaleTransition ← AnimatedScale ← TweenAnimationBuilder<double> ← Opacity ← Listener ← Semantics ←
+    ⋯
+  parentData: offset=Offset(0.0, 0.0) (can use size)
+  constraints: BoxConstraints(w=84.0, 0.0<=h<=54.0)
+  size: Size(84.0, 54.0)
+  direction: vertical
+  mainAxisAlignment: center
+  mainAxisSize: max
+  crossAxisAlignment: center
+  verticalDirection: down
+  spacing: 0.0
+◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤
+════════════════════════════════════════════════════════════════════════════════════════════════════
+══╡ EXCEPTION CAUGHT BY RENDERING LIBRARY ╞═════════════════════════════════════════════════════════
+The following assertion was thrown during layout:
+A RenderFlex overflowed by 8.8 pixels on the right.
+
+The relevant error-causing widget was:
+  Row
+  Row:file:///home/runner/work/tv-control/tv-control/apps/remote/lib/src/screens/home/control_page.dart:144:22
+
+The overflowing RenderFlex has an orientation of Axis.horizontal.
+The edge of the RenderFlex that is overflowing has been marked in the rendering with a yellow and
+black striped pattern. This is usually caused by the contents being too big for the RenderFlex.
+Consider applying a flex factor (e.g. using an Expanded widget) to force the children of the
+RenderFlex to fit within the available space instead of being sized to their natural size.
+This is considered an error condition because it indicates that there is content that cannot be
+seen. If the content is legitimately bigger than the available space, consider clipping it with a
+ClipRect widget before putting it in the flex, or using a scrollable container rather than a Flex,
+like a ListView.
+The specific RenderFlex in question is: RenderFlex#c257a OVERFLOWING:
+  creator: Row ← SizedBox ← Padding ← DecoratedBox ← Container ← Surface ← Transform ← ScaleTransition
+    ← AnimatedScale ← TweenAnimationBuilder<double> ← Opacity ← Listener ← ⋯
+  parentData: <none> (can use size)
+  constraints: BoxConstraints(w=106.7, h=60.0)
+  size: Size(106.7, 60.0)
+  direction: horizontal
+  mainAxisAlignment: center
+  mainAxisSize: max
+  crossAxisAlignment: center
+  textDirection: ltr
+  verticalDirection: down
+  spacing: 0.0
+◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤
+════════════════════════════════════════════════════════════════════════════════════════════════════
+══╡ EXCEPTION CAUGHT BY FLUTTER FRAMEWORK ╞═════════════════════════════════════════════════════════
+The following assertion was thrown:
+ListTile background color or ink splashes may be invisible.
+The ListTile is wrapped in a DecoratedBox that has a background color. Because ListTile paints its
+background and ink splashes on the nearest Material ancestor, this DecoratedBox will hide those
+effects.
+To fix this, wrap the ListTile in its own Material widget, or remove the background color from the
+intermediate DecoratedBox.
+
+ListTile:
+  ListTile(selectedColor: Color(alpha: 1.0000, red: 0.5412, green: 0.5922, blue: 1.0000, colorSpace: ColorSpace.sRGB), onTap: Closure: () => void)
+DecoratedBox:
+  DecoratedBox(bg: BoxDecoration(color: Color(alpha: 1.0000, red: 0.1176, green: 0.1412, blue: 0.2118, colorSpace: ColorSpace.sRGB), border: Border.all(BorderSide(color: Color(alpha: 0.0510, red: 1.0000, green: 1.0000, blue: 1.0000, colorSpace: ColorSpace.sRGB))), borderRadius: BorderRadius.circular(22.0)))
+════════════════════════════════════════════════════════════════════════════════════════════════════
+══╡ EXCEPTION CAUGHT BY RENDERING LIBRARY ╞═════════════════════════════════════════════════════════
+The following assertion was thrown during layout:
+A RenderFlex overflowed by 9.5 pixels on the right.
+
+The relevant error-causing widget was:
+  Row
+  Row:file:///home/runner/work/tv-control/tv-control/apps/remote/lib/src/screens/home/settings_sheet.dart:139:32
+
+The overflowing RenderFlex has an orientation of Axis.horizontal.
+The edge of the RenderFlex that is overflowing has been marked in the rendering with a yellow and
+black striped pattern. This is usually caused by the contents being too big for the RenderFlex.
+Consider applying a flex factor (e.g. using an Expanded widget) to force the children of the
+RenderFlex to fit within the available space instead of being sized to their natural size.
+This is considered an error condition because it indicates that there is content that cannot be
+seen. If the content is legitimately bigger than the available space, consider clipping it with a
+ClipRect widget before putting it in the flex, or using a scrollable container rather than a Flex,
+like a ListView.
+The specific RenderFlex in question is: RenderFlex#94ee3 OVERFLOWING:
+  creator: Row ← Padding ← DecoratedBox ← ConstrainedBox ← Container ← AnimatedContainer ← Transform ←
+    ScaleTransition ← AnimatedScale ← TweenAnimationBuilder<double> ← Opacity ← Listener ← ⋯
+  parentData: offset=Offset(2.0, 2.0) (can use size)
+  constraints: BoxConstraints(w=106.0, h=60.0)
+  size: Size(106.0, 60.0)
+  direction: horizontal
+  mainAxisAlignment: center
+  mainAxisSize: max
+  crossAxisAlignment: center
+  textDirection: ltr
+  verticalDirection: down
+  spacing: 0.0
+◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤
+════════════════════════════════════════════════════════════════════════════════════════════════════
+══╡ EXCEPTION CAUGHT BY FLUTTER FRAMEWORK ╞═════════════════════════════════════════════════════════
+The following assertion was thrown:
+ListTile background color or ink splashes may be invisible.
+The ListTile is wrapped in a DecoratedBox that has a background color. Because ListTile paints its
+background and ink splashes on the nearest Material ancestor, this DecoratedBox will hide those
+effects.
+To fix this, wrap the ListTile in its own Material widget, or remove the background color from the
+intermediate DecoratedBox.
+
+ListTile:
+  ListTile(selectedColor: Color(alpha: 1.0000, red: 0.9686, green: 0.7412, blue: 0.3608, colorSpace: ColorSpace.sRGB), onTap: Closure: () => void)
+DecoratedBox:
+  DecoratedBox(bg: BoxDecoration(color: Color(alpha: 1.0000, red: 0.1176, green: 0.1412, blue: 0.2118, colorSpace: ColorSpace.sRGB), border: Border.all(BorderSide(color: Color(alpha: 0.0510, red: 1.0000, green: 1.0000, blue: 1.0000, colorSpace: ColorSpace.sRGB))), borderRadius: BorderRadius.circular(22.0)))
+════════════════════════════════════════════════════════════════════════════════════════════════════
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following message was thrown:
+Multiple exceptions (5) were detected during the running of the current test, and at least one was
+unexpected.
+════════════════════════════════════════════════════════════════════════════════════════════════════
+00:03 +2 -9: /home/runner/work/tv-control/tv-control/apps/remote/test/app_test.dart: remote settings sheet lists TVs and changes the accent [E]
+  Test failed. See exception logs above.
+  The test description was: settings sheet lists TVs and changes the accent
+  
+00:03 +2 -9: /home/runner/work/tv-control/tv-control/apps/remote/test/app_test.dart: (tearDownAll)
+00:03 +2 -9: Some tests failed.
 
 Failing tests:
-  /home/runner/work/tv-control/tv-control/apps/remote/test/app_test.dart: loading /home/runner/work/tv-control/tv-control/apps/remote/test/app_test.dart
+  /home/runner/work/tv-control/tv-control/apps/remote/test/app_test.dart: pairing with the code shown on the TV saves it and opens the remote
+  /home/runner/work/tv-control/tv-control/apps/remote/test/app_test.dart: remote D-pad, OK and navigation buttons send keys
+  /home/runner/work/tv-control/tv-control/apps/remote/test/app_test.dart: remote apps page opens well-known apps without the launcher
+  /home/runner/work/tv-control/tv-control/apps/remote/test/app_test.dart: remote dock switches pages: touchpad gestures and keyboard text
+  ... and 5 more
 ```

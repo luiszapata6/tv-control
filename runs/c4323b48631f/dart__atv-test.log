@@ -1,0 +1,120 @@
+00:00 +0: loading test/protocol_test.dart
+00:00 +0: test/protocol_test.dart: (setUpAll)
+00:00 +0: test/integration_sim_test.dart: (setUpAll)
+00:00 +1: test/integration_sim_test.dart: (setUpAll)
+00:00 +2: test/integration_sim_test.dart: (setUpAll)
+00:00 +3: test/integration_sim_test.dart: (setUpAll)
+00:00 +4: test/integration_sim_test.dart: (setUpAll)
+00:00 +4: test/protocol_test.dart: pairing flow a TV that never answers times out
+00:00 +5: test/integration_sim_test.dart: pairs with the code the TV shows
+00:00 +6: test/integration_sim_test.dart: pairs with the code the TV shows
+00:00 +7: test/integration_sim_test.dart: pairs with the code the TV shows
+00:00 +8: test/integration_sim_test.dart: pairs with the code the TV shows
+00:00 +9: test/integration_sim_test.dart: pairs with the code the TV shows
+00:00 +10: test/integration_sim_test.dart: pairs with the code the TV shows
+00:00 +11: test/integration_sim_test.dart: pairs with the code the TV shows
+00:00 +12: test/protocol_test.dart: remote connection a TV that never sends remote_start times out
+00:00 +13: test/protocol_test.dart: remote connection a TV that never sends remote_start times out
+00:00 +14: test/integration_sim_test.dart: connects, reads state and drives the TV
+00:00 +15: test/integration_sim_test.dart: connects, reads state and drives the TV
+00:00 +16: test/integration_sim_test.dart: connects, reads state and drives the TV
+00:01 +17: test/integration_sim_test.dart: connects, reads state and drives the TV
+00:01 +18: test/integration_sim_test.dart: connects, reads state and drives the TV
+00:01 +19: test/integration_sim_test.dart: connects, reads state and drives the TV
+00:01 +20: test/client_test.dart: stops and reports needsPairing when the TV rejects the identity
+00:01 +21: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:01 +21 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:01 +21 -1: test/client_test.dart: repeated handshake drops end in needsPairing, a single one does not [E]
+  Bad state: Cannot fire new event. Controller is already firing an event
+  dart:async                                 _BroadcastStreamController.add
+  package:atv_remote/src/client.dart 78:36   AtvClient._setStatus
+  package:atv_remote/src/client.dart 196:5   AtvClient.stop
+  package:atv_remote/src/client.dart 201:11  AtvClient.dispose
+  test/client_test.dart 90:18                main.<fn>
+  
+00:01 +22 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:01 +23 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:01 +24 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:01 +25 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:01 +26 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:01 +27 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:01 +28 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:01 +29 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:01 +30 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:01 +31 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:01 +32 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:01 +33 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:01 +34 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:01 +35 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:01 +36 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:01 +37 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:01 +38 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:01 +39 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:01 +40 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:01 +41 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:01 +42 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:01 +43 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:01 +44 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:01 +45 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:01 +46 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:01 +47 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:01 +48 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:01 +49 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:01 +50 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:01 +51 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:01 +52 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:01 +53 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:01 +54 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:01 +55 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:01 +56 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:01 +57 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:01 +58 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:01 +59 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:01 +60 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:01 +61 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:01 +62 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:01 +63 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:01 +64 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:01 +65 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:01 +66 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:01 +67 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:01 +68 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:01 +69 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:02 +70 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:02 +71 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:02 +72 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:02 +73 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:02 +74 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:02 +75 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:02 +76 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:02 +77 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:02 +78 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:02 +79 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:02 +80 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:02 +81 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:02 +82 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:02 +83 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:02 +84 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:02 +85 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:02 +86 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:02 +87 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:02 +88 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:02 +89 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:02 +90 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:02 +91 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:02 +92 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:02 +93 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:02 +94 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:02 +95 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:02 +96 -1: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:03 +97 -1: test/integration_sim_test.dart: client reconnects after the TV drops the connection
+00:03 +98 -1: test/integration_sim_test.dart: an unknown identity is rejected and needs pairing
+00:04 +99 -1: test/integration_sim_test.dart: a wrong code is rejected by the TV
+00:04 +100 -1: test/integration_sim_test.dart: (tearDownAll)
+00:04 +100 -1: Some tests failed.
+
+Failing tests:
+  test/client_test.dart: repeated handshake drops end in needsPairing, a single one does not
+
+Consider enabling the flag chain-stack-traces to receive more detailed exceptions.
+For example, 'dart test --chain-stack-traces'.
