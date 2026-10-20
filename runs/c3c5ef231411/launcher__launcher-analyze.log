@@ -1,0 +1,5 @@
+Analyzing launcher...                                           
+
+   info • The import of 'package:flutter/material.dart' is unnecessary because all of the used elements are also provided by the import of 'package:flutter/services.dart'. Try removing the import directive • test/launcher_test.dart:2:8 • unnecessary_import
+
+1 issue found. (ran in 7.4s)
