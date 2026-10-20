@@ -1,0 +1,21 @@
+Analyzing remote...                                             
+
+   info • 'onReorder' is deprecated and shouldn't be used. Use the onReorderItem callback instead. The onReorderItem callback adjusts the newIndex parameter for a removed item at the oldIndex. This feature was deprecated after v3.41.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • lib/src/screens/home/apps_page.dart:311:9 • deprecated_member_use
+   info • Unnecessary use of multiple underscores. Try using '_' • lib/src/screens/home/control_page.dart:251:31 • unnecessary_underscores
+   info • Use the null-aware marker '?' rather than a null check via an 'if'. Try using '?' • lib/src/screens/home/settings_sheet.dart:37:55 • use_null_aware_elements
+   info • Unnecessary use of multiple underscores. Try using '_' • lib/src/screens/onboarding/discover_screen.dart:93:49 • unnecessary_underscores
+   info • 'localeId' is deprecated and shouldn't be used. Use SpeechListenOptions.localeId instead. Try replacing the use of the deprecated member with the replacement • lib/src/services/dictation.dart:27:7 • deprecated_member_use
+   info • 'listenFor' is deprecated and shouldn't be used. Use SpeechListenOptions.listenFor instead. Try replacing the use of the deprecated member with the replacement • lib/src/services/dictation.dart:28:7 • deprecated_member_use
+   info • 'pauseFor' is deprecated and shouldn't be used. Use SpeechListenOptions.pauseFor instead. Try replacing the use of the deprecated member with the replacement • lib/src/services/dictation.dart:29:7 • deprecated_member_use
+   info • The import of 'dart:typed_data' is unnecessary because all of the used elements are also provided by the import of 'package:flutter/foundation.dart'. Try removing the import directive • lib/src/services/tv_session.dart:2:8 • unnecessary_import
+   info • Use the null-aware marker '?' rather than a null check via an 'if'. Try using '?' • lib/src/services/tv_session.dart:351:9 • use_null_aware_elements
+  error • Invalid constant value • lib/src/theme/theme.dart:37:27 • invalid_constant
+  error • The function 'CupertinoPageTransitionsBuilder' isn't defined. Try importing the library that defines 'CupertinoPageTransitionsBuilder', correcting the name to the name of an existing function, or defining a function named 'CupertinoPageTransitionsBuilder' • lib/src/theme/theme.dart:37:27 • undefined_function
+  error • The values in a const map literal must be constant. Try removing the keyword 'const' from the map literal • lib/src/theme/theme.dart:37:27 • non_constant_map_value
+  error • The function 'CupertinoPageTransitionsBuilder' isn't defined. Try importing the library that defines 'CupertinoPageTransitionsBuilder', correcting the name to the name of an existing function, or defining a function named 'CupertinoPageTransitionsBuilder' • lib/src/theme/theme.dart:38:29 • undefined_function
+  error • The values in a const map literal must be constant. Try removing the keyword 'const' from the map literal • lib/src/theme/theme.dart:38:29 • non_constant_map_value
+  error • The function 'CupertinoPageTransitionsBuilder' isn't defined. Try importing the library that defines 'CupertinoPageTransitionsBuilder', correcting the name to the name of an existing function, or defining a function named 'CupertinoPageTransitionsBuilder' • lib/src/theme/theme.dart:39:31 • undefined_function
+  error • The values in a const map literal must be constant. Try removing the keyword 'const' from the map literal • lib/src/theme/theme.dart:39:31 • non_constant_map_value
+warning • Unused import: 'package:material_symbols_icons/symbols.dart'. Try removing the import directive • lib/src/widgets/common.dart:4:8 • unused_import
+
+17 issues found. (ran in 8.9s)

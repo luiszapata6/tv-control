@@ -1,290 +1,289 @@
-# CI FAIL — c3c5ef231411
+# CI FAIL — b439805bf105
 
-Run: https://github.com/luiszapata6/tv-control/actions/runs/39345707206
-Commit: fix: reconnect race, launcher name clash and Kotlin nullability; WIP iPhone app
+Run: https://github.com/luiszapata6/tv-control/actions/runs/39346751458
+Commit: feat: iPhone remote app, its tests, iOS build and rolling release
 Job results: [
   "success",
   "success",
+  "failure",
+  "failure",
   "failure"
 ]
 
 | job | step | result | time |
 | --- | --- | --- | --- |
-| dart | atv-analyze | PASS | 1s |
-| dart | atv-test | PASS | 11s |
+| dart | atv-analyze | PASS | 2s |
+| dart | atv-test | PASS | 12s |
 | dart | companion-analyze | PASS | 1s |
-| dart | companion-test | PASS | 5s |
-| dart | setup | PASS | 6s |
+| dart | companion-test | PASS | 7s |
+| dart | setup | PASS | 7s |
+| ios | ios-build | FAIL | 82s |
+| ios | ios-ipa | FAIL | 0s |
+| ios | ios-pub | PASS | 11s |
 | launcher | launcher-analyze | FAIL | 8s |
-| launcher | launcher-apk | PASS | 201s |
-| launcher | launcher-kotlin-tests | FAIL | 36s |
+| launcher | launcher-apk | PASS | 222s |
+| launcher | launcher-kotlin-tests | PASS | 44s |
 | launcher | launcher-pub | PASS | 5s |
-| launcher | launcher-test | FAIL | 11s |
+| launcher | launcher-test | FAIL | 8s |
 | python | codegen-up-to-date | PASS | 0s |
-| python | pip | PASS | 4s |
-| python | sim-tests | PASS | 9s |
+| python | pip | PASS | 3s |
+| python | sim-tests | PASS | 8s |
+| remote | remote-analyze | FAIL | 10s |
+| remote | remote-pub | PASS | 8s |
+| remote | remote-test | FAIL | 11s |
+
+## ios / ios-build (last 150 lines)
+
+```
+Warning: Building for device with codesigning disabled. You will have to manually codesign before deploying to device.
+Xcode is fetching Swift Package Manager dependencies. This may take several minutes...
+  Fetching from https://github.com/mattgallagher/CwlCatchException.git...     
+Building com.luiszapata.tvcontrol.tvRemote for device (ios-release)...
+Running Xcode build...                                          
+Xcode build done.                                           58.9s
+Failed to build iOS app
+════════════════════════════════════════════════════════════════════════════════
+Building a deployable iOS app requires a selected Development Team with a 
+Provisioning Profile. Please ensure that a Development Team is selected by:
+  1- Open the Flutter project's Xcode target with
+       open ios/Runner.xcworkspace
+  2- Select the 'Runner' project in the navigator then the 'Runner' target
+     in the project settings
+  3- Make sure a 'Development Team' is selected under Signing & Capabilities > Team. 
+     You may need to:
+         - Log in with your Apple ID in Xcode first
+         - Ensure you have a valid unique Bundle ID
+         - Register your device with your Apple Developer Account
+         - Let Xcode automatically provision a profile for your app
+  4- Build or run your project again
+
+For more information, please visit:
+  https://flutter.dev/to/ios-development-team
+
+Or run on an iOS simulator without code signing
+════════════════════════════════════════════════════════════════════════════════
+Encountered error while building for device.
+```
+
+## ios / ios-ipa (last 150 lines)
+
+```
+missing apps/remote/build/ios/iphoneos/Runner.app
+```
 
 ## launcher / launcher-analyze (last 150 lines)
 
 ```
 Analyzing launcher...                                           
 
-   info • The import of 'package:flutter/material.dart' is unnecessary because all of the used elements are also provided by the import of 'package:flutter/services.dart'. Try removing the import directive • test/launcher_test.dart:2:8 • unnecessary_import
+warning • The value of the local variable 'get' isn't used. Try removing the variable or using it • test/launcher_test.dart:16:18 • unused_local_variable
+  error • Expected to find ';' • test/launcher_test.dart:16:18 • expected_token
+  error • Functions must have an explicit list of parameters. Try adding a parameter list • test/launcher_test.dart:16:33 • missing_function_parameters
+  error • Unexpected text 'set'. Try removing the text • test/launcher_test.dart:17:3 • unexpected_token
+warning • The declaration 'controller' isn't referenced. Try removing the declaration of 'controller' • test/launcher_test.dart:17:7 • unused_element
+  error • The name 'controller' is already defined. Try renaming one of the declarations • test/launcher_test.dart:17:7 • duplicate_definition
+  error • Functions can't be assigned a value • test/launcher_test.dart:23:5 • assignment_to_function
+  error • The method 'start' isn't defined for the type 'Function'. Try correcting the name to the name of an existing method, or defining a method named 'start' • test/launcher_test.dart:24:22 • undefined_method
+  error • The argument type 'HomeController Function()' can't be assigned to the parameter type 'HomeController'.  • test/launcher_test.dart:25:52 • argument_type_not_assignable
+  error • Functions can't be assigned a value • test/launcher_test.dart:134:7 • assignment_to_function
+  error • The method 'refresh' isn't defined for the type 'Function'. Try correcting the name to the name of an existing method, or defining a method named 'refresh' • test/launcher_test.dart:135:24 • undefined_method
+  error • The getter 'pinned' isn't defined for the type 'HomeController Function()'. Try importing the library that defines 'pinned', correcting the name to the name of an existing getter, or defining a getter or field named 'pinned' • test/launcher_test.dart:136:25 • undefined_getter
+  error • The method 'hide' isn't defined for the type 'Function'. Try correcting the name to the name of an existing method, or defining a method named 'hide' • test/launcher_test.dart:137:24 • undefined_method
+  error • The getter 'pinned' isn't defined for the type 'HomeController Function()'. Try importing the library that defines 'pinned', correcting the name to the name of an existing getter, or defining a getter or field named 'pinned' • test/launcher_test.dart:137:40 • undefined_getter
+  error • The getter 'visibleApps' isn't defined for the type 'HomeController Function()'. Try importing the library that defines 'visibleApps', correcting the name to the name of an existing getter, or defining a getter or field named 'visibleApps' • test/launcher_test.dart:140:25 • undefined_getter
 
-1 issue found. (ran in 7.4s)
-```
-
-## launcher / launcher-kotlin-tests (last 150 lines)
-
-```
-
-Welcome to Gradle 9.3.1!
-
-Here are the highlights of this release:
- - Test reporting improvements
- - Error and warning improvements
- - Build authoring improvements
-
-For more details see https://docs.gradle.org/9.3.1/release-notes.html
-
-To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/9.3.1/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
-Daemon will be stopped at the end of the build 
-> Task :gradle:checkKotlinGradlePluginConfigurationErrors SKIPPED
-> Task :gradle:compileKotlin UP-TO-DATE
-> Task :gradle:compileJava NO-SOURCE
-> Task :gradle:compileGroovy NO-SOURCE
-> Task :gradle:pluginDescriptors UP-TO-DATE
-> Task :gradle:processResources UP-TO-DATE
-> Task :gradle:classes UP-TO-DATE
-> Task :gradle:jar UP-TO-DATE
-
-> Configure project :app
-WARNING: The option setting 'android.builtInKotlin=false' is deprecated.
-The current default is 'true'.
-It will be removed in version 10.0 of the Android Gradle plugin.
-WARNING: The option setting 'android.newDsl=false' is deprecated.
-The current default is 'true'.
-It will be removed in version 10.0 of the Android Gradle plugin.
-w: ⚠️ Deprecated 'org.jetbrains.kotlin.android' plugin usage
-The 'org.jetbrains.kotlin.android' plugin in project ':app' is no longer required for Kotlin support since AGP 9.0.
-Solution: Remove both `android.builtInKotlin=true` and `android.newDsl=false` from `gradle.properties`, then migrate to built-in Kotlin.
-See https://kotl.in/gradle/agp-built-in-kotlin for more details.
-
-
-> Task :app:checkKotlinGradlePluginConfigurationErrors SKIPPED
-> Task :app:cleanMergeDebugAssets UP-TO-DATE
-> Task :app:compileFlutterBuildDebug
-> Task :app:generateDebugAssets UP-TO-DATE
-> Task :app:validateCompileSdkVersion
-> Task :app:preBuild
-> Task :app:preDebugBuild
-> Task :app:mergeDebugAssets
-> Task :app:copyFlutterAssetsDebug
-> Task :app:generateDebugResources
-> Task :app:packageDebugResources
-> Task :app:processDebugNavigationResources
-> Task :app:javaPreCompileDebug
-> Task :app:mapDebugSourceSetPaths
-> Task :app:checkDebugAarMetadata
-> Task :app:parseDebugLocalResources
-> Task :app:compileDebugNavigationResources
-> Task :app:generateDebugRFile
-> Task :app:mergeDebugResources
-> Task :app:createDebugCompatibleScreenManifests
-> Task :app:extractDeepLinksDebug
-> Task :app:processDebugMainManifest
-> Task :app:outputDebugAppLinkSettings
-> Task :app:processDebugManifest
-> Task :app:preDebugUnitTestBuild
-> Task :app:javaPreCompileDebugUnitTest
-> Task :app:processDebugManifestForPackage
-> Task :app:processDebugResources
-> Task :app:compileDebugKotlin
-> Task :app:compileDebugJavaWithJavac
-> Task :app:bundleDebugClassesToCompileJar
-> Task :app:bundleDebugClassesToRuntimeJar
-> Task :app:processDebugJavaRes
-
-> Task :app:compileDebugUnitTestKotlin FAILED
-e: file:///home/runner/work/tv-control/tv-control/apps/launcher/android/app/src/test/kotlin/com/luiszapata/tvcontrol/tv_launcher/companion/CompanionHandlerTest.kt:94:26 Unresolved reference 'similar'.
-e: file:///home/runner/work/tv-control/tv-control/apps/launcher/android/app/src/test/kotlin/com/luiszapata/tvcontrol/tv_launcher/companion/FixturesTest.kt:21:69 Unresolved reference 'similar'.
-
-[Incubating] Problems report is available at: file:///home/runner/work/tv-control/tv-control/apps/launcher/build/reports/problems/problems-report.html
-
-FAILURE: Build failed with an exception.
-
-* What went wrong:
-Execution failed for task ':app:compileDebugUnitTestKotlin'.
-> A failure occurred while executing org.jetbrains.kotlin.compilerRunner.btapi.BuildToolsApiCompilationWork
-   > Compilation error. See log for more details
-
-* Try:
-> Run with --stacktrace option to get the stack trace.
-> Run with --info or --debug option to get more log output.
-> Run with --scan to get full insights from a Build Scan (powered by Develocity).
-> Get more help at https://help.gradle.org.
-
-Deprecated Gradle features were used in this build, making it incompatible with Gradle 10.
-
-You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
-
-For more on this, please refer to https://docs.gradle.org/9.3.1/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
-
-BUILD FAILED in 35s
-33 actionable tasks: 28 executed, 5 up-to-date
+15 issues found. (ran in 7.1s)
 ```
 
 ## launcher / launcher-test (last 150 lines)
 
 ```
-The following assertion was thrown during layout:
-A RenderFlex overflowed by 84 pixels on the right.
-
-The relevant error-causing widget was:
-  Row
-  Row:file:///home/runner/work/tv-control/tv-control/apps/launcher/lib/src/screens/home_screen.dart:107:12
-
-The overflowing RenderFlex has an orientation of Axis.horizontal.
-The edge of the RenderFlex that is overflowing has been marked in the rendering with a yellow and
-black striped pattern. This is usually caused by the contents being too big for the RenderFlex.
-Consider applying a flex factor (e.g. using an Expanded widget) to force the children of the
-RenderFlex to fit within the available space instead of being sized to their natural size.
-This is considered an error condition because it indicates that there is content that cannot be
-seen. If the content is legitimately bigger than the available space, consider clipping it with a
-ClipRect widget before putting it in the flex, or using a scrollable container rather than a Flex,
-like a ListView.
-The specific RenderFlex in question is: RenderFlex#8b8b5 relayoutBoundary=up4 OVERFLOWING:
-  creator: Row ← _Header ← Column ← Padding ← Stack ← ListenableBuilder ←
-    KeyedSubtree-[GlobalKey#18b20] ← _BodyBuilder ← MediaQuery ← LayoutId-[<_ScaffoldSlot.body>] ←
-    CustomMultiChildLayout ← _ActionsScope ← ⋯
-  parentData: offset=Offset(0.0, 0.0); flex=null; fit=null (can use size)
-  constraints: BoxConstraints(0.0<=w<=840.0, 0.0<=h<=Infinity)
-  size: Size(840.0, 111.0)
-  direction: horizontal
-  mainAxisAlignment: start
-  mainAxisSize: max
-  crossAxisAlignment: end
-  textDirection: ltr
-  verticalDirection: down
-  spacing: 0.0
-◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤
-════════════════════════════════════════════════════════════════════════════════════════════════════
-00:01 +0 -8: layout changes from the iPhone update the grid [E]
-  Test failed. See exception logs above.
-  The test description was: layout changes from the iPhone update the grid
-  
-00:01 +0 -8: settings cycles grid columns
-
-Warning: A call to tap() with finder "Found 1 widget with a semantics label named "Ajustes": [
-  Semantics(container: false, properties: SemanticsProperties, label: "Ajustes", dependencies: [Directionality], renderObject: RenderSemanticsAnnotations#831fb),
-]" derived an Offset (Offset(1916.0, 258.0)) that would not hit test on the specified widget.
-Maybe the widget is actually off-screen, or another widget is obscuring it, or the widget cannot receive pointer events.
-The finder corresponds to this RenderBox: RenderSemanticsAnnotations#831fb
-The hit test result at that offset is: HitTestResult(_RenderInkFeatures#c1af3@Offset(958.0, 129.0), RenderPhysicalModel#2bcb7@Offset(958.0, 129.0), RenderSemanticsAnnotations#e7e23@Offset(958.0, 129.0), RenderRepaintBoundary#f63cc@Offset(958.0, 129.0), RenderIgnorePointer#da133@Offset(958.0, 129.0), RenderAnimatedOpacity#b99fd@Offset(958.0, 129.0), RenderAnimatedOpacity#1b337@Offset(958.0, 129.0), _RenderColoredBox#daf90@Offset(958.0, 129.0), RenderAnimatedOpacity#7f4b5@Offset(958.0, 129.0), RenderIgnorePointer#17883@Offset(958.0, 129.0), RenderAnimatedOpacity#383b7@Offset(958.0, 129.0), RenderRepaintBoundary#2fb60@Offset(958.0, 129.0), RenderSemanticsAnnotations#44905@Offset(958.0, 129.0), RenderOffstage#58675@Offset(958.0, 129.0), RenderSemanticsAnnotations#5b7b0@Offset(958.0, 129.0), _RenderTheater#bd5e6@Offset(958.0, 129.0), RenderAbsorbPointer#0857f@Offset(958.0, 129.0), RenderPointerListener#d134e@Offset(958.0, 129.0), RenderSemanticsAnnotations#945ad@Offset(958.0, 129.0), RenderConstrainedBox#a1c14@Offset(958.0, 129.0), RenderFittedBox#f8453@Offset(1916.0, 258.0), _RenderColoredBox#105d0@Offset(1916.0, 258.0), RenderSemanticsAnnotations#1a180@Offset(1916.0, 258.0), RenderSemanticsAnnotations#67c38@Offset(1916.0, 258.0), RenderSemanticsAnnotations#e416a@Offset(1916.0, 258.0), RenderTapRegionSurface#889cf@Offset(1916.0, 258.0), RenderSemanticsAnnotations#aa7b0@Offset(1916.0, 258.0), RenderSemanticsAnnotations#88e60@Offset(1916.0, 258.0), RenderSemanticsAnnotations#0b8d2@Offset(1916.0, 258.0), HitTestEntry<HitTestTarget>#0440a(_ReusableRenderView#25df7), HitTestEntry<HitTestTarget>#71fb9(<AutomatedTestWidgetsFlutterBinding>))
-#0      WidgetController._getElementPoint (package:flutter_test/src/controller.dart:2165:25)
-#1      WidgetController.getCenter (package:flutter_test/src/controller.dart:1947:12)
-#2      WidgetController.tap (package:flutter_test/src/controller.dart:1080:7)
-#3      main.<anonymous closure> (file:///home/runner/work/tv-control/tv-control/apps/launcher/test/launcher_test.dart:116:18)
-<asynchronous suspension>
-#4      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
-<asynchronous suspension>
-#5      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1953:5)
-<asynchronous suspension>
-#6      StackZoneSpecification._registerCallback.<anonymous closure> (package:stack_trace/src/stack_zone_specification.dart:114:42)
-<asynchronous suspension>
-To silence this warning, pass "warnIfMissed: false" to "tap()".
-To make this warning fatal, set WidgetController.hitTestWarningShouldBeFatal to true.
-
-══╡ EXCEPTION CAUGHT BY RENDERING LIBRARY ╞═════════════════════════════════════════════════════════
-The following assertion was thrown during layout:
-A RenderFlex overflowed by 84 pixels on the right.
-
-The relevant error-causing widget was:
-  Row
-  Row:file:///home/runner/work/tv-control/tv-control/apps/launcher/lib/src/screens/home_screen.dart:107:12
-
-The overflowing RenderFlex has an orientation of Axis.horizontal.
-The edge of the RenderFlex that is overflowing has been marked in the rendering with a yellow and
-black striped pattern. This is usually caused by the contents being too big for the RenderFlex.
-Consider applying a flex factor (e.g. using an Expanded widget) to force the children of the
-RenderFlex to fit within the available space instead of being sized to their natural size.
-This is considered an error condition because it indicates that there is content that cannot be
-seen. If the content is legitimately bigger than the available space, consider clipping it with a
-ClipRect widget before putting it in the flex, or using a scrollable container rather than a Flex,
-like a ListView.
-The specific RenderFlex in question is: RenderFlex#89ae6 relayoutBoundary=up4 OVERFLOWING:
-  creator: Row ← _Header ← Column ← Padding ← Stack ← ListenableBuilder ←
-    KeyedSubtree-[GlobalKey#5e96a] ← _BodyBuilder ← MediaQuery ← LayoutId-[<_ScaffoldSlot.body>] ←
-    CustomMultiChildLayout ← _ActionsScope ← ⋯
-  parentData: offset=Offset(0.0, 0.0); flex=null; fit=null (can use size)
-  constraints: BoxConstraints(0.0<=w<=840.0, 0.0<=h<=Infinity)
-  size: Size(840.0, 111.0)
-  direction: horizontal
-  mainAxisAlignment: start
-  mainAxisSize: max
-  crossAxisAlignment: end
-  textDirection: ltr
-  verticalDirection: down
-  spacing: 0.0
-◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤
-════════════════════════════════════════════════════════════════════════════════════════════════════
-══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
-The following TestFailure was thrown running a test:
-Expected: exactly one matching candidate
-  Actual: _TextWidgetFinder:<Found 0 widgets with text "Columnas en inicio": []>
-   Which: means none were found but one was expected
-
-When the exception was thrown, this was the stack:
-#4      main.<anonymous closure> (file:///home/runner/work/tv-control/tv-control/apps/launcher/test/launcher_test.dart:118:5)
-<asynchronous suspension>
-#5      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
-<asynchronous suspension>
-#6      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1953:5)
-<asynchronous suspension>
-<asynchronous suspension>
-(elided one frame from package:stack_trace)
-
-This was caught by the test expectation on the following line:
-  file:///home/runner/work/tv-control/tv-control/apps/launcher/test/launcher_test.dart line 118
-The test description was:
-  settings cycles grid columns
-════════════════════════════════════════════════════════════════════════════════════════════════════
-══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
-The following message was thrown:
-Multiple exceptions (2) were detected during the running of the current test, and at least one was
-unexpected.
-════════════════════════════════════════════════════════════════════════════════════════════════════
-00:02 +0 -9: settings cycles grid columns [E]
-  Test failed. See exception logs above.
-  The test description was: settings cycles grid columns
-  
-00:02 +0 -9: controller without a layout, non-system apps are suggested and editing materializes them
-00:02 +1 -9: formatting and weather dates in Spanish
-00:02 +1 -10: formatting and weather dates in Spanish [E]
-  A HomeController was used after being disposed.
-  Once you have called dispose() on a HomeController, it can no longer be used.
-  package:flutter/src/foundation/change_notifier.dart 184:9   ChangeNotifier.debugAssertNotDisposed.<fn>
-  package:flutter/src/foundation/change_notifier.dart 191:6   ChangeNotifier.debugAssertNotDisposed
-  package:flutter/src/foundation/change_notifier.dart 377:27  ChangeNotifier.dispose
-  package:tv_launcher/src/home_controller.dart 146:11         HomeController.dispose
-  test/launcher_test.dart 28:29                               main.<fn>
-  
-00:02 +1 -10: formatting and weather open-meteo parsing
-00:02 +1 -11: formatting and weather open-meteo parsing [E]
-  A HomeController was used after being disposed.
-  Once you have called dispose() on a HomeController, it can no longer be used.
-  package:flutter/src/foundation/change_notifier.dart 184:9   ChangeNotifier.debugAssertNotDisposed.<fn>
-  package:flutter/src/foundation/change_notifier.dart 191:6   ChangeNotifier.debugAssertNotDisposed
-  package:flutter/src/foundation/change_notifier.dart 377:27  ChangeNotifier.dispose
-  package:tv_launcher/src/home_controller.dart 146:11         HomeController.dispose
-  test/launcher_test.dart 28:29                               main.<fn>
-  
-00:02 +1 -11: Some tests failed.
+00:00 +0: loading /home/runner/work/tv-control/tv-control/apps/launcher/test/launcher_test.dart
+test/launcher_test.dart:16:18: Error: Expected ';' after this.
+  HomeController get controller => controllerRef!;
+                 ^^^
+test/launcher_test.dart:16:33: Error: A function declaration needs an explicit list of parameters.
+Try adding a parameter list to the function declaration.
+  HomeController get controller => controllerRef!;
+                                ^^
+test/launcher_test.dart:17:3: Error: Unexpected token 'set'.
+  set controller(HomeController c) => controllerRef = c;
+  ^^^
+test/launcher_test.dart:17:7: Error: 'controller' is already declared in this scope.
+  set controller(HomeController c) => controllerRef = c;
+      ^^^^^^^^^^
+test/launcher_test.dart:16:22: Context: Previous declaration of 'controller'.
+  HomeController get controller => controllerRef!;
+                     ^^^^^^^^^^
+test/launcher_test.dart:23:5: Error: Can't assign to the final variable 'controller'.
+    controller = HomeController(platform, weather: WeatherService(get: (_) async => '{"current":{"temperature_2m":22.4,"weather_code":2,"is_day":1}}'));
+    ^^^^^^^^^^
+test/launcher_test.dart:134:7: Error: Can't assign to the final variable 'controller'.
+      controller = HomeController(platform, weather: WeatherService(get: (_) async => '{}'));
+      ^^^^^^^^^^
+test/launcher_test.dart:24:22: Error: The method 'start' isn't defined for the type 'HomeController Function()'.
+ - 'HomeController' is from 'package:tv_launcher/src/home_controller.dart' ('lib/src/home_controller.dart').
+Try correcting the name to the name of an existing method, or defining a method named 'start'.
+    await controller.start();
+                     ^^^^^
+test/launcher_test.dart:25:52: Error: The argument type 'HomeController Function()' can't be assigned to the parameter type 'HomeController'.
+ - 'HomeController' is from 'package:tv_launcher/src/home_controller.dart' ('lib/src/home_controller.dart').
+    await tester.pumpWidget(TvLauncher(controller: controller, now: () => DateTime(2026, 10, 18, 21, 5)));
+                                                   ^
+test/launcher_test.dart:135:24: Error: The method 'refresh' isn't defined for the type 'HomeController Function()'.
+ - 'HomeController' is from 'package:tv_launcher/src/home_controller.dart' ('lib/src/home_controller.dart').
+Try correcting the name to the name of an existing method, or defining a method named 'refresh'.
+      await controller.refresh();
+                       ^^^^^^^
+test/launcher_test.dart:136:25: Error: The getter 'pinned' isn't defined for the type 'HomeController Function()'.
+ - 'HomeController' is from 'package:tv_launcher/src/home_controller.dart' ('lib/src/home_controller.dart').
+Try correcting the name to the name of an existing getter, or defining a getter or field named 'pinned'.
+      expect(controller.pinned.map((a) => a.label), ['YouTube', 'Netflix', 'Disney+']);
+                        ^^^^^^
+test/launcher_test.dart:137:40: Error: The getter 'pinned' isn't defined for the type 'HomeController Function()'.
+ - 'HomeController' is from 'package:tv_launcher/src/home_controller.dart' ('lib/src/home_controller.dart').
+Try correcting the name to the name of an existing getter, or defining a getter or field named 'pinned'.
+      await controller.hide(controller.pinned.first);
+                                       ^^^^^^
+test/launcher_test.dart:137:24: Error: The method 'hide' isn't defined for the type 'HomeController Function()'.
+ - 'HomeController' is from 'package:tv_launcher/src/home_controller.dart' ('lib/src/home_controller.dart').
+Try correcting the name to the name of an existing method, or defining a method named 'hide'.
+      await controller.hide(controller.pinned.first);
+                       ^^^^
+test/launcher_test.dart:140:25: Error: The getter 'visibleApps' isn't defined for the type 'HomeController Function()'.
+ - 'HomeController' is from 'package:tv_launcher/src/home_controller.dart' ('lib/src/home_controller.dart').
+Try correcting the name to the name of an existing getter, or defining a getter or field named 'visibleApps'.
+      expect(controller.visibleApps.map((a) => a.label), isNot(contains('YouTube')));
+                        ^^^^^^^^^^^
+00:00 +0 -1: loading /home/runner/work/tv-control/tv-control/apps/launcher/test/launcher_test.dart [E]
+  Failed to load "/home/runner/work/tv-control/tv-control/apps/launcher/test/launcher_test.dart":
+  Compilation failed for testPath=/home/runner/work/tv-control/tv-control/apps/launcher/test/launcher_test.dart: test/launcher_test.dart:16:18: Error: Expected ';' after this.
+    HomeController get controller => controllerRef!;
+                   ^^^
+  test/launcher_test.dart:16:33: Error: A function declaration needs an explicit list of parameters.
+  Try adding a parameter list to the function declaration.
+    HomeController get controller => controllerRef!;
+                                  ^^
+  test/launcher_test.dart:17:3: Error: Unexpected token 'set'.
+    set controller(HomeController c) => controllerRef = c;
+    ^^^
+  test/launcher_test.dart:17:7: Error: 'controller' is already declared in this scope.
+    set controller(HomeController c) => controllerRef = c;
+        ^^^^^^^^^^
+  test/launcher_test.dart:16:22: Context: Previous declaration of 'controller'.
+    HomeController get controller => controllerRef!;
+                       ^^^^^^^^^^
+  test/launcher_test.dart:23:5: Error: Can't assign to the final variable 'controller'.
+      controller = HomeController(platform, weather: WeatherService(get: (_) async => '{"current":{"temperature_2m":22.4,"weather_code":2,"is_day":1}}'));
+      ^^^^^^^^^^
+  test/launcher_test.dart:134:7: Error: Can't assign to the final variable 'controller'.
+        controller = HomeController(platform, weather: WeatherService(get: (_) async => '{}'));
+        ^^^^^^^^^^
+  test/launcher_test.dart:24:22: Error: The method 'start' isn't defined for the type 'HomeController Function()'.
+   - 'HomeController' is from 'package:tv_launcher/src/home_controller.dart' ('lib/src/home_controller.dart').
+  Try correcting the name to the name of an existing method, or defining a method named 'start'.
+      await controller.start();
+                       ^^^^^
+  test/launcher_test.dart:25:52: Error: The argument type 'HomeController Function()' can't be assigned to the parameter type 'HomeController'.
+   - 'HomeController' is from 'package:tv_launcher/src/home_controller.dart' ('lib/src/home_controller.dart').
+      await tester.pumpWidget(TvLauncher(controller: controller, now: () => DateTime(2026, 10, 18, 21, 5)));
+                                                     ^
+  test/launcher_test.dart:135:24: Error: The method 'refresh' isn't defined for the type 'HomeController Function()'.
+   - 'HomeController' is from 'package:tv_launcher/src/home_controller.dart' ('lib/src/home_controller.dart').
+  Try correcting the name to the name of an existing method, or defining a method named 'refresh'.
+        await controller.refresh();
+                         ^^^^^^^
+  test/launcher_test.dart:136:25: Error: The getter 'pinned' isn't defined for the type 'HomeController Function()'.
+   - 'HomeController' is from 'package:tv_launcher/src/home_controller.dart' ('lib/src/home_controller.dart').
+  Try correcting the name to the name of an existing getter, or defining a getter or field named 'pinned'.
+        expect(controller.pinned.map((a) => a.label), ['YouTube', 'Netflix', 'Disney+']);
+                          ^^^^^^
+  test/launcher_test.dart:137:40: Error: The getter 'pinned' isn't defined for the type 'HomeController Function()'.
+   - 'HomeController' is from 'package:tv_launcher/src/home_controller.dart' ('lib/src/home_controller.dart').
+  Try correcting the name to the name of an existing getter, or defining a getter or field named 'pinned'.
+        await controller.hide(controller.pinned.first);
+                                         ^^^^^^
+  test/launcher_test.dart:137:24: Error: The method 'hide' isn't defined for the type 'HomeController Function()'.
+   - 'HomeController' is from 'package:tv_launcher/src/home_controller.dart' ('lib/src/home_controller.dart').
+  Try correcting the name to the name of an existing method, or defining a method named 'hide'.
+        await controller.hide(controller.pinned.first);
+                         ^^^^
+  test/launcher_test.dart:140:25: Error: The getter 'visibleApps' isn't defined for the type 'HomeController Function()'.
+   - 'HomeController' is from 'package:tv_launcher/src/home_controller.dart' ('lib/src/home_controller.dart').
+  Try correcting the name to the name of an existing getter, or defining a getter or field named 'visibleApps'.
+        expect(controller.visibleApps.map((a) => a.label), isNot(contains('YouTube')));
+                          ^^^^^^^^^^^
+  .
+00:00 +0 -1: Some tests failed.
 
 Failing tests:
-  /home/runner/work/tv-control/tv-control/apps/launcher/test/launcher_test.dart: D-pad moves focus and select opens the app
-  /home/runner/work/tv-control/tv-control/apps/launcher/test/launcher_test.dart: HDMI input opens
-  /home/runner/work/tv-control/tv-control/apps/launcher/test/launcher_test.dart: all apps lists every visible app and can pin one
-  /home/runner/work/tv-control/tv-control/apps/launcher/test/launcher_test.dart: formatting and weather dates in Spanish
-  ... and 7 more
+  /home/runner/work/tv-control/tv-control/apps/launcher/test/launcher_test.dart: loading /home/runner/work/tv-control/tv-control/apps/launcher/test/launcher_test.dart
+```
+
+## remote / remote-analyze (last 150 lines)
+
+```
+Analyzing remote...                                             
+
+   info • 'onReorder' is deprecated and shouldn't be used. Use the onReorderItem callback instead. The onReorderItem callback adjusts the newIndex parameter for a removed item at the oldIndex. This feature was deprecated after v3.41.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • lib/src/screens/home/apps_page.dart:311:9 • deprecated_member_use
+   info • Unnecessary use of multiple underscores. Try using '_' • lib/src/screens/home/control_page.dart:251:31 • unnecessary_underscores
+   info • Use the null-aware marker '?' rather than a null check via an 'if'. Try using '?' • lib/src/screens/home/settings_sheet.dart:37:55 • use_null_aware_elements
+   info • Unnecessary use of multiple underscores. Try using '_' • lib/src/screens/onboarding/discover_screen.dart:93:49 • unnecessary_underscores
+   info • 'localeId' is deprecated and shouldn't be used. Use SpeechListenOptions.localeId instead. Try replacing the use of the deprecated member with the replacement • lib/src/services/dictation.dart:27:7 • deprecated_member_use
+   info • 'listenFor' is deprecated and shouldn't be used. Use SpeechListenOptions.listenFor instead. Try replacing the use of the deprecated member with the replacement • lib/src/services/dictation.dart:28:7 • deprecated_member_use
+   info • 'pauseFor' is deprecated and shouldn't be used. Use SpeechListenOptions.pauseFor instead. Try replacing the use of the deprecated member with the replacement • lib/src/services/dictation.dart:29:7 • deprecated_member_use
+   info • The import of 'dart:typed_data' is unnecessary because all of the used elements are also provided by the import of 'package:flutter/foundation.dart'. Try removing the import directive • lib/src/services/tv_session.dart:2:8 • unnecessary_import
+   info • Use the null-aware marker '?' rather than a null check via an 'if'. Try using '?' • lib/src/services/tv_session.dart:351:9 • use_null_aware_elements
+  error • Invalid constant value • lib/src/theme/theme.dart:37:27 • invalid_constant
+  error • The function 'CupertinoPageTransitionsBuilder' isn't defined. Try importing the library that defines 'CupertinoPageTransitionsBuilder', correcting the name to the name of an existing function, or defining a function named 'CupertinoPageTransitionsBuilder' • lib/src/theme/theme.dart:37:27 • undefined_function
+  error • The values in a const map literal must be constant. Try removing the keyword 'const' from the map literal • lib/src/theme/theme.dart:37:27 • non_constant_map_value
+  error • The function 'CupertinoPageTransitionsBuilder' isn't defined. Try importing the library that defines 'CupertinoPageTransitionsBuilder', correcting the name to the name of an existing function, or defining a function named 'CupertinoPageTransitionsBuilder' • lib/src/theme/theme.dart:38:29 • undefined_function
+  error • The values in a const map literal must be constant. Try removing the keyword 'const' from the map literal • lib/src/theme/theme.dart:38:29 • non_constant_map_value
+  error • The function 'CupertinoPageTransitionsBuilder' isn't defined. Try importing the library that defines 'CupertinoPageTransitionsBuilder', correcting the name to the name of an existing function, or defining a function named 'CupertinoPageTransitionsBuilder' • lib/src/theme/theme.dart:39:31 • undefined_function
+  error • The values in a const map literal must be constant. Try removing the keyword 'const' from the map literal • lib/src/theme/theme.dart:39:31 • non_constant_map_value
+warning • Unused import: 'package:material_symbols_icons/symbols.dart'. Try removing the import directive • lib/src/widgets/common.dart:4:8 • unused_import
+
+17 issues found. (ran in 8.9s)
+```
+
+## remote / remote-test (last 150 lines)
+
+```
+00:00 +0: loading /home/runner/work/tv-control/tv-control/apps/remote/test/session_test.dart
+00:00 +0: /home/runner/work/tv-control/tv-control/apps/remote/test/session_test.dart: (setUpAll)
+00:00 +0: /home/runner/work/tv-control/tv-control/apps/remote/test/session_test.dart: connects and mirrors the TV state
+00:00 +1: /home/runner/work/tv-control/tv-control/apps/remote/test/session_test.dart: volume drag steps the TV towards the target
+lib/src/theme/theme.dart:37:27: Error: Method not found: 'CupertinoPageTransitionsBuilder'.
+      TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+lib/src/theme/theme.dart:38:29: Error: Method not found: 'CupertinoPageTransitionsBuilder'.
+      TargetPlatform.macOS: CupertinoPageTransitionsBuilder(),
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+lib/src/theme/theme.dart:39:31: Error: Method not found: 'CupertinoPageTransitionsBuilder'.
+      TargetPlatform.android: CupertinoPageTransitionsBuilder(),
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+00:01 +2: /home/runner/work/tv-control/tv-control/apps/remote/test/session_test.dart: text mirroring: full text, then deletes when cleared
+00:01 +3: /home/runner/work/tv-control/tv-control/apps/remote/test/session_test.dart: power wakes the TV over the network when it is not connected
+00:01 +4: /home/runner/work/tv-control/tv-control/apps/remote/test/session_test.dart: without the launcher, apps fall back to well-known ones and app links
+00:01 +5: /home/runner/work/tv-control/tv-control/apps/remote/test/session_test.dart: companion: pairing, real apps, launching and layout
+00:01 +6: /home/runner/work/tv-control/tv-control/apps/remote/test/session_test.dart: companion: a stored token connects directly
+00:01 +7: /home/runner/work/tv-control/tv-control/apps/remote/test/session_test.dart: device store save, select, remove and persist
+00:01 +8: /home/runner/work/tv-control/tv-control/apps/remote/test/session_test.dart: device store identity is generated once and kept in the secret store
+00:01 +9: /home/runner/work/tv-control/tv-control/apps/remote/test/session_test.dart: (tearDownAll)
+00:02 +9 -1: loading /home/runner/work/tv-control/tv-control/apps/remote/test/app_test.dart [E]
+  Failed to load "/home/runner/work/tv-control/tv-control/apps/remote/test/app_test.dart":
+  Compilation failed for testPath=/home/runner/work/tv-control/tv-control/apps/remote/test/app_test.dart: lib/src/theme/theme.dart:37:27: Error: Method not found: 'CupertinoPageTransitionsBuilder'.
+        TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  lib/src/theme/theme.dart:38:29: Error: Method not found: 'CupertinoPageTransitionsBuilder'.
+        TargetPlatform.macOS: CupertinoPageTransitionsBuilder(),
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  lib/src/theme/theme.dart:39:31: Error: Method not found: 'CupertinoPageTransitionsBuilder'.
+        TargetPlatform.android: CupertinoPageTransitionsBuilder(),
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  .
+00:02 +9 -1: Some tests failed.
+
+Failing tests:
+  /home/runner/work/tv-control/tv-control/apps/remote/test/app_test.dart: loading /home/runner/work/tv-control/tv-control/apps/remote/test/app_test.dart
 ```

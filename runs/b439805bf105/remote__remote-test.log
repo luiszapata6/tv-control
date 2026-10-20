@@ -1,0 +1,37 @@
+00:00 +0: loading /home/runner/work/tv-control/tv-control/apps/remote/test/session_test.dart
+00:00 +0: /home/runner/work/tv-control/tv-control/apps/remote/test/session_test.dart: (setUpAll)
+00:00 +0: /home/runner/work/tv-control/tv-control/apps/remote/test/session_test.dart: connects and mirrors the TV state
+00:00 +1: /home/runner/work/tv-control/tv-control/apps/remote/test/session_test.dart: volume drag steps the TV towards the target
+lib/src/theme/theme.dart:37:27: Error: Method not found: 'CupertinoPageTransitionsBuilder'.
+      TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+lib/src/theme/theme.dart:38:29: Error: Method not found: 'CupertinoPageTransitionsBuilder'.
+      TargetPlatform.macOS: CupertinoPageTransitionsBuilder(),
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+lib/src/theme/theme.dart:39:31: Error: Method not found: 'CupertinoPageTransitionsBuilder'.
+      TargetPlatform.android: CupertinoPageTransitionsBuilder(),
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+00:01 +2: /home/runner/work/tv-control/tv-control/apps/remote/test/session_test.dart: text mirroring: full text, then deletes when cleared
+00:01 +3: /home/runner/work/tv-control/tv-control/apps/remote/test/session_test.dart: power wakes the TV over the network when it is not connected
+00:01 +4: /home/runner/work/tv-control/tv-control/apps/remote/test/session_test.dart: without the launcher, apps fall back to well-known ones and app links
+00:01 +5: /home/runner/work/tv-control/tv-control/apps/remote/test/session_test.dart: companion: pairing, real apps, launching and layout
+00:01 +6: /home/runner/work/tv-control/tv-control/apps/remote/test/session_test.dart: companion: a stored token connects directly
+00:01 +7: /home/runner/work/tv-control/tv-control/apps/remote/test/session_test.dart: device store save, select, remove and persist
+00:01 +8: /home/runner/work/tv-control/tv-control/apps/remote/test/session_test.dart: device store identity is generated once and kept in the secret store
+00:01 +9: /home/runner/work/tv-control/tv-control/apps/remote/test/session_test.dart: (tearDownAll)
+00:02 +9 -1: loading /home/runner/work/tv-control/tv-control/apps/remote/test/app_test.dart [E]
+  Failed to load "/home/runner/work/tv-control/tv-control/apps/remote/test/app_test.dart":
+  Compilation failed for testPath=/home/runner/work/tv-control/tv-control/apps/remote/test/app_test.dart: lib/src/theme/theme.dart:37:27: Error: Method not found: 'CupertinoPageTransitionsBuilder'.
+        TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  lib/src/theme/theme.dart:38:29: Error: Method not found: 'CupertinoPageTransitionsBuilder'.
+        TargetPlatform.macOS: CupertinoPageTransitionsBuilder(),
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  lib/src/theme/theme.dart:39:31: Error: Method not found: 'CupertinoPageTransitionsBuilder'.
+        TargetPlatform.android: CupertinoPageTransitionsBuilder(),
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  .
+00:02 +9 -1: Some tests failed.
+
+Failing tests:
+  /home/runner/work/tv-control/tv-control/apps/remote/test/app_test.dart: loading /home/runner/work/tv-control/tv-control/apps/remote/test/app_test.dart
