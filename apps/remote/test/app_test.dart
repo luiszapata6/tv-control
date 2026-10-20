@@ -7,6 +7,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:tv_remote/src/app.dart';
 import 'package:tv_remote/src/services/devices.dart';
 import 'package:tv_remote/src/services/discovery.dart';
+import 'package:tv_remote/src/services/services.dart';
 import 'package:tv_remote/src/widgets/pressable.dart';
 
 import 'support.dart';
@@ -155,7 +156,7 @@ void main() {
       await tester.tap(find.bySemanticsLabel('Arriba'));
       await tester.tap(find.text('OK'));
       await tester.tap(find.text('Atrás'));
-      await tester.tap(find.text('Inicio'));
+      await tester.tap(find.text('Inicio').last);
       await settle(tester);
       expect(env.keyNames, containsAllInOrder(['KEYCODE_DPAD_UP', 'KEYCODE_DPAD_CENTER', 'KEYCODE_BACK', 'KEYCODE_HOME']));
     });
@@ -217,9 +218,10 @@ void main() {
       await settle(tester);
       expect(find.text('Televisores'), findsOneWidget);
       expect(find.text('Agregar otra TV'), findsOneWidget);
+      final prefs = Services.of(tester.element(find.text('Televisores'))).preferences;
       await tester.tap(find.text('Ámbar'));
       await settle(tester);
-      expect(find.text('Apariencia'), findsOneWidget);
+      expect(prefs.accentName, 'Ámbar');
     });
   });
 }

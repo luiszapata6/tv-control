@@ -179,13 +179,13 @@ void main() {
     final stranger = await ClientIdentity.generate();
     await expectLater(
       AtvRemote.connect(host: '127.0.0.1', port: remotePort, identity: stranger),
-      throwsA(anyOf(isA<AtvAuthException>(), isA<AtvConnectionClosedException>())),
+      throwsA(anyOf(isA<AtvAuthException>(), isA<AtvHandshakeException>(), isA<AtvConnectionClosedException>())),
     );
     final client = AtvClient(host: '127.0.0.1', port: remotePort, identity: stranger)..start();
     addTearDown(client.dispose);
     final status = await client.statusChanges
-        .firstWhere((s) => s == AtvConnectionStatus.needsPairing || s == AtvConnectionStatus.unreachable)
-        .timeout(const Duration(seconds: 5));
+        .firstWhere((s) => s == AtvConnectionStatus.needsPairing)
+        .timeout(const Duration(seconds: 10));
     expect(status, AtvConnectionStatus.needsPairing, reason: 'TLS rejection must map to needsPairing');
   });
 

@@ -55,6 +55,12 @@ class AtvClient {
   AtvRemote? _remote;
   AtvState _state = const AtvState();
   bool _running = false;
+  int _generation = 0;
+  int _handshakeFailures = 0;
+
+  /// Consecutive handshake drops after which the TV is assumed to reject
+  /// this device (some TVs close the socket instead of sending an alert).
+  static const handshakeFailuresBeforePairing = 3;
   Completer<void>? _wake;
   AtvException? lastError;
 
@@ -77,7 +83,8 @@ class AtvClient {
   void start() {
     if (_running) return;
     _running = true;
-    unawaited(_loop());
+    _handshakeFailures = 0;
+    unawaited(_loop(++_generation));
   }
 
   /// Skips the current backoff wait (e.g. when the app returns to foreground).
@@ -92,19 +99,23 @@ class AtvClient {
 
   bool _retryRequested = false;
 
-  Future<void> _loop() async {
+  Future<void> _loop(int generation) async {
+    // A stop() + start() while a connect is pending starts a new loop; the
+    // old one notices its generation is stale and exits.
+    bool alive() => _running && generation == _generation;
     var backoff = initialBackoff;
-    while (_running) {
+    while (alive()) {
       _retryRequested = false;
       _setStatus(AtvConnectionStatus.connecting);
       try {
         final remote = await _connect();
-        if (!_running) {
+        if (!alive()) {
           await remote.close();
           break;
         }
         _remote = remote;
         lastError = null;
+        _handshakeFailures = 0;
         backoff = initialBackoff;
         _publishState(remote.state);
         final sub = remote.stateChanges.listen(_publishState);
@@ -112,22 +123,35 @@ class AtvClient {
         final connectedAt = DateTime.now();
         lastError = await remote.done;
         await sub.cancel();
-        _remote = null;
-        if (!_running) break;
+        if (identical(_remote, remote)) _remote = null;
+        if (!alive()) break;
         _setStatus(AtvConnectionStatus.unreachable);
         // A connection that lived a while is retried at once; one that drops
         // immediately goes through the backoff so we never spin.
         if (DateTime.now().difference(connectedAt) > const Duration(seconds: 2)) continue;
       } on AtvAuthException catch (e) {
+        if (!alive()) break;
         lastError = e;
         _running = false;
         _setStatus(AtvConnectionStatus.needsPairing);
         return;
+      } on AtvHandshakeException catch (e) {
+        lastError = e;
+        if (alive() && ++_handshakeFailures >= handshakeFailuresBeforePairing) {
+          _running = false;
+          _setStatus(AtvConnectionStatus.needsPairing);
+          return;
+        }
+        _setStatus(AtvConnectionStatus.unreachable);
       } on AtvException catch (e) {
         lastError = e;
         _setStatus(AtvConnectionStatus.unreachable);
+      } catch (e) {
+        // Never let an unexpected error kill the loop silently.
+        lastError = AtvConnectionException('unexpected error', e);
+        _setStatus(AtvConnectionStatus.unreachable);
       }
-      if (!_running) break;
+      if (!alive()) break;
       if (!_retryRequested) {
         final wake = _wake = Completer<void>();
         await Future.any([Future<void>.delayed(backoff), wake.future]);
@@ -136,7 +160,9 @@ class AtvClient {
       final doubled = backoff * 2;
       backoff = doubled > maxBackoff ? maxBackoff : doubled;
     }
-    if (_current != AtvConnectionStatus.needsPairing) _setStatus(AtvConnectionStatus.idle);
+    if (generation == _generation && _current != AtvConnectionStatus.needsPairing) {
+      _setStatus(AtvConnectionStatus.idle);
+    }
   }
 
   void _publishState(AtvState s) {

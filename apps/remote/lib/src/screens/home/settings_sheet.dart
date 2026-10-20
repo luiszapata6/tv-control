@@ -34,7 +34,7 @@ class _SettingsSheet extends StatelessWidget {
       initialChildSize: 0.75,
       maxChildSize: 0.92,
       builder: (context, scroll) => ListenableBuilder(
-        listenable: Listenable.merge([devices, prefs, if (session != null) session!]),
+        listenable: Listenable.merge([devices, prefs, ?session]),
         builder: (context, _) => ListView(
           controller: scroll,
           padding: const EdgeInsets.fromLTRB(20, 12, 20, 32),

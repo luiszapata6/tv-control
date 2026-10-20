@@ -31,6 +31,14 @@ abstract class AtvConnector {
   });
 }
 
+/// Whether a TLS error is the peer refusing our certificate (a TLS alert such
+/// as bad_certificate / unknown_ca / certificate_required) rather than the
+/// connection simply dropping.
+bool isCertificateRejection(TlsException e) {
+  final text = '${e.message} ${e.osError?.message ?? ''}'.toUpperCase();
+  return text.contains('ALERT') || text.contains('CERTIFICATE');
+}
+
 /// TLS connector: presents our certificate and accepts the TV's self-signed one
 /// (the TV is identified by pairing, not by a CA).
 class TlsConnector implements AtvConnector {
@@ -43,9 +51,14 @@ class TlsConnector implements AtvConnector {
     ClientIdentity identity, {
     Duration timeout = const Duration(seconds: 6),
   }) async {
-    final context = SecurityContext(withTrustedRoots: false)
-      ..useCertificateChainBytes(utf8.encode(identity.certificatePem))
-      ..usePrivateKeyBytes(utf8.encode(identity.privateKeyPem));
+    final SecurityContext context;
+    try {
+      context = SecurityContext(withTrustedRoots: false)
+        ..useCertificateChainBytes(utf8.encode(identity.certificatePem))
+        ..usePrivateKeyBytes(utf8.encode(identity.privateKeyPem));
+    } on TlsException catch (e) {
+      throw AtvAuthException('the stored device certificate is invalid; pair again', e);
+    }
     try {
       final socket = await SecureSocket.connect(
         host,
@@ -56,10 +69,10 @@ class TlsConnector implements AtvConnector {
       );
       socket.setOption(SocketOption.tcpNoDelay, true);
       return _TlsSocket(socket);
-    } on HandshakeException catch (e) {
-      throw AtvAuthException('the TV rejected this device; pair again', e);
     } on TlsException catch (e) {
-      throw AtvAuthException('TLS failed; pair again', e);
+      // HandshakeException is a TlsException.
+      if (isCertificateRejection(e)) throw AtvAuthException('the TV rejected this device; pair again', e);
+      throw AtvHandshakeException('the secure connection to $host:$port broke off', e);
     } on SocketException catch (e) {
       throw AtvConnectionException('could not reach $host:$port', e);
     } on TimeoutException catch (e) {
@@ -71,9 +84,12 @@ class TlsConnector implements AtvConnector {
 class _TlsSocket implements AtvSocket {
   _TlsSocket(this._socket) {
     _input = _socket.handleError((Object e, StackTrace st) {
-      if (e is TlsException || e is HandshakeException) {
-        throw AtvAuthException('the TV closed the secure connection', e);
+      // With TLS 1.3 the server checks our certificate after the handshake,
+      // so a rejection shows up as the first read error.
+      if (e is TlsException && isCertificateRejection(e)) {
+        throw AtvAuthException('the TV rejected this device; pair again', e);
       }
+      if (e is TlsException) throw AtvHandshakeException('the secure connection broke off', e);
       throw AtvConnectionClosedException('connection error', e);
     }).asBroadcastStream();
   }

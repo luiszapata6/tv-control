@@ -74,6 +74,83 @@ void main() {
     await client.dispose();
   });
 
+  test('repeated handshake drops end in needsPairing, a single one does not', () async {
+    final connector = FakeConnector(onConnect: (ch, _) => FakeRemoteTv(ch))
+      ..failWith = const AtvHandshakeException('reset during handshake');
+    final client = AtvClient(
+      host: 'tv',
+      identity: identity,
+      connector: connector,
+      initialBackoff: const Duration(milliseconds: 5),
+    )..start();
+    await waitFor(client, AtvConnectionStatus.unreachable);
+    expect(client.status, isNot(AtvConnectionStatus.needsPairing));
+    await waitFor(client, AtvConnectionStatus.needsPairing);
+    expect(connector.connects, AtvClient.handshakeFailuresBeforePairing);
+    await client.dispose();
+  });
+
+  test('a handshake drop followed by success resets the counter', () async {
+    final connector = FakeConnector(onConnect: (ch, _) => FakeRemoteTv(ch))
+      ..failWith = const AtvHandshakeException('reset');
+    final client = AtvClient(
+      host: 'tv',
+      identity: identity,
+      connector: connector,
+      initialBackoff: const Duration(milliseconds: 5),
+    )..start();
+    await waitFor(client, AtvConnectionStatus.unreachable);
+    connector.failWith = null;
+    await waitFor(client, AtvConnectionStatus.connected);
+    await client.dispose();
+  });
+
+  test('an unexpected error does not kill the reconnect loop', () async {
+    final connector = FakeConnector(onConnect: (ch, _) => FakeRemoteTv(ch))..failWith = StateError('boom');
+    final client = AtvClient(
+      host: 'tv',
+      identity: identity,
+      connector: connector,
+      initialBackoff: const Duration(milliseconds: 5),
+    )..start();
+    await waitFor(client, AtvConnectionStatus.unreachable);
+    expect(client.lastError, isA<AtvConnectionException>());
+    connector.failWith = null;
+    await waitFor(client, AtvConnectionStatus.connected);
+    await client.dispose();
+  });
+
+  test('stop() then start() during a pending connect keeps a single connection', () async {
+    final gate = Completer<void>();
+    var connects = 0;
+    final tvs = <FakeRemoteTv>[];
+    final connector = FakeConnector(onConnect: (ch, _) => tvs.add(FakeRemoteTv(ch)));
+    final client = AtvClient(
+      host: 'tv',
+      identity: identity,
+      connect: () async {
+        connects++;
+        if (connects == 1) await gate.future;
+        return AtvRemote.connect(host: 'tv', identity: identity, connector: connector);
+      },
+    )..start();
+    await Future<void>.delayed(const Duration(milliseconds: 10));
+    await client.stop();
+    client.start();
+    await waitFor(client, AtvConnectionStatus.connected);
+    gate.complete();
+    await Future<void>.delayed(const Duration(milliseconds: 50));
+    expect(client.isConnected, isTrue);
+    expect(connects, 2);
+    // The stale loop closed the connection it finished opening.
+    expect(tvs, hasLength(2));
+    // tvs.first: the new loop's live connection; tvs.last: opened late by the
+    // stale loop, which must close it.
+    expect(tvs.first.channel.isClosed, isFalse);
+    expect(tvs.last.channel.isClosed, isTrue);
+    await client.dispose();
+  });
+
   test('commands while disconnected throw a clear error', () async {
     final client = AtvClient(host: 'tv', identity: identity, connector: FakeConnector());
     expect(() => client.press(AtvKey.home), throwsA(isA<AtvConnectionClosedException>()));

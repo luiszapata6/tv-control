@@ -308,10 +308,9 @@ class _ReorderList extends StatelessWidget {
         buildDefaultDragHandles: false,
         itemCount: pinned.length,
         onReorderStart: (_) => playHaptic(Haptic.medium),
-        onReorder: (from, to) {
+        onReorderItem: (from, to) {
           playHaptic(Haptic.selection);
-          // ReorderableListView reports the slot before removal.
-          session.reorder(from, to > from ? to - 1 : to);
+          session.reorder(from, to);
         },
         proxyDecorator: (child, i, anim) => Material(
           color: Colors.transparent,

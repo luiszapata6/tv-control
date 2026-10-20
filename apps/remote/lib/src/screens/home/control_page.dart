@@ -248,7 +248,7 @@ class _Favourites extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         clipBehavior: Clip.none,
         itemCount: apps.length,
-        separatorBuilder: (_, __) => const SizedBox(width: Space.inline),
+        separatorBuilder: (_, _) => const SizedBox(width: Space.inline),
         itemBuilder: (context, i) {
           final app = apps[i];
           return Pressable(

@@ -98,8 +98,9 @@ class AtvRemote {
     if (!_states.isClosed) _states.add(next);
   }
 
+  // Only incoming traffic resets the idle watchdog: the TV pings every ~5 s,
+  // so a half-open connection is detected even while we keep sending.
   void _send(RemoteMessage message) {
-    _resetIdle();
     _channel.send(message.writeToBuffer());
   }
 
@@ -182,7 +183,8 @@ class AtvRemote {
   void sendText(String text) {
     _ensureOpen();
     if (text.isEmpty) throw ArgumentError.value(text, 'text', 'cannot be empty; use sendKey(KEYCODE_DEL)');
-    final cursor = text.length - 1;
+    // The TV counts code points, not UTF-16 units (emoji are 2 units).
+    final cursor = text.runes.length - 1;
     _send(RemoteMessage(
       remoteImeBatchEdit: RemoteImeBatchEdit(
         imeCounter: _imeCounter,

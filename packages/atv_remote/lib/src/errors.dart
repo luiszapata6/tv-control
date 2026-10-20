@@ -13,6 +13,13 @@ class AtvConnectionException extends AtvException {
   const AtvConnectionException(super.message, [super.cause]);
 }
 
+/// The TLS handshake broke off without a clear certificate rejection (the TV
+/// rebooting, Wi-Fi dropping, or a TV that rejects unknown devices by just
+/// closing). [AtvClient] treats several in a row as "pairing required".
+class AtvHandshakeException extends AtvConnectionException {
+  const AtvHandshakeException(super.message, [super.cause]);
+}
+
 /// The TV refused our certificate: we must (re)pair before connecting.
 class AtvAuthException extends AtvException {
   const AtvAuthException(super.message, [super.cause]);

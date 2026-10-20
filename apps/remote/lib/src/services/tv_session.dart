@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:typed_data';
 
 import 'package:atv_remote/atv_remote.dart';
 import 'package:companion_protocol/companion_protocol.dart';
@@ -13,8 +12,22 @@ typedef AtvClientFactory = AtvClient Function(SavedTv tv, ClientIdentity identit
 /// Opens the companion connection (replaced by a fake in tests).
 typedef CompanionConnector = Future<CompanionClient> Function(String host, String? token);
 
-/// Sends a Wake-on-LAN packet (replaced by a fake in tests).
-typedef WakeSender = Future<void> Function(String mac, String host);
+/// Sends a Wake-on-LAN packet and returns how many datagrams went out
+/// (replaced by a fake in tests).
+typedef WakeSender = Future<int> Function(String mac, String host);
+
+/// What pressing power did.
+enum PowerResult {
+  /// The power key reached the TV.
+  sent,
+
+  /// The TV was unreachable: a wake packet went out and we keep retrying.
+  waking,
+
+  /// The TV is unreachable and could not be woken (no MAC, or the packet
+  /// could not be sent).
+  unavailable,
+}
 
 enum CompanionStatus {
   /// The TV Control launcher is not reachable (not installed, or another launcher).
@@ -69,11 +82,10 @@ class TvSession extends ChangeNotifier {
   static Future<CompanionClient> _defaultCompanion(String host, String? token) =>
       CompanionClient.connect(host, token: token, clientName: 'iPhone');
 
-  static Future<void> _defaultWake(String mac, String host) async {
-    await sendWakeOnLan(mac);
-    final directed = subnetBroadcastFor(host);
-    if (directed != null) await sendWakeOnLan(mac, broadcastAddress: directed);
-  }
+  // Unicast to the TV first: iOS only allows broadcasts with an entitlement
+  // free Apple IDs cannot get, so the broadcasts may silently fail.
+  static Future<int> _defaultWake(String mac, String host) =>
+      sendWakeOnLanTo(mac, [host, ?subnetBroadcastFor(host), '255.255.255.255']);
 
   StreamSubscription<AtvConnectionStatus>? _statusSub;
   StreamSubscription<AtvState>? _stateSub;
@@ -99,6 +111,9 @@ class TvSession extends ChangeNotifier {
   bool get needsPairing => status == AtvConnectionStatus.needsPairing;
   AtvVolume? get volume => state.volume;
 
+  /// Whether the TV reported its volume yet (the slider waits for it).
+  bool get volumeKnown => state.volume != null && state.volume!.max > 0;
+
   /// What the slider shows.
   int get displayVolume => pendingVolume ?? state.volume?.level ?? 0;
   int get volumeMax => (state.volume?.max ?? 100) <= 0 ? 100 : state.volume!.max;
@@ -110,8 +125,11 @@ class TvSession extends ChangeNotifier {
       if (s == AtvConnectionStatus.connected && companionStatus == CompanionStatus.unavailable) {
         unawaited(connectCompanion());
       }
+      if (s != AtvConnectionStatus.connected) _lastText = '';
     });
     _stateSub = _client.stateChanges.listen((s) {
+      // A new app in front means a new text field: forget mirrored text.
+      if (s.currentApp != state.currentApp) _lastText = '';
       state = s;
       _notify();
     });
@@ -175,7 +193,10 @@ class TvSession extends ChangeNotifier {
   }
 
   /// Presses Enter: submits the search on the TV.
-  bool submitText() => press(AtvKey.enter);
+  bool submitText() {
+    _lastText = '';
+    return press(AtvKey.enter);
+  }
 
   /// Opens an app: through the launcher when available (any installed app),
   /// otherwise with an app link over the remote protocol.
@@ -199,44 +220,81 @@ class TvSession extends ChangeNotifier {
 
   /// Moves the TV volume to [target] by pressing volume up/down; only the
   /// latest target counts while keys are still being sent.
+  /// Ignored until the TV reported its volume (we could not know how many
+  /// steps to send).
   void setVolume(int target) {
+    if (!volumeKnown) return;
     pendingVolume = target.clamp(0, volumeMax);
     _notify();
+    final r = _retarget;
+    if (r != null && !r.isCompleted) r.complete();
     _volumeLoop ??= _driveVolume().whenComplete(() => _volumeLoop = null);
   }
 
+  /// How long the slider keeps the user's value after the last key, so the
+  /// TV can report the real level first.
+  static const volumeSettle = Duration(milliseconds: 400);
+  Timer? _settleTimer;
+  Completer<void>? _retarget;
+
   Future<void> _driveVolume() async {
     var assumed = state.volume?.level ?? 0;
-    while (!_disposed && pendingVolume != null) {
-      final target = pendingVolume!;
-      if (assumed == target) break;
+    while (!_disposed) {
+      final target = pendingVolume;
+      if (target == null) return;
+      if (assumed == target) {
+        // Wait for the TV's report; a new target in the meantime restarts
+        // the loop from where we are.
+        final settled = Completer<void>();
+        final retarget = _retarget = Completer<void>();
+        _settleTimer?.cancel();
+        _settleTimer = Timer(volumeSettle, settled.complete);
+        await Future.any([settled.future, retarget.future]);
+        _retarget = null;
+        if (_disposed) return;
+        if (pendingVolume == target) {
+          pendingVolume = null;
+          _notify();
+          return;
+        }
+        _settleTimer?.cancel();
+        continue;
+      }
       final up = target > assumed;
-      if (!press(up ? AtvKey.volumeUp : AtvKey.volumeDown)) break;
+      if (!press(up ? AtvKey.volumeUp : AtvKey.volumeDown)) {
+        pendingVolume = null;
+        _notify();
+        return;
+      }
       assumed += up ? 1 : -1;
       await Future<void>.delayed(keyInterval);
     }
-    // Let the TV report the real level before the slider follows it again.
-    await Future<void>.delayed(const Duration(milliseconds: 400));
-    pendingVolume = null;
-    _notify();
   }
 
   bool toggleMute() => press(AtvKey.mute);
 
-  /// Power: a key press when connected; Wake-on-LAN when the TV is off/asleep.
-  Future<bool> power() async {
-    if (isConnected) return press(AtvKey.power);
-    final mac = tv.mac;
-    if (mac == null) return false;
-    await _wake(mac, tv.host);
+  /// Power: a key press when connected; when the TV is unreachable, a
+  /// Wake-on-LAN packet and an immediate reconnect attempt (many Android TVs
+  /// keep the remote service alive in network standby).
+  Future<PowerResult> power() async {
+    if (isConnected) return press(AtvKey.power) ? PowerResult.sent : PowerResult.unavailable;
     _client.retryNow();
-    return true;
+    final mac = tv.mac;
+    if (mac == null) return PowerResult.unavailable;
+    final sent = await _wake(mac, tv.host);
+    return sent > 0 ? PowerResult.waking : PowerResult.unavailable;
   }
 
   // --------------------------------------------------------------- companion
 
-  Future<void> connectCompanion() async {
-    if (_disposed) return;
+  Future<void>? _companionConnecting;
+
+  /// Connects to the launcher once at a time; concurrent callers share it.
+  Future<void> connectCompanion() =>
+      _companionConnecting ??= _connectCompanion().whenComplete(() => _companionConnecting = null);
+
+  Future<void> _connectCompanion() async {
+    if (_disposed || _companion != null) return;
     final token = await devices.companionToken(tv.id);
     try {
       final c = await _companionConnector(tv.host, token);
@@ -244,7 +302,6 @@ class TvSession extends ChangeNotifier {
         await c.close();
         return;
       }
-      await _companion?.close();
       _companion = c;
       companionStatus = c.authenticated ? CompanionStatus.connected : CompanionStatus.needsPairing;
       unawaited(c.done.then((_) {
@@ -254,12 +311,11 @@ class TvSession extends ChangeNotifier {
           _notify();
         }
       }));
+      await _companionSub?.cancel();
       _companionSub = c.events.listen(_onCompanionEvent);
       if (c.authenticated) await _loadCompanionData();
-    } on CompanionException {
-      companionStatus = CompanionStatus.unavailable;
     } catch (_) {
-      companionStatus = CompanionStatus.unavailable;
+      if (_companion == null) companionStatus = CompanionStatus.unavailable;
     }
     _notify();
   }
@@ -348,7 +404,7 @@ class TvSession extends ChangeNotifier {
     if (order.isEmpty) return apps.take(4).toList();
     return [
       for (final p in order)
-        if (all[p] case final app?) app,
+        ?all[p],
     ];
   }
 
@@ -385,6 +441,9 @@ class TvSession extends ChangeNotifier {
     _stateSub?.cancel();
     _companionSub?.cancel();
     _companionTimer?.cancel();
+    _settleTimer?.cancel();
+    final r = _retarget;
+    if (r != null && !r.isCompleted) r.complete();
     unawaited(_client.dispose());
     unawaited(_companion?.close());
     super.dispose();

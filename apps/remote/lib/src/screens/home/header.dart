@@ -80,11 +80,18 @@ class SessionHeader extends StatelessWidget {
             haptic: Haptic.medium,
             onTap: () async {
               final toast = ToastHost.maybeOf(context);
-              final ok = await session.power();
-              if (!ok) {
-                toast?.show('No hay MAC para encenderla por red', kind: ToastKind.error);
-              } else if (!session.isConnected) {
-                toast?.show('Encendiendo la TV…', kind: ToastKind.info);
+              switch (await session.power()) {
+                case PowerResult.sent:
+                  break;
+                case PowerResult.waking:
+                  toast?.show('Intentando encender la TV…', kind: ToastKind.info);
+                case PowerResult.unavailable:
+                  toast?.show(
+                    session.tv.mac == null
+                        ? 'La TV no responde y no tengo su MAC para despertarla'
+                        : 'La TV no responde. Actívala con el control o habilita "Encender por red" en la TV',
+                    kind: ToastKind.error,
+                  );
               }
             },
           ),

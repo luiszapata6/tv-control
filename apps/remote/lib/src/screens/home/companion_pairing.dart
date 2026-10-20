@@ -102,6 +102,7 @@ class _CompanionCodeSheetState extends State<_CompanionCodeSheet> {
       await widget.session.confirmCompanionPairing(code);
       if (mounted) Navigator.of(context).pop(true);
     } on CompanionException catch (e) {
+      if (!mounted) return;
       playHaptic(Haptic.medium);
       _key.currentState?.clear();
       setState(() {

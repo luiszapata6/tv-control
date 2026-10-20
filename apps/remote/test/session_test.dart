@@ -23,7 +23,10 @@ void main() {
       devices: devices,
       clientFactory: env.client,
       companionConnector: companion ?? noCompanion,
-      wake: (mac, host) async => wakes.add((mac, host)),
+      wake: (mac, host) async {
+        wakes.add((mac, host));
+        return 3;
+      },
       keyInterval: Duration.zero,
     );
     await s.start();
@@ -54,6 +57,94 @@ void main() {
     s.dispose();
   });
 
+  test('a new volume target during the settle window is not lost', () async {
+    final (s, env, _) = await start();
+    s.setVolume(20);
+    await Future<void>.delayed(const Duration(milliseconds: 100));
+    expect(env.keyNames.where((k) => k == 'KEYCODE_VOLUME_UP'), hasLength(2));
+    s.setVolume(23); // still settling: must continue from 20
+    await Future<void>.delayed(const Duration(milliseconds: 100));
+    expect(env.keyNames.where((k) => k == 'KEYCODE_VOLUME_UP'), hasLength(5));
+    expect(s.displayVolume, 23);
+    await Future<void>.delayed(const Duration(milliseconds: 600));
+    expect(s.pendingVolume, isNull);
+    s.dispose();
+  });
+
+  test('volume is ignored until the TV reports it', () async {
+    final env = FakeTvEnv(identity);
+    final s = TvSession(
+      tv: tv,
+      identity: identity,
+      devices: DeviceStore(settings: MemorySettingsStore(), secrets: MemorySecretStore(), identity: identity),
+      clientFactory: (t, id) => AtvClient(
+        host: t.host,
+        identity: id,
+        connector: FakeConnector(onConnect: (ch, _) => env.tvs.add(FakeRemoteTv(ch, sendVolume: false))),
+      ),
+      companionConnector: noCompanion,
+      keyInterval: Duration.zero,
+    );
+    await s.start();
+    await Future<void>.delayed(const Duration(milliseconds: 30));
+    expect(s.isConnected, isTrue);
+    expect(s.volumeKnown, isFalse);
+    s.setVolume(40);
+    await Future<void>.delayed(const Duration(milliseconds: 30));
+    expect(env.keyNames, isEmpty);
+    expect(s.pendingVolume, isNull);
+    s.dispose();
+  });
+
+  test('power reports when the TV cannot be woken', () async {
+    final env = FakeTvEnv(identity);
+    env.connector.failWith = const AtvConnectionException('off');
+    final s = TvSession(
+      tv: tv,
+      identity: identity,
+      devices: DeviceStore(settings: MemorySettingsStore(), secrets: MemorySecretStore(), identity: identity),
+      clientFactory: env.client,
+      companionConnector: noCompanion,
+      wake: (mac, host) async => 0,
+    );
+    await s.start();
+    await Future<void>.delayed(const Duration(milliseconds: 30));
+    expect(await s.power(), PowerResult.unavailable);
+    s.dispose();
+  });
+
+  test('power sends the key when connected', () async {
+    final (s, env, wakes) = await start();
+    expect(await s.power(), PowerResult.sent);
+    await Future<void>.delayed(const Duration(milliseconds: 10));
+    expect(env.keyNames, contains('KEYCODE_POWER'));
+    expect(wakes, isEmpty);
+    s.dispose();
+  });
+
+  test('companion connects once even when asked concurrently', () async {
+    final companion = FakeCompanion();
+    var connects = 0;
+    final (s, _, _) = await start(companion: (host, token) {
+      connects++;
+      return companion.connect(host, token);
+    });
+    await Future.wait([s.connectCompanion(), s.connectCompanion(), s.connectCompanion()]);
+    expect(connects, 1);
+    expect(s.companionStatus, CompanionStatus.needsPairing);
+    s.dispose();
+  });
+
+  test('text mirroring forgets the old text after submitting', () async {
+    final (s, env, _) = await start();
+    s.setText('hola');
+    s.submitText();
+    s.setText('');
+    await Future<void>.delayed(const Duration(milliseconds: 20));
+    expect(env.keyNames.where((k) => k == 'KEYCODE_DEL'), isEmpty);
+    s.dispose();
+  });
+
   test('text mirroring: full text, then deletes when cleared', () async {
     final (s, env, _) = await start();
     expect(s.setText('hola'), isTrue);
@@ -75,12 +166,15 @@ void main() {
       devices: DeviceStore(settings: MemorySettingsStore(), secrets: MemorySecretStore(), identity: identity),
       clientFactory: env.client,
       companionConnector: noCompanion,
-      wake: (mac, host) async => wakes.add((mac, host)),
+      wake: (mac, host) async {
+        wakes.add((mac, host));
+        return 3;
+      },
     );
     await s.start();
     await Future<void>.delayed(const Duration(milliseconds: 30));
     expect(s.status, AtvConnectionStatus.unreachable);
-    expect(await s.power(), isTrue);
+    expect(await s.power(), PowerResult.waking);
     expect(wakes, [('AA:BB:CC:DD:EE:FF', '192.168.1.50')]);
     expect(s.press(AtvKey.home), isFalse);
     s.dispose();

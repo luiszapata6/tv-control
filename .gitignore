@@ -13,3 +13,4 @@ ci-logs/
 *.iml
 .DS_Store
 local.properties
+tools/install/.disabled-launchers

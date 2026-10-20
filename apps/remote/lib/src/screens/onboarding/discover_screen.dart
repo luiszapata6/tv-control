@@ -90,7 +90,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                       ? _Searching(searching: _searching, error: _error)
                       : ListView.separated(
                           itemCount: _found.length,
-                          separatorBuilder: (_, __) => const SizedBox(height: Space.stack),
+                          separatorBuilder: (_, _) => const SizedBox(height: Space.stack),
                           itemBuilder: (context, i) => _TvRow(tv: _found[i], onTap: () => _open(_found[i].host, _found[i].name)),
                         ),
                 ),

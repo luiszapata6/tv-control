@@ -112,7 +112,7 @@ jobs:
           channel: stable
           cache: true
       - run: tools/ci/step.sh ios-pub "cd apps/remote && flutter pub get"
-      - run: tools/ci/step.sh ios-build "cd apps/remote && flutter build ios --release --no-codesign"
+      - run: tools/ci/step.sh ios-build "tools/ci/build_ios.sh"
       - run: tools/ci/step.sh ios-ipa "tools/ci/package_ipa.sh apps/remote/build/ios/iphoneos/Runner.app TVControl.ipa"
       - if: always()
         uses: actions/upload-artifact@v4

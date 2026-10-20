@@ -173,7 +173,10 @@ AppServices buildServices({
       devices: d,
       clientFactory: env.client,
       companionConnector: companion ?? noCompanion,
-      wake: (mac, host) async => wakes?.add((mac, host)),
+      wake: (mac, host) async {
+        wakes?.add((mac, host));
+        return 3;
+      },
       keyInterval: Duration.zero,
     ),
     startPairing: startPairing,

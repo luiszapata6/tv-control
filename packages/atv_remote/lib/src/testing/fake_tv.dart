@@ -34,7 +34,7 @@ class FakeConnector implements AtvConnector {
 
 /// Scripted remote-port TV.
 class FakeRemoteTv {
-  FakeRemoteTv(this.channel, {this.features = 622, this.autoStart = true}) {
+  FakeRemoteTv(this.channel, {this.features = 622, this.autoStart = true, this.sendVolume = true}) {
     _sub = channel.messages.listen(_onMessage);
     send(RemoteMessage(
       remoteConfigure: RemoteConfigure(
@@ -47,6 +47,9 @@ class FakeRemoteTv {
   final MessageChannel channel;
   final int features;
   final bool autoStart;
+
+  /// Whether the TV reports its volume after starting (some never do).
+  final bool sendVolume;
   final received = <RemoteMessage>[];
   final _received = StreamController<RemoteMessage>.broadcast(sync: true);
   late final StreamSubscription<Uint8List> _sub;
@@ -63,7 +66,7 @@ class FakeRemoteTv {
       send(RemoteMessage(remoteSetActive: RemoteSetActive()));
     } else if (m.remoteSetActive != null && autoStart) {
       send(RemoteMessage(remoteStart: RemoteStart(started: true)));
-      send(RemoteMessage(remoteSetVolumeLevel: RemoteSetVolumeLevel(volumeLevel: 18, volumeMax: 100)));
+      if (sendVolume) send(RemoteMessage(remoteSetVolumeLevel: RemoteSetVolumeLevel(volumeLevel: 18, volumeMax: 100)));
       send(RemoteMessage(
         remoteImeKeyInject: RemoteImeKeyInject(appInfo: RemoteAppInfo(appPackage: 'com.google.android.tvlauncher')),
       ));

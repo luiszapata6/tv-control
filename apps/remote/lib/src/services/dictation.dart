@@ -24,9 +24,11 @@ class SpeechDictation implements Dictation {
     final locale = spanish.contains('es_CO') ? 'es_CO' : (spanish.isNotEmpty ? spanish.first : null);
     await _speech.listen(
       onResult: (r) => onText(r.recognizedWords, r.finalResult),
-      localeId: locale,
-      listenFor: const Duration(seconds: 20),
-      pauseFor: const Duration(seconds: 3),
+      listenOptions: SpeechListenOptions(
+        localeId: locale,
+        listenFor: const Duration(seconds: 20),
+        pauseFor: const Duration(seconds: 3),
+      ),
     );
     return true;
   }

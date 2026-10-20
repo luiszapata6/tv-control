@@ -9,6 +9,7 @@ import 'services/services.dart';
 import 'services/tv_session.dart';
 import 'theme/theme.dart';
 import 'theme/tokens.dart';
+import 'widgets/pressable.dart';
 
 /// Root: loads saved TVs, keeps one [TvSession] for the selected TV and
 /// shows onboarding until a TV is paired.
@@ -33,7 +34,8 @@ class _TvRemoteAppState extends State<TvRemoteApp> with WidgetsBindingObserver {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    _devices.addListener(_syncSession);
+    _devices.addListener(_onDevices);
+    widget.services.preferences.addListener(_applyPrefs);
     unawaited(_load());
   }
 
@@ -42,6 +44,13 @@ class _TvRemoteAppState extends State<TvRemoteApp> with WidgetsBindingObserver {
     await _syncSession();
     if (mounted) setState(() => _ready = true);
   }
+
+  void _applyPrefs() => hapticsEnabled = widget.services.preferences.haptics;
+
+  void _onDevices() => unawaited(_syncSession().catchError((Object _) {
+        // Identity generation failed (keychain unavailable): stay on the splash
+        // and try again on the next change.
+      }));
 
   Future<void> _syncSession() async {
     final tv = _devices.selected;
@@ -70,7 +79,8 @@ class _TvRemoteAppState extends State<TvRemoteApp> with WidgetsBindingObserver {
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
-    _devices.removeListener(_syncSession);
+    _devices.removeListener(_onDevices);
+    widget.services.preferences.removeListener(_applyPrefs);
     _session?.dispose();
     super.dispose();
   }

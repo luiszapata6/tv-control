@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:atv_remote/atv_remote.dart';
 import 'package:flutter/foundation.dart';
 
-import '../widgets/pressable.dart';
 import 'storage.dart';
 
 /// A paired TV.
@@ -148,7 +147,6 @@ class Preferences extends ChangeNotifier {
   Future<void> load() async {
     accentName = await store.getString('accent') ?? accentName;
     haptics = (await store.getString('haptics')) != 'off';
-    hapticsEnabled = haptics;
     notifyListeners();
   }
 
@@ -160,7 +158,6 @@ class Preferences extends ChangeNotifier {
 
   Future<void> setHaptics(bool on) async {
     haptics = on;
-    hapticsEnabled = on;
     notifyListeners();
     await store.setString('haptics', on ? 'on' : 'off');
   }
