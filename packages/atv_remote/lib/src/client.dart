@@ -81,14 +81,21 @@ class AtvClient {
   }
 
   /// Skips the current backoff wait (e.g. when the app returns to foreground).
+  ///
+  /// Status listeners run synchronously, so this may be called before the
+  /// loop starts waiting; the flag makes the next wait return at once.
   void retryNow() {
+    _retryRequested = true;
     final w = _wake;
     if (w != null && !w.isCompleted) w.complete();
   }
 
+  bool _retryRequested = false;
+
   Future<void> _loop() async {
     var backoff = initialBackoff;
     while (_running) {
+      _retryRequested = false;
       _setStatus(AtvConnectionStatus.connecting);
       try {
         final remote = await _connect();
@@ -121,9 +128,11 @@ class AtvClient {
         _setStatus(AtvConnectionStatus.unreachable);
       }
       if (!_running) break;
-      final wake = _wake = Completer<void>();
-      await Future.any([Future<void>.delayed(backoff), wake.future]);
-      _wake = null;
+      if (!_retryRequested) {
+        final wake = _wake = Completer<void>();
+        await Future.any([Future<void>.delayed(backoff), wake.future]);
+        _wake = null;
+      }
       final doubled = backoff * 2;
       backoff = doubled > maxBackoff ? maxBackoff : doubled;
     }

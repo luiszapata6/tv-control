@@ -20,7 +20,7 @@ void main() {
     addTearDown(tester.view.reset);
     controller = HomeController(platform, weather: WeatherService(get: (_) async => '{"current":{"temperature_2m":22.4,"weather_code":2,"is_day":1}}'));
     await controller.start();
-    await tester.pumpWidget(LauncherApp(controller: controller, now: () => DateTime(2026, 10, 18, 21, 5)));
+    await tester.pumpWidget(TvLauncher(controller: controller, now: () => DateTime(2026, 10, 18, 21, 5)));
     await tester.pumpAndSettle();
   }
 

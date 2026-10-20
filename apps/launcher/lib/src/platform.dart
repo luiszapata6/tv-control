@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:typed_data';
 
 import 'package:companion_protocol/companion_protocol.dart';
 import 'package:flutter/services.dart';

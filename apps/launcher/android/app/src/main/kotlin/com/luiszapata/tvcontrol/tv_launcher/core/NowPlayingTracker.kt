@@ -79,10 +79,10 @@ class NowPlayingTracker(private val context: Context) {
 
     private fun snapshot(c: MediaController?): NowPlaying? {
         if (c == null) return null
-        val meta = c.metadata
+        val meta = c.metadata ?: return null
         val state = c.playbackState
-        val title = meta?.getString(MediaMetadata.METADATA_KEY_TITLE)
-            ?: meta?.getString(MediaMetadata.METADATA_KEY_DISPLAY_TITLE)
+        val title = meta.getString(MediaMetadata.METADATA_KEY_TITLE)
+            ?: meta.getString(MediaMetadata.METADATA_KEY_DISPLAY_TITLE)
             ?: return null
         val subtitle = meta.getString(MediaMetadata.METADATA_KEY_ARTIST)
             ?: meta.getString(MediaMetadata.METADATA_KEY_DISPLAY_SUBTITLE)

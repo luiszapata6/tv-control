@@ -12,13 +12,13 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
   final controller = HomeController(MethodChannelLauncherPlatform(), weatherRefresh: const Duration(minutes: 20));
   unawaited(controller.start());
-  runApp(LauncherApp(controller: controller));
+  runApp(TvLauncher(controller: controller));
 }
 
 /// The UI is designed for a 960x540 canvas and scaled to the TV, so it looks
 /// the same on any resolution or density.
-class LauncherApp extends StatelessWidget {
-  const LauncherApp({super.key, required this.controller, this.now});
+class TvLauncher extends StatelessWidget {
+  const TvLauncher({super.key, required this.controller, this.now});
   final HomeController controller;
   final DateTime Function()? now;
 

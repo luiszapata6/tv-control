@@ -136,6 +136,8 @@ void main() {
 
     test('keys, long presses, text and app links are sent as expected', () async {
       final remote = await connect();
+      // Let the TV's initial state (including the IME counters) arrive.
+      await Future<void>.delayed(const Duration(milliseconds: 20));
       remote.press(AtvKey.home);
       remote.sendKey(RemoteKeyCode.KEYCODE_DPAD_CENTER, direction: KeyDirection.startLong);
       remote.sendKey(RemoteKeyCode.KEYCODE_DPAD_CENTER, direction: KeyDirection.endLong);
@@ -169,6 +171,7 @@ void main() {
 
     test('state pushes are published once per change', () async {
       final remote = await connect();
+      await Future<void>.delayed(const Duration(milliseconds: 20));
       final states = <AtvState>[];
       remote.stateChanges.listen(states.add);
       tv.send(RemoteMessage(remoteSetVolumeLevel: RemoteSetVolumeLevel(volumeLevel: 30, volumeMax: 100, volumeMuted: true)));
