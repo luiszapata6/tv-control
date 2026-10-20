@@ -1,0 +1,139 @@
+00:00 +0: loading test/protocol_test.dart
+00:00 +0: test/protocol_test.dart: (setUpAll)
+00:00 +0: test/integration_sim_test.dart: (setUpAll)
+00:00 +1: test/integration_sim_test.dart: (setUpAll)
+00:00 +2: test/integration_sim_test.dart: (setUpAll)
+00:00 +3: test/integration_sim_test.dart: (setUpAll)
+00:00 +4: test/integration_sim_test.dart: (setUpAll)
+00:00 +4: test/protocol_test.dart: pairing flow a TV that never answers times out
+00:00 +5: test/integration_sim_test.dart: pairs with the code the TV shows
+00:00 +6: test/integration_sim_test.dart: pairs with the code the TV shows
+00:00 +6 -1: test/integration_sim_test.dart: pairs with the code the TV shows
+00:00 +6 -1: test/protocol_test.dart: remote connection keys, long presses, text and app links are sent as expected [E]
+  Expected: [5, 2]
+    Actual: [null, null]
+     Which: at location [0] is <null> instead of <5>
+  counters echo what the TV sent
+  
+  package:matcher                expect
+  test/protocol_test.dart 153:7  main.<fn>.<fn>
+  
+00:00 +7 -1: test/integration_sim_test.dart: pairs with the code the TV shows
+00:00 +7 -2: test/integration_sim_test.dart: pairs with the code the TV shows
+00:00 +7 -2: test/protocol_test.dart: remote connection state pushes are published once per change [E]
+  Expected: an object with length of <3>
+    Actual: [
+              AtvState:AtvState(on: true, AtvVolume(18/100), app: null, Hisense 65U6GA (5.2)),
+              AtvState:AtvState(on: true, AtvVolume(18/100), app: com.google.android.tvlauncher, Hisense 65U6GA (5.2)),
+              AtvState:AtvState(on: true, AtvVolume(30/100, muted), app: com.google.android.tvlauncher, Hisense 65U6GA (5.2)),
+              AtvState:AtvState(on: false, AtvVolume(30/100, muted), app: com.google.android.tvlauncher, Hisense 65U6GA (5.2)),
+              AtvState:AtvState(on: false, AtvVolume(30/100, muted), app: com.netflix.ninja, Hisense 65U6GA (5.2))
+            ]
+     Which: has length of <5>
+  
+  package:matcher                expect
+  test/protocol_test.dart 181:7  main.<fn>.<fn>
+  
+00:00 +8 -2: test/integration_sim_test.dart: pairs with the code the TV shows
+00:00 +9 -2: test/integration_sim_test.dart: pairs with the code the TV shows
+00:00 +10 -2: test/integration_sim_test.dart: pairs with the code the TV shows
+00:00 +11 -2: test/integration_sim_test.dart: pairs with the code the TV shows
+00:00 +12 -2: test/integration_sim_test.dart: pairs with the code the TV shows
+00:01 +13 -2: test/integration_sim_test.dart: reads name and MAC without pairing
+00:01 +14 -2: test/integration_sim_test.dart: connects, reads state and drives the TV
+00:01 +15 -2: test/integration_sim_test.dart: connects, reads state and drives the TV
+00:01 +16 -2: test/integration_sim_test.dart: connects, reads state and drives the TV
+00:01 +17 -2: test/client_test.dart: backs off while unreachable and retryNow skips the wait
+00:03 +18 -2: test/client_test.dart: backs off while unreachable and retryNow skips the wait
+00:04 +19 -2: test/client_test.dart: backs off while unreachable and retryNow skips the wait
+00:04 +19 -3: test/integration_sim_test.dart: an unknown identity is rejected and needs pairing
+00:04 +19 -3: test/client_test.dart: backs off while unreachable and retryNow skips the wait [E]
+  TimeoutException after 0:00:03.000000: Future not completed
+  test/client_test.dart 61:5  main.<fn>
+  
+00:04 +20 -3: test/client_test.dart: stops and reports needsPairing when the TV rejects the identity
+00:04 +21 -3: test/integration_sim_test.dart: a wrong code is rejected by the TV
+00:04 +22 -3: test/integration_sim_test.dart: a wrong code is rejected by the TV
+00:04 +23 -3: test/integration_sim_test.dart: a wrong code is rejected by the TV
+00:04 +24 -3: test/integration_sim_test.dart: a wrong code is rejected by the TV
+00:04 +25 -3: test/integration_sim_test.dart: a wrong code is rejected by the TV
+00:04 +26 -3: test/integration_sim_test.dart: a wrong code is rejected by the TV
+00:04 +27 -3: test/integration_sim_test.dart: a wrong code is rejected by the TV
+00:04 +28 -3: test/integration_sim_test.dart: a wrong code is rejected by the TV
+00:04 +29 -3: test/integration_sim_test.dart: a wrong code is rejected by the TV
+00:04 +30 -3: test/integration_sim_test.dart: a wrong code is rejected by the TV
+00:04 +31 -3: test/integration_sim_test.dart: a wrong code is rejected by the TV
+00:04 +32 -3: test/integration_sim_test.dart: a wrong code is rejected by the TV
+00:04 +33 -3: test/integration_sim_test.dart: a wrong code is rejected by the TV
+00:04 +34 -3: test/integration_sim_test.dart: a wrong code is rejected by the TV
+00:04 +35 -3: test/integration_sim_test.dart: a wrong code is rejected by the TV
+00:04 +36 -3: test/integration_sim_test.dart: a wrong code is rejected by the TV
+00:04 +37 -3: test/integration_sim_test.dart: a wrong code is rejected by the TV
+00:04 +38 -3: test/integration_sim_test.dart: a wrong code is rejected by the TV
+00:04 +39 -3: test/integration_sim_test.dart: a wrong code is rejected by the TV
+00:04 +40 -3: test/integration_sim_test.dart: a wrong code is rejected by the TV
+00:04 +41 -3: test/integration_sim_test.dart: a wrong code is rejected by the TV
+00:04 +42 -3: test/integration_sim_test.dart: a wrong code is rejected by the TV
+00:04 +43 -3: test/integration_sim_test.dart: a wrong code is rejected by the TV
+00:04 +44 -3: test/integration_sim_test.dart: a wrong code is rejected by the TV
+00:04 +45 -3: test/integration_sim_test.dart: a wrong code is rejected by the TV
+00:04 +46 -3: test/integration_sim_test.dart: a wrong code is rejected by the TV
+00:04 +47 -3: test/integration_sim_test.dart: a wrong code is rejected by the TV
+00:04 +48 -3: test/integration_sim_test.dart: a wrong code is rejected by the TV
+00:04 +49 -3: test/integration_sim_test.dart: a wrong code is rejected by the TV
+00:04 +50 -3: test/integration_sim_test.dart: a wrong code is rejected by the TV
+00:04 +51 -3: test/integration_sim_test.dart: a wrong code is rejected by the TV
+00:04 +52 -3: test/integration_sim_test.dart: a wrong code is rejected by the TV
+00:04 +53 -3: test/integration_sim_test.dart: a wrong code is rejected by the TV
+00:04 +54 -3: test/integration_sim_test.dart: a wrong code is rejected by the TV
+00:04 +55 -3: test/integration_sim_test.dart: a wrong code is rejected by the TV
+00:04 +56 -3: test/integration_sim_test.dart: a wrong code is rejected by the TV
+00:04 +57 -3: test/integration_sim_test.dart: a wrong code is rejected by the TV
+00:04 +58 -3: test/integration_sim_test.dart: (tearDownAll)
+00:04 +59 -3: test/integration_sim_test.dart: (tearDownAll)
+00:04 +60 -3: test/integration_sim_test.dart: (tearDownAll)
+00:04 +61 -3: test/integration_sim_test.dart: (tearDownAll)
+00:04 +62 -3: test/integration_sim_test.dart: (tearDownAll)
+00:04 +63 -3: test/integration_sim_test.dart: (tearDownAll)
+00:04 +64 -3: test/integration_sim_test.dart: (tearDownAll)
+00:04 +65 -3: test/integration_sim_test.dart: (tearDownAll)
+00:04 +66 -3: test/integration_sim_test.dart: (tearDownAll)
+00:04 +67 -3: test/integration_sim_test.dart: (tearDownAll)
+00:05 +68 -3: test/integration_sim_test.dart: (tearDownAll)
+00:05 +69 -3: test/integration_sim_test.dart: (tearDownAll)
+00:05 +70 -3: test/integration_sim_test.dart: (tearDownAll)
+00:05 +70 -3: test/certificate_test.dart: parsing certificates made by the reference (cryptography) server certificate: RSA numbers, subject, signature
+00:05 +71 -3: test/certificate_test.dart: parsing certificates made by the reference (cryptography) client certificate from PEM
+00:05 +72 -3: test/certificate_test.dart: parsing certificates made by the reference (cryptography) garbage is rejected with AtvProtocolException
+00:05 +73 -3: test/certificate_test.dart: TV subject SHIELD style common name
+00:05 +74 -3: test/framing_test.dart: frames match the reference
+00:05 +75 -3: test/framing_test.dart: frames match the reference
+00:05 +76 -3: test/framing_test.dart: frames match the reference
+00:05 +77 -3: test/certificate_test.dart: generated identity (setUpAll)
+00:05 +78 -3: test/certificate_test.dart: generated identity (setUpAll)
+00:05 +79 -3: test/certificate_test.dart: generated identity (setUpAll)
+00:05 +80 -3: test/certificate_test.dart: generated identity (setUpAll)
+00:05 +81 -3: test/certificate_test.dart: generated identity (setUpAll)
+00:05 +82 -3: test/certificate_test.dart: generated identity (setUpAll)
+00:05 +83 -3: test/certificate_test.dart: generated identity (setUpAll)
+00:05 +84 -3: test/certificate_test.dart: generated identity (setUpAll)
+00:05 +85 -3: test/certificate_test.dart: generated identity (setUpAll)
+00:05 +86 -3: test/certificate_test.dart: generated identity (setUpAll)
+00:05 +86 -3: test/certificate_test.dart: generated identity is a valid self-signed RSA 2048 certificate
+00:05 +87 -3: test/certificate_test.dart: generated identity private key PEM is PKCS#1 and matches the certificate modulus
+00:05 +88 -3: test/certificate_test.dart: generated identity JSON round trip
+00:05 +89 -3: test/certificate_test.dart: generated identity dart:io accepts it for TLS
+00:05 +90 -3: test/certificate_test.dart: generated identity (tearDownAll)
+00:05 +90 -3: test/certificate_test.dart: DER INTEGER pads positive values with a high bit
+00:05 +91 -3: test/certificate_test.dart: DER OID encoding
+00:05 +92 -3: test/certificate_test.dart: DER long lengths
+00:05 +93 -3: test/certificate_test.dart: DER times switch to GeneralizedTime from 2050
+00:05 +94 -3: Some tests failed.
+
+Failing tests:
+  test/client_test.dart: backs off while unreachable and retryNow skips the wait
+  test/protocol_test.dart: remote connection keys, long presses, text and app links are sent as expected
+  test/protocol_test.dart: remote connection state pushes are published once per change
+
+Consider enabling the flag chain-stack-traces to receive more detailed exceptions.
+For example, 'dart test --chain-stack-traces'.

@@ -1,0 +1,14 @@
+00:00 +0: loading /home/runner/work/tv-control/tv-control/apps/launcher/test/launcher_test.dart
+test/launcher_test.dart:23:29: Error: 'LauncherApp' is imported from both 'package:tv_launcher/main.dart' and 'package:tv_launcher/src/platform.dart'.
+    await tester.pumpWidget(LauncherApp(controller: controller, now: () => DateTime(2026, 10, 18, 21, 5)));
+                            ^^^^^^^^^^^
+00:00 +0 -1: loading /home/runner/work/tv-control/tv-control/apps/launcher/test/launcher_test.dart [E]
+  Failed to load "/home/runner/work/tv-control/tv-control/apps/launcher/test/launcher_test.dart":
+  Compilation failed for testPath=/home/runner/work/tv-control/tv-control/apps/launcher/test/launcher_test.dart: test/launcher_test.dart:23:29: Error: 'LauncherApp' is imported from both 'package:tv_launcher/main.dart' and 'package:tv_launcher/src/platform.dart'.
+      await tester.pumpWidget(LauncherApp(controller: controller, now: () => DateTime(2026, 10, 18, 21, 5)));
+                              ^^^^^^^^^^^
+  .
+00:00 +0 -1: Some tests failed.
+
+Failing tests:
+  /home/runner/work/tv-control/tv-control/apps/launcher/test/launcher_test.dart: loading /home/runner/work/tv-control/tv-control/apps/launcher/test/launcher_test.dart

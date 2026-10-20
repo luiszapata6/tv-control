@@ -1,0 +1,8 @@
+Analyzing launcher...                                           
+
+   info • The import of 'dart:typed_data' is unnecessary because all of the used elements are also provided by the import of 'package:flutter/foundation.dart'. Try removing the import directive • lib/src/home_controller.dart:2:8 • unnecessary_import
+   info • The import of 'dart:typed_data' is unnecessary because all of the used elements are also provided by the import of 'package:flutter/services.dart'. Try removing the import directive • lib/src/platform.dart:2:8 • unnecessary_import
+  error • 'LauncherApp' isn't a function. Try correcting the name to match an existing function, or define a method or function named 'LauncherApp' • test/launcher_test.dart:23:29 • invocation_of_non_function
+  error • The name 'LauncherApp' is defined in the libraries 'package:tv_launcher/main.dart' and 'package:tv_launcher/src/platform.dart'. Try using 'as prefix' for one of the import directives, or hiding the name from all but one of the imports • test/launcher_test.dart:23:29 • ambiguous_import
+
+4 issues found. (ran in 6.1s)
