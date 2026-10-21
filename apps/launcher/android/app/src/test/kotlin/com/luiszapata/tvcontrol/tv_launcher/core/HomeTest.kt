@@ -53,6 +53,12 @@ class HomeTest {
         assertEquals(5, Home.columns(6, -1))
     }
 
+    @Test fun `recent apps are newest first, installed and not hidden`() {
+        val used = mapOf("yt" to 30L, "nf" to 50L, "gone" to 99L, "dp" to 10L)
+        assertEquals(listOf("Netflix", "YouTube", "Disney+"), Home.recent(used, apps, Layout()).map { it.label })
+        assertEquals(listOf("Netflix"), Home.recent(used, apps, Layout(hidden = listOf("yt")), limit = 1).map { it.label })
+    }
+
     @Test fun `greeting changes at 5, 12 and 19`() {
         assertEquals("BUENAS NOCHES AMIGUE", Home.greeting(4))
         assertEquals("BUENOS DÍAS AMIGUE", Home.greeting(5))

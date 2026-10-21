@@ -118,6 +118,36 @@ object Overlays {
         act.push(root)
     }
 
+    // -------------------------------------------------------------- inputs
+
+    /** Drop-down under the top-right buttons with the HDMI inputs. */
+    fun inputs(act: MainActivity) {
+        val ui = act.ui
+        val root = scrim(act, 0x8006070B.toInt())
+        val panel = ui.vertical().apply {
+            background = ui.rounded(C.SURFACE2, 14f, 0.5f, 0x12FFFFFF)
+            setPadding(ui.px(10), ui.px(12), ui.px(10), ui.px(10))
+            clipChildren = false
+        }
+        panel.addView(ui.text("ENTRADAS", 12f, 800, C.INK2, spacing = 2.2f), lp(WRAP, WRAP).apply { setMargins(ui.px(9), 0, 0, ui.px(6)) })
+        val hdmi = act.inputs.filter { it.kind == "hdmi" }
+        var first: View? = null
+        hdmi.forEach { input ->
+            val (r, _) = row(ui, Ic.HDMI, input.label, heightDp = 40f) {
+                act.pop()
+                act.openInput(input.id)
+            }
+            if (first == null) first = r
+            panel.addView(r, lp(MATCH, WRAP))
+        }
+        root.addView(panel, flp(ui.px(220), WRAP, Gravity.END or Gravity.TOP).apply {
+            setMargins(0, ui.px(80), ui.px(SIDE + 40), 0)
+        })
+        enter(panel, dy = -6f)
+        act.push(root)
+        first?.let { f -> f.post { f.requestFocus() } }
+    }
+
     // ------------------------------------------------------------ settings
 
     fun settings(act: MainActivity) {

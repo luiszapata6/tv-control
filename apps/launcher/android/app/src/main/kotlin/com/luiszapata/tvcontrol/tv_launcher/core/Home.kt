@@ -57,6 +57,15 @@ object Home {
         return base.copy(order = order)
     }
 
+    /** "Seguir viendo": the most recently used installed, visible apps, newest first. */
+    fun recent(lastUsed: Map<String, Long>, apps: List<AppInfo>, layout: Layout, limit: Int = RECENT): List<AppInfo> {
+        // System apps (setup screens, vendor tools) are not something you "keep watching".
+        val byPackage = Home.visible(apps, layout).filter { !it.isSystem }.associateBy { it.packageName }
+        return lastUsed.entries.sortedByDescending { it.value }.mapNotNull { byPackage[it.key] }.take(limit)
+    }
+
+    const val RECENT = 7
+
     /** OK cycles 4 → 8 → 4; ◀ ▶ step and stop at the ends. */
     fun columns(current: Int, delta: Int): Int = when {
         delta == 0 -> if (current >= Layout.MAX_COLUMNS) Layout.MIN_COLUMNS else current + 1

@@ -27,4 +27,14 @@ class UsageRepository(private val context: Context, private val labelFor: (Strin
             .take(30)
         return start to totals
     }
+
+    /** When each app was last in front over the past [days] (empty without access). */
+    fun lastUsed(days: Int = 7): Map<String, Long> {
+        if (!hasAccess()) return emptyMap()
+        val usm = context.getSystemService(Context.USAGE_STATS_SERVICE) as UsageStatsManager
+        val end = System.currentTimeMillis()
+        return usm.queryAndAggregateUsageStats(end - days * 24L * 60 * 60 * 1000, end)
+            .filter { (pkg, s) -> s.totalTimeInForeground > 0 && pkg != context.packageName }
+            .mapValues { it.value.lastTimeUsed }
+    }
 }

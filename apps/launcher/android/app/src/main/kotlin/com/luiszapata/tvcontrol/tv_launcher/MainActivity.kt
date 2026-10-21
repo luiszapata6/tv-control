@@ -47,6 +47,8 @@ class MainActivity : Activity() {
     var layout: Layout = Layout(); private set
     var inputs: List<InputInfo> = emptyList(); private set
     var clients: List<String> = emptyList(); private set
+    /** When each app was last used ("Seguir viendo"). */
+    var lastUsed: Map<String, Long> = emptyMap(); private set
     var loaded = false; private set
     private var pairing: View? = null
 
@@ -94,6 +96,8 @@ class MainActivity : Activity() {
         // Notification access may have been granted while we were away.
         Launcher.nowPlayingTracker.start()
         if (!CompanionService.running) CompanionService.start(this)
+        // Back from an app: "Seguir viendo" changed.
+        if (loaded) io.execute { Launcher.usageRepo.lastUsed().let { u -> main.post { if (u != lastUsed) { lastUsed = u; home.render() } } } }
         // A pairing request may have arrived while this screen was not running.
         if (pairing == null) Launcher.pairing.activeCode()?.let { showPairing(it, Launcher.pairing.requestedBy) }
     }
@@ -117,8 +121,9 @@ class MainActivity : Activity() {
         val a = Launcher.apps.apps()
         val l = Launcher.layouts.get()
         val i = try { Launcher.inputsRepo.inputs() } catch (e: Exception) { emptyList() }
+        val u = Launcher.usageRepo.lastUsed()
         main.post {
-            apps = a; layout = l; inputs = i; loaded = true
+            apps = a; layout = l; inputs = i; lastUsed = u; loaded = true
             home.render()
         }
     }

@@ -29,7 +29,7 @@ class HomeScreen(private val act: MainActivity) {
         includeFontPadding = false
         letterSpacing = -0.045f
         fontFeatureSettings = "tnum"
-        setTextSize(android.util.TypedValue.COMPLEX_UNIT_PX, ui.pxf(78f))
+        setTextSize(android.util.TypedValue.COMPLEX_UNIT_PX, ui.pxf(72f))
     }
     private val date = ui.text("", 15f, 500, C.INK2)
     private val weatherBox = ui.horizontal().apply { visibility = View.GONE }
@@ -37,9 +37,10 @@ class HomeScreen(private val act: MainActivity) {
     private val temp = ui.text("", 36f, 200, spacing = -1.4f, tabular = true)
     private val place = ui.text(Weather.PLACE, 13f, 700)
     private val condition = ui.text("", 12f, 500, C.INK3)
-    private val grid = ui.vertical().apply { clipChildren = false }
-    private val inputsTitle = ui.text("Entradas", 15f, 700, spacing = -0.15f)
-    private val inputsRow = ui.horizontal().apply { clipChildren = false }
+    private val favRow = cardRow()
+    private val recentTitle = ui.text("Seguir viendo", 15f, 700, spacing = -0.15f)
+    private val recentRow = cardRow()
+    private lateinit var inputsButton: View
     private val footerIcon = ui.icon(Ic.PHONE, 15f, C.INK4)
     private val footerName = ui.text("Sin iPhone conectado", 12f, 600, C.INK4)
     private val footerPill = ui.horizontal()
@@ -91,6 +92,8 @@ class HomeScreen(private val act: MainActivity) {
         weatherBox.addView(placeCol, lp(WRAP, WRAP).apply { marginStart = ui.px(11) })
         val right = ui.horizontal().apply { clipChildren = false }
         right.addView(weatherBox, lp(WRAP, WRAP).apply { marginEnd = ui.px(20) })
+        inputsButton = roundButton(Ic.HDMI, "Entradas", "inputs") { Overlays.inputs(act) }
+        right.addView(inputsButton, lp(ui.px(44), ui.px(44)).apply { setMargins(-ui.px(3), -ui.px(3), ui.px(7), -ui.px(3)) })
         val settings = FocusFrame(ui, FocusFrame.Look.FILL, 19f, 0x12FFFFFF).apply {
             focusedScale = 1.08f
             tag = "settings"
@@ -106,19 +109,49 @@ class HomeScreen(private val act: MainActivity) {
         return row
     }
 
+    private fun roundButton(icon: Int, label: String, key: String, onSelect: () -> Unit) =
+        FocusFrame(ui, FocusFrame.Look.FILL, 19f, 0x12FFFFFF).apply {
+            focusedScale = 1.08f
+            tag = key
+            contentDescription = label
+            addView(ui.icon(icon, 17f).apply {
+                setTextColor(ui.onFill(C.INK_SOFT))
+                isDuplicateParentStateEnabled = true
+            }, flp(MATCH, MATCH))
+            setOnClickListener { onSelect() }
+        }
+
     private fun middle(): View {
         val col = ui.vertical().apply {
             gravity = Gravity.CENTER_VERTICAL
             clipChildren = false
         }
-        val title = ui.horizontal().apply { gravity = Gravity.BOTTOM; setPadding(0, ui.px(4), 0, 0) }
-        title.addView(ui.text("Tus apps", 15f, 700, spacing = -0.15f))
-        col.addView(title)
-        col.addView(grid, lp(MATCH, WRAP).apply { topMargin = ui.px(10) })
-        col.addView(inputsTitle, lp(WRAP, WRAP).apply { topMargin = ui.px(8) })
-        col.addView(inputsRow, lp(MATCH, ui.px(44)).apply { topMargin = ui.px(10) })
+        col.addView(ui.text("Tus apps", 15f, 700, spacing = -0.15f), lp(WRAP, WRAP))
+        col.addView(favRow.first, rowLp(14f))
+        col.addView(recentTitle, lp(WRAP, WRAP).apply { topMargin = ui.px(6) })
+        col.addView(recentRow.first, rowLp(14f))
         return col
     }
+
+    /**
+     * One horizontally scrolling row of cards (like the stock launcher). It
+     * spans the full screen width so a focused card's ring is never clipped;
+     * padding keeps the cards inside the safe area.
+     */
+    private fun cardRow(): Pair<android.widget.HorizontalScrollView, LinearLayout> {
+        val row = ui.horizontal().apply { gravity = Gravity.TOP; clipChildren = false }
+        val scroll = android.widget.HorizontalScrollView(ui.context).apply {
+            isHorizontalScrollBarEnabled = false
+            clipChildren = false
+            clipToPadding = false
+            overScrollMode = View.OVER_SCROLL_NEVER
+            setPadding(ui.px(SIDE), ui.px(12), ui.px(SIDE), 0)
+            addView(row)
+        }
+        return scroll to row
+    }
+
+    private fun rowLp(top: Float) = lp(MATCH, WRAP).apply { setMargins(-ui.px(SIDE), ui.px(top - 12), -ui.px(SIDE), 0) }
 
     private fun footer(): View {
         val row = ui.horizontal()
@@ -160,63 +193,44 @@ class HomeScreen(private val act: MainActivity) {
         footerPill.visibility = if (connected) View.VISIBLE else View.GONE
     }
 
-    /** Rebuilds the favourites grid and inputs, keeping focus where it was. */
+    /** Rebuilds the rows and inputs, keeping focus where it was. */
     fun render() {
         if (!act.loaded) return
         // Before the first render the framework may have focused anything (e.g. Ajustes).
         if (rendered) (act.currentFocus?.tag as? String)?.let { focusKey = it }
         rendered = true
-        val pinned = Home.pinned(act.apps, act.layout)
         val cols = act.layout.columns
-        val compact = pinned.size + 1 > cols
-        // Two rows of apps need the room: smaller clock (540 dp tall screen, 8% safe margins).
-        clock.setTextSize(android.util.TypedValue.COMPLEX_UNIT_PX, ui.pxf(if (compact) 50f else 78f))
-
-        grid.removeAllViews()
         val w = (960f - 2 * SIDE - 16f * (cols - 1)) / cols
-        val cards = pinned.map { app ->
+        favRow.second.removeAllViews()
+        val favs = Home.pinned(act.apps, act.layout).map { app ->
             AppCard(ui, w, app.label, onSelect = { act.launch(app.packageName) },
                 onLongPress = { Overlays.appOptions(act, app) }, art = AppCard.appArt(ui, app, w * 9 / 16)).also {
                 it.frame.tag = "app:${app.packageName}"
             }
         } + AppCard(ui, w, "Todas las apps", onSelect = { Overlays.allApps(act) },
             art = AppCard.allAppsArt(ui, Home.visible(act.apps, act.layout).size)).also { it.frame.tag = "all" }
-        cards.chunked(cols).forEach { chunk ->
-            val row = ui.horizontal().apply { clipChildren = false; gravity = Gravity.TOP }
-            chunk.forEachIndexed { i, card -> row.addView(card, lp(WRAP, WRAP).apply { if (i > 0) marginStart = ui.px(16) }) }
-            grid.addView(row, lp(MATCH, WRAP))
-        }
+        favs.forEachIndexed { i, card -> favRow.second.addView(card, lp(WRAP, WRAP).apply { if (i > 0) marginStart = ui.px(16) }) }
 
-        inputsRow.removeAllViews()
-        val hdmi = act.inputs.filter { it.kind == "hdmi" }.take(4)
-        inputsRow.visibility = if (hdmi.isEmpty()) View.GONE else View.VISIBLE
-        // Two rows of apps: the HDMI icons say enough, the title gives its room to the apps.
-        inputsTitle.visibility = if (hdmi.isEmpty() || compact) View.GONE else View.VISIBLE
-        (inputsRow.layoutParams as LinearLayout.LayoutParams).topMargin = ui.px(if (compact) 0 else 4)
-        hdmi.forEachIndexed { i, input ->
-            inputsRow.addView(inputCard(input.label, "input:${input.id}") { act.openInput(input.id) },
-                lp(0, MATCH, 1f).apply { if (i > 0) marginStart = ui.px(10) })
+        // Smaller cards: seven fit across.
+        val rw = (960f - 2 * SIDE - 16f * (Home.RECENT - 1)) / Home.RECENT
+        recentRow.second.removeAllViews()
+        val recent = Home.recent(act.lastUsed, act.apps, act.layout)
+        recent.forEachIndexed { i, app ->
+            val card = AppCard(ui, rw, app.label, onSelect = { act.launch(app.packageName) },
+                onLongPress = { Overlays.appOptions(act, app) }, art = AppCard.appArt(ui, app, rw * 9 / 16))
+            card.frame.tag = "recent:${app.packageName}"
+            recentRow.second.addView(card, lp(WRAP, WRAP).apply { if (i > 0) marginStart = ui.px(16) })
         }
-        if (hdmi.isNotEmpty()) repeat(4 - hdmi.size) { inputsRow.addView(View(ui.context), lp(0, 1, 1f).apply { marginStart = ui.px(10) }) }
+        recentTitle.visibility = if (recent.isEmpty()) View.GONE else View.VISIBLE
+        recentRow.first.visibility = recentTitle.visibility
+
+        inputsButton.visibility = if (act.inputs.any { it.kind == "hdmi" }) View.VISIBLE else View.GONE
         restoreFocus()
     }
-
-    private fun inputCard(label: String, key: String, onSelect: () -> Unit): View =
-        FocusFrame(ui, FocusFrame.Look.FILL, 8f, C.SURFACE1, 0x12FFFFFF).apply {
-            tag = key
-            contentDescription = label
-            val row = ui.horizontal().apply { setPadding(ui.px(17), 0, ui.px(14), 0) }
-            row.addView(ui.icon(Ic.HDMI, 18f).apply { setTextColor(ui.onFill(C.INK_SOFT)); isDuplicateParentStateEnabled = true })
-            row.addView(ui.text(label, 14f, 700).apply { setTextColor(ui.onFill(C.INK)); isDuplicateParentStateEnabled = true },
-                lp(0, WRAP, 1f).apply { marginStart = ui.px(10) })
-            row.isDuplicateParentStateEnabled = true
-            addView(row, flp(MATCH, MATCH))
-            setOnClickListener { onSelect() }
-        }
 
     fun restoreFocus() {
         (focusKey?.let { view.findViewWithTag<View>(it) } ?: first())?.requestFocus()
     }
 
-    private fun first(): View? = ((grid.getChildAt(0) as? LinearLayout)?.getChildAt(0) as? AppCard)?.frame
+    private fun first(): View? = (favRow.second.getChildAt(0) as? AppCard)?.frame
 }
