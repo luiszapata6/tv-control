@@ -60,6 +60,14 @@ La primera vez la TV pregunta **"¿Permitir depuración?"**: marca *Permitir sie
 
 Abre la app al menos una vez después de vincular la TV: es la que comparte el certificado con los widgets.
 
+### Automatizaciones por horario
+Se hacen en la app **Atajos** con las acciones de TV Control:
+
+1. Atajos › **Automatización** › **+** › *Hora del día* (elige hora y días) › *Ejecutar inmediatamente*.
+2. Añade la acción **Apagar la TV** (o **Encender la TV**, **Abrir una app en la TV**, **Cambiar el volumen de la TV**).
+
+Usa *Apagar* / *Encender* y no *Encender o apagar*: esa alterna, y si la TV ya estaba apagada la prendería. El iPhone tiene que estar en la misma red Wi-Fi que la TV a esa hora.
+
 ## 3. Conectar el iPhone con el launcher
 
 En la app: pestaña **Apps › Conectar**. La TV muestra un código de 6 dígitos; escríbelo. Desde entonces verás tus apps reales con su ícono, podrás reordenar el inicio de la TV y ver lo que se está reproduciendo. Para desvincular todos los dispositivos: en la TV, **Ajustes del launcher › Olvidar dispositivos** (pulsa dos veces para confirmar).

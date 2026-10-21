@@ -62,6 +62,31 @@ public struct TVPowerIntent: AppIntent {
     }
 }
 
+/// Only turns the TV off (never on), so a scheduled shortcut is safe.
+public struct TVSleepIntent: AppIntent {
+    public static var title: LocalizedStringResource = "Apagar la TV"
+    public static var openAppWhenRun = false
+    public init() {}
+
+    public func perform() async throws -> some IntentResult {
+        try await TVRemote.perform([.key(.sleep)])
+        return .result()
+    }
+}
+
+/// Only turns the TV on. Works while the TV keeps its remote service alive
+/// in standby.
+public struct TVWakeIntent: AppIntent {
+    public static var title: LocalizedStringResource = "Encender la TV"
+    public static var openAppWhenRun = false
+    public init() {}
+
+    public func perform() async throws -> some IntentResult {
+        try await TVRemote.perform([.key(.wakeup)])
+        return .result()
+    }
+}
+
 public struct TVMuteIntent: AppIntent {
     public static var title: LocalizedStringResource = "Silenciar la TV"
     public static var openAppWhenRun = false

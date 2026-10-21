@@ -5,6 +5,8 @@ public enum TVKey: Int, CaseIterable, Sendable {
     case home = 3, back = 4
     case up = 19, down = 20, left = 21, right = 22, center = 23
     case volumeUp = 24, volumeDown = 25, power = 26
+    // Discrete off / on, unlike the power toggle (safe for automations).
+    case sleep = 223, wakeup = 224
     case menu = 82, playPause = 85, next = 87, previous = 88
     case mute = 164
 }

@@ -5,13 +5,18 @@ import AppIntents
 struct TVShortcuts: AppShortcutsProvider {
     static var appShortcuts: [AppShortcut] {
         AppShortcut(
-            intent: TVPowerIntent(),
+            intent: TVSleepIntent(),
+            phrases: ["Apaga la TV con \(.applicationName)"],
+            shortTitle: "Apagar",
+            systemImageName: "power"
+        )
+        AppShortcut(
+            intent: TVWakeIntent(),
             phrases: [
-                "Apaga la TV con \(.applicationName)",
                 "Enciende la TV con \(.applicationName)",
                 "Prende la TV con \(.applicationName)",
             ],
-            shortTitle: "Encender o apagar",
+            shortTitle: "Encender",
             systemImageName: "power"
         )
         AppShortcut(
