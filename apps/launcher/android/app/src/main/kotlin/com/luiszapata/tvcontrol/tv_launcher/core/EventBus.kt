@@ -4,7 +4,7 @@ import android.os.Handler
 import android.os.Looper
 import java.util.concurrent.CopyOnWriteArrayList
 
-/** In-process events from native services to the Flutter UI and the companion server. */
+/** In-process events from native services to the home screen and the companion server. */
 sealed interface LauncherEvent {
     data object AppsChanged : LauncherEvent
     data class LayoutChanged(val layoutJson: String) : LauncherEvent

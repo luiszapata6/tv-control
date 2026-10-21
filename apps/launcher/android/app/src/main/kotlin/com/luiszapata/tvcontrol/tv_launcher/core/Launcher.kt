@@ -16,7 +16,7 @@ import com.luiszapata.tvcontrol.tv_launcher.companion.PairingManager
 import com.luiszapata.tvcontrol.tv_launcher.companion.TokenStore
 import com.luiszapata.tvcontrol.tv_launcher.companion.UsageEntry
 
-/** Process-wide services shared by the Flutter bridge and the companion service. */
+/** Process-wide services shared by the home screen and the companion service. */
 @SuppressLint("StaticFieldLeak") // holds the application context only
 object Launcher : CompanionBackend {
     private lateinit var context: Context

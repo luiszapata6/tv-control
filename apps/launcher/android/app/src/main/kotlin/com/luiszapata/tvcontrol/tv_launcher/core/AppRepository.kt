@@ -68,7 +68,7 @@ class AppRepository(private val context: Context) {
         val key = "$maxSide:$pkg"
         icons.get(key)?.let { return it }
         val drawable: Drawable = try {
-            pm.getApplicationBanner(pkg) ?: pm.getApplicationIcon(pkg)
+            com.luiszapata.tvcontrol.tv_launcher.ui.Art.tvBanner(pm, pkg) ?: pm.getApplicationIcon(pkg)
         } catch (e: PackageManager.NameNotFoundException) {
             return null
         }

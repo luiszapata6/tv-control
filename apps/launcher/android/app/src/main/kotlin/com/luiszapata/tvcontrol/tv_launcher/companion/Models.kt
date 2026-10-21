@@ -11,7 +11,7 @@ data class AppInfo(val packageName: String, val label: String, val versionCode: 
         .put("isSystem", isSystem)
 }
 
-data class Layout(val order: List<String> = emptyList(), val hidden: List<String> = emptyList(), val columns: Int = 6) {
+data class Layout(val order: List<String> = emptyList(), val hidden: List<String> = emptyList(), val columns: Int = 5) {
     fun toJson(): JSONObject = JSONObject()
         .put("order", JSONArray(order))
         .put("hidden", JSONArray(hidden))
@@ -33,7 +33,7 @@ data class Layout(val order: List<String> = emptyList(), val hidden: List<String
             return Layout(
                 order = j.optJSONArray("order").strings(),
                 hidden = j.optJSONArray("hidden").strings(),
-                columns = j.optInt("columns", 6),
+                columns = j.optInt("columns", 5),
             ).normalized()
         }
     }

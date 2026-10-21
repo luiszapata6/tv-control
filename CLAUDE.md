@@ -8,7 +8,7 @@ Proyecto personal de Luis: control para iPhone/Mac y launcher ligero para su TV 
 | --- | --- | --- |
 | `packages/atv_remote` | Cliente del protocolo Android TV Remote v2 (pairing 6467 polo.proto, comandos 6466 remotemessage.proto, TLS con cert propio) | Dart puro |
 | `packages/companion_protocol` | Protocolo iPhone ↔ launcher (WebSocket `ws://tv:7790/v1`, JSON). Spec: `PROTOCOL.md`, fixtures: `fixtures/messages.json` | Dart puro |
-| `apps/launcher` | Launcher de la TV: UI Flutter (canvas 960×540) + servicio Kotlin (`android/app/src/main/kotlin/.../tv_launcher/`) que sirve el companion protocol | Flutter + Kotlin |
+| `apps/launcher/android` | Launcher de la TV, Android nativo (Views, sin Flutter: la GPU de la Hisense no daba 60 fps con Flutter). UI en `ui/` (diseño 960×540 dp), lógica pura en `core/Home.kt`, servicio del companion protocol en `companion/` | Kotlin |
 | `apps/remote` | App iPhone (y macOS como app de barra de menú). `ios/TVKit` = cliente Swift nativo para widgets/Siri; `ios/TVWidgets` = extensión (widget, Live Activity, Control Center) | Flutter + Swift |
 | `tools/sim` | Simulador Python de la TV (validado contra androidtvremote2 0.3.2) | Python |
 | `tools/codegen` | Genera los `.pb.dart` y vectores golden desde androidtvremote2 | Python |
@@ -27,9 +27,7 @@ Proyecto personal de Luis: control para iPhone/Mac y launcher ligero para su TV 
 pip install -r tools/sim/requirements.txt && (cd tools/sim && python -m pytest -q)
 python tools/codegen/gen_dart_proto.py      # debe dejar git diff vacío en lib/src/proto
 # Launcher
-(cd apps/launcher && flutter pub get && flutter analyze --fatal-infos && flutter test)
-(cd apps/launcher/android && ./gradlew :app:testDebugUnitTest)
-(cd apps/launcher && flutter build apk --release --target-platform android-arm,android-arm64)
+(cd apps/launcher/android && ./gradlew :app:testDebugUnitTest :app:assembleRelease)   # APK: apps/launcher/build/app/outputs/apk/release/
 # App iPhone / Mac
 (cd apps/remote && flutter pub get && flutter analyze --fatal-infos && flutter test)
 ruby tools/ios/add_extension.rb && tools/ci/build_ios.sh     # IPA sin firmar (macOS)
