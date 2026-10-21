@@ -157,11 +157,23 @@ class MainActivity : Activity() {
 
     // --------------------------------------------------------------- actions
 
-    /** Apps closed with "Cerrar app": the next launch starts them over. */
-    private val closed = HashSet<String>()
+    private val prefs by lazy { getSharedPreferences("launcher", MODE_PRIVATE) }
+
+    /**
+     * When each app was closed with "Cerrar app" (kept across restarts): it
+     * leaves "Seguir viendo" and its next launch starts over.
+     */
+    val closed: MutableMap<String, Long> by lazy {
+        val j = JSONObject(prefs.getString("closed", null) ?: "{}")
+        j.keys().asSequence().associateWith { j.getLong(it) }.toMutableMap()
+    }
+
+    private fun saveClosed() = prefs.edit().putString("closed", JSONObject(closed as Map<*, *>).toString()).apply()
 
     fun launch(pkg: String) {
-        if (Launcher.apps.launch(pkg, fresh = closed.remove(pkg))) EventBus.post(LauncherEvent.ForegroundApp(pkg))
+        val fresh = closed.remove(pkg) != null
+        if (fresh) saveClosed()
+        if (Launcher.apps.launch(pkg, fresh)) EventBus.post(LauncherEvent.ForegroundApp(pkg))
     }
 
     /**
@@ -172,7 +184,9 @@ class MainActivity : Activity() {
     fun closeApp(pkg: String) {
         (getSystemService(ACTIVITY_SERVICE) as android.app.ActivityManager).killBackgroundProcesses(pkg)
         // Android keeps the app's screens to restore them: reopening must start over to feel closed.
-        closed.add(pkg)
+        closed[pkg] = System.currentTimeMillis()
+        saveClosed()
+        home.render()
         val label = apps.firstOrNull { it.packageName == pkg }?.label ?: "La app"
         android.widget.Toast.makeText(this, "$label cerrada", android.widget.Toast.LENGTH_SHORT).show()
     }

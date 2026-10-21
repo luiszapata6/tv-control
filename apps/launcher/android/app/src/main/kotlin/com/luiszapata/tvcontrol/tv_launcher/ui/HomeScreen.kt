@@ -268,13 +268,13 @@ class HomeScreen(private val act: MainActivity) {
         val w = (960f - 2 * SIDE - 16f * (VISIBLE - 1)) / VISIBLE
         val h = w * 9 / 16
         allCount.text = "${Home.visible(act.apps, act.layout).size}"
-        favRow.set(Home.favourites(act.apps, act.layout, act.lastUsed).map { app ->
+        favRow.set(Home.favourites(act.apps, act.layout, act.lastUsed, act.closed).map { app ->
             {
                 AppCard(ui, w, app.label, onSelect = { act.launch(app.packageName) },
                     onLongPress = { Overlays.appOptions(act, app) }, art = AppCard.appArt(ui, app, h)).also { it.frame.tag = "app:${app.packageName}" }
             }
         }, h)
-        val recent = Home.recent(act.lastUsed, act.apps, act.layout)
+        val recent = Home.recent(act.lastUsed, act.apps, act.layout, act.closed)
         recentRow.set(recent.map { app ->
             {
                 AppCard(ui, w, app.label, onSelect = { act.launch(app.packageName) },

@@ -68,6 +68,16 @@ class HomeTest {
         assertEquals(listOf("App 1", "App 2", "App 3", "App 4", "App 5", "App 6", "App 7", "App 8"), Home.favourites(many, l, emptyMap()).map { it.label })
     }
 
+    @Test fun `a closed app leaves Seguir viendo and goes back to the favourites until it is used again`() {
+        val l = Layout(order = listOf("yt", "nf"))
+        val used = mapOf("yt" to 30L, "nf" to 50L)
+        val closed = mapOf("nf" to 60L)
+        assertEquals(listOf("YouTube"), Home.recent(used, apps, l, closed).map { it.label })
+        assertEquals(listOf("Netflix"), Home.favourites(apps, l, used, closed).map { it.label })
+        // Opened again after closing: back in "Seguir viendo".
+        assertEquals(listOf("Netflix", "YouTube"), Home.recent(used + ("nf" to 70L), apps, l, closed).map { it.label })
+    }
+
     @Test fun `greeting changes at 5, 12 and 19`() {
         assertEquals("BUENAS NOCHES AMIGUE", Home.greeting(4))
         assertEquals("BUENOS DÍAS AMIGUE", Home.greeting(5))

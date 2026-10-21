@@ -57,16 +57,26 @@ object Home {
         return base.copy(order = order)
     }
 
-    /** "Seguir viendo": the most recently used apps (favourites too), newest first. */
-    fun recent(lastUsed: Map<String, Long>, apps: List<AppInfo>, layout: Layout, limit: Int = RECENT): List<AppInfo> {
+    /**
+     * "Seguir viendo": the most recently used apps (favourites too), newest
+     * first, except those closed with "Cerrar app" since they were last used.
+     */
+    fun recent(
+        lastUsed: Map<String, Long>,
+        apps: List<AppInfo>,
+        layout: Layout,
+        closed: Map<String, Long> = emptyMap(),
+        limit: Int = RECENT,
+    ): List<AppInfo> {
         // System apps (setup screens, vendor tools) are not something you "keep watching".
         val byPackage = visible(apps, layout).filter { !it.isSystem }.associateBy { it.packageName }
-        return lastUsed.entries.sortedByDescending { it.value }.mapNotNull { byPackage[it.key] }.take(limit)
+        return lastUsed.entries.filter { (pkg, used) -> (closed[pkg] ?: Long.MIN_VALUE) < used }
+            .sortedByDescending { it.value }.mapNotNull { byPackage[it.key] }.take(limit)
     }
 
     /** Favourites as shown: without those already in "Seguir viendo" (no repeats), last opened first. */
-    fun favourites(apps: List<AppInfo>, layout: Layout, lastUsed: Map<String, Long>): List<AppInfo> {
-        val recent = recent(lastUsed, apps, layout).map { it.packageName }.toSet()
+    fun favourites(apps: List<AppInfo>, layout: Layout, lastUsed: Map<String, Long>, closed: Map<String, Long> = emptyMap()): List<AppInfo> {
+        val recent = recent(lastUsed, apps, layout, closed).map { it.packageName }.toSet()
         return pinned(apps, layout).filter { it.packageName !in recent }
             .sortedByDescending { lastUsed[it.packageName] ?: Long.MIN_VALUE } // stable sort
     }
