@@ -104,7 +104,7 @@ class _SettingsSheet extends StatelessWidget {
                     Expanded(
                       child: Text(
                         switch (session!.companionStatus) {
-                          CompanionStatus.connected => 'Conectado: apps, íconos y orden del inicio',
+                          CompanionStatus.connected => 'Conectado: apps, íconos y favoritos',
                           CompanionStatus.unavailable => 'No encontrado en esta TV',
                           _ => 'Disponible, falta conectar',
                         },

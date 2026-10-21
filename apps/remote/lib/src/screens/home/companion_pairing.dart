@@ -45,7 +45,7 @@ class CompanionBanner extends StatelessWidget {
           const SizedBox(height: 10),
           Text(
             needsPairing
-                ? 'Verás las apps reales de tu TV con sus íconos, podrás abrir cualquiera y ordenar el inicio.'
+                ? 'Verás las apps reales de tu TV con sus íconos, podrás abrir cualquiera y elegir tus favoritos.'
                 : 'Con el launcher verás las apps reales de la TV con sus íconos. Mientras tanto puedes abrir las más populares.',
             style: Txt.bodyS,
           ),

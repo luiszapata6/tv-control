@@ -5,13 +5,12 @@ import '../../services/tv_session.dart';
 import '../../theme/theme.dart';
 import '../../theme/tokens.dart';
 import '../../widgets/common.dart';
-import '../../widgets/controls.dart';
 import '../../widgets/pressable.dart';
 import '../../widgets/toast.dart';
 import 'companion_pairing.dart';
 
-/// The TV's apps with their real icons (through the launcher) to open, pin
-/// and reorder the launcher home.
+/// The TV's apps with their real icons (through the launcher): open them and
+/// choose the favourites ("Tus favoritos" on the TV, ordered there by last use).
 class AppsPage extends StatefulWidget {
   const AppsPage({super.key, required this.session});
   final TvSession session;
@@ -21,7 +20,6 @@ class AppsPage extends StatefulWidget {
 }
 
 class _AppsPageState extends State<AppsPage> {
-  int _mode = 0; // 0 open, 1 arrange
   String _query = '';
   String? _fresh;
 
@@ -35,10 +33,15 @@ class _AppsPageState extends State<AppsPage> {
   }
 
   Future<void> _pin(RemoteApp app) async {
+    final toast = ToastHost.maybeOf(context);
+    if (!s.canPin) {
+      toast?.show('Ya tienes ${TvSession.maxFavourites} favoritos. Quita uno primero.', kind: ToastKind.error);
+      return;
+    }
     setState(() => _fresh = app.package);
     await s.pin(app.package);
     if (!mounted) return;
-    ToastHost.maybeOf(context)?.show('${app.label} fijada en el inicio de la TV');
+    toast?.show('${app.label} agregada a favoritos');
   }
 
   @override
@@ -58,31 +61,17 @@ class _AppsPageState extends State<AppsPage> {
           RiseIn(index: 0, child: CompanionBanner(session: s)),
           const SizedBox(height: 16),
         ],
-        if (_companion) ...[
-          RiseIn(
-            index: 0,
-            child: Segmented(
-              labels: const ['Abrir', 'Ordenar launcher'],
-              index: _mode,
-              onChanged: (i) => setState(() => _mode = i),
-            ),
-          ),
-          const SizedBox(height: 22),
-        ],
         RiseIn(
           index: 1,
           child: Row(
             children: [
-              const Expanded(child: Eyebrow('En el launcher')),
-              Text(_mode == 1 ? 'Arrastra para reordenar' : '${pinned.length} apps', style: Txt.bodyS),
+              const Expanded(child: Eyebrow('Tus favoritos')),
+              Text('${pinned.length} de ${TvSession.maxFavourites}', style: Txt.bodyS),
             ],
           ),
         ),
         const SizedBox(height: 12),
-        if (_mode == 1 && _companion)
-          RiseIn(index: 2, child: _ReorderList(session: s))
-        else
-          RiseIn(
+        RiseIn(
             index: 2,
             child: GridView.count(
               crossAxisCount: 3,
@@ -167,9 +156,9 @@ class _AppsPageState extends State<AppsPage> {
               const SizedBox(height: 12),
               _SheetRow(icon: Symbols.play_arrow, label: 'Abrir en la TV', onTap: () => Navigator.pop(context, 'open')),
               if (pinned)
-                _SheetRow(icon: Symbols.keep_off, label: 'Quitar del inicio', onTap: () => Navigator.pop(context, 'unpin'))
+                _SheetRow(icon: Symbols.star, label: 'Quitar de favoritos', onTap: () => Navigator.pop(context, 'unpin'))
               else
-                _SheetRow(icon: Symbols.keep, label: 'Fijar en el inicio', onTap: () => Navigator.pop(context, 'pin')),
+                _SheetRow(icon: Symbols.star, label: 'Agregar a favoritos', onTap: () => Navigator.pop(context, 'pin')),
             ],
           ),
         ),
@@ -286,74 +275,10 @@ class _AppRow extends StatelessWidget {
             const SizedBox(width: 12),
             Expanded(child: Text(app.label, style: Txt.titleRow, maxLines: 1, overflow: TextOverflow.ellipsis)),
             if (onPin != null)
-              IconCircle(icon: Symbols.add, label: 'Fijar ${app.label}', size: 44, color: a.tint, iconColor: a.ink, onTap: onPin),
+              IconCircle(icon: Symbols.star, label: 'Agregar ${app.label} a favoritos', size: 44, color: a.tint, iconColor: a.ink, onTap: onPin),
           ],
         ),
       ),
     );
   }
 }
-
-class _ReorderList extends StatelessWidget {
-  const _ReorderList({required this.session});
-  final TvSession session;
-
-  @override
-  Widget build(BuildContext context) {
-    final pinned = session.pinnedApps;
-    return Surface(
-      child: ReorderableListView.builder(
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        buildDefaultDragHandles: false,
-        itemCount: pinned.length,
-        onReorderStart: (_) => playHaptic(Haptic.medium),
-        onReorderItem: (from, to) {
-          playHaptic(Haptic.selection);
-          session.reorder(from, to);
-        },
-        proxyDecorator: (child, i, anim) => Material(
-          color: Colors.transparent,
-          child: ScaleTransition(scale: Tween(begin: 1.0, end: 1.03).animate(anim), child: child),
-        ),
-        itemBuilder: (context, i) {
-          final app = pinned[i];
-          return ReorderableDelayedDragStartListener(
-            key: ValueKey(app.package),
-            index: i,
-            child: Container(
-              color: Tokens.card,
-              padding: const EdgeInsets.fromLTRB(14, 10, 8, 10),
-              child: Row(
-                children: [
-                  Text('${i + 1}', style: Txt.figure.copyWith(color: Tokens.ink3)),
-                  const SizedBox(width: 12),
-                  FutureBuilder(
-                    future: session.icon(app.package),
-                    initialData: session.cachedIcon(app.package),
-                    builder: (context, snap) => AppIcon(label: app.label, png: snap.data, size: 38, radius: 12),
-                  ),
-                  const SizedBox(width: 12),
-                  Expanded(child: Text(app.label, style: Txt.titleRow)),
-                  IconCircle(
-                    icon: Symbols.remove,
-                    label: 'Quitar ${app.label} del inicio',
-                    size: 44,
-                    color: Colors.transparent,
-                    iconColor: Tokens.ink2,
-                    onTap: () => session.unpin(app.package),
-                  ),
-                  ReorderableDragStartListener(
-                    index: i,
-                    child: const SizedBox(width: 44, height: 44, child: Center(child: Sym(Symbols.drag_indicator, color: Tokens.ink3))),
-                  ),
-                ],
-              ),
-            ),
-          );
-        },
-      ),
-    );
-  }
-}
-

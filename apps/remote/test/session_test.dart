@@ -212,10 +212,10 @@ void main() {
     expect(companion.launched, ['com.plexapp.android']);
     expect(await s.icon('com.plexapp.android'), base64Decode(onePixelPng));
     expect(identical(s.icon('com.plexapp.android'), s.icon('com.plexapp.android')), isTrue);
-    await s.pin('com.plexapp.android');
+    expect(await s.pin('com.plexapp.android'), isTrue);
     expect(companion.layout.order, ['com.netflix.ninja', 'com.plexapp.android']);
-    await s.reorder(1, 0);
-    expect(companion.layout.order, ['com.plexapp.android', 'com.netflix.ninja']);
+    await s.unpin('com.netflix.ninja');
+    expect(companion.layout.order, ['com.plexapp.android']);
     s.dispose();
   });
 

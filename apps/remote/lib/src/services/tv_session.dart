@@ -407,11 +407,7 @@ class TvSession extends ChangeNotifier {
   /// Apps to show: the TV's real list via the launcher, else well-known apps.
   List<RemoteApp> get apps {
     if (companionStatus == CompanionStatus.connected && companionApps.isNotEmpty) {
-      final hidden = layout?.hidden.toSet() ?? const <String>{};
-      return [
-        for (final a in companionApps)
-          if (!hidden.contains(a.package)) RemoteApp(package: a.package, label: a.label),
-      ];
+      return [for (final a in companionApps) RemoteApp(package: a.package, label: a.label)];
     }
     return [
       for (final k in knownApps)
@@ -419,16 +415,21 @@ class TvSession extends ChangeNotifier {
     ];
   }
 
-  /// Apps pinned on the launcher home, in order (favourites on the iPhone too).
+  /// Same limit as the TV launcher ("Tus favoritos").
+  static const maxFavourites = 9;
+
+  /// The TV's favourites ("Tus favoritos" on the launcher; quick apps on the iPhone).
   List<RemoteApp> get pinnedApps {
     final order = layout?.order ?? const <String>[];
     final all = {for (final a in apps) a.package: a};
-    if (order.isEmpty) return apps.take(4).toList();
+    if (order.isEmpty) return apps.take(maxFavourites).toList();
     return [
       for (final p in order)
         ?all[p],
-    ];
+    ].take(maxFavourites).toList();
   }
+
+  bool get canPin => pinnedApps.length < maxFavourites;
 
   Future<void> saveLayout(LauncherLayout next) async {
     final c = _companion;
@@ -443,9 +444,14 @@ class TvSession extends ChangeNotifier {
     _notify();
   }
 
-  Future<void> pin(String package) => saveLayout((layout ?? const LauncherLayout()).pin(package));
+  /// Adds a favourite; false when there are already [maxFavourites].
+  Future<bool> pin(String package) async {
+    if (!canPin) return false;
+    await saveLayout((layout ?? const LauncherLayout()).pin(package));
+    return true;
+  }
+
   Future<void> unpin(String package) => saveLayout((layout ?? const LauncherLayout()).unpin(package));
-  Future<void> reorder(int from, int to) => saveLayout((layout ?? const LauncherLayout()).move(from, to));
 
   String get currentAppLabel {
     final pkg = nowPlaying?.package ?? state.currentApp;
