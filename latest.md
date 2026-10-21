@@ -1,7 +1,7 @@
-# CI PASS — 3b2eb3ef37f0
+# CI PASS — a3f64147983a
 
-Run: https://github.com/luiszapata6/tv-control/actions/runs/39534575469
-Commit: fix(launcher): keep Java-WebSocket out of R8 optimization; Android 9's verifier rejected WebSocketServer.run() (VerifyError on the Hisense)
+Run: https://github.com/luiszapata6/tv-control/actions/runs/39537889969
+Commit: perf(launcher): cached corner glow, no blurred shadows (rings instead), PERF_LOG frame timing build flag
 Job results: [
   "success",
   "success",
@@ -12,23 +12,23 @@ Job results: [
 
 | job | step | result | time |
 | --- | --- | --- | --- |
-| dart | atv-analyze | PASS | 1s |
-| dart | atv-test | PASS | 11s |
-| dart | companion-analyze | PASS | 1s |
-| dart | companion-test | PASS | 6s |
-| dart | setup | PASS | 8s |
-| ios | ios-build | PASS | 77s |
+| dart | atv-analyze | PASS | 2s |
+| dart | atv-test | PASS | 13s |
+| dart | companion-analyze | PASS | 2s |
+| dart | companion-test | PASS | 7s |
+| dart | setup | PASS | 12s |
+| ios | ios-build | PASS | 118s |
 | ios | ios-ipa | PASS | 1s |
-| ios | ios-pub | PASS | 1s |
-| ios | macos-build | PASS | 62s |
-| launcher | launcher-analyze | PASS | 8s |
-| launcher | launcher-apk | PASS | 189s |
-| launcher | launcher-kotlin-tests | PASS | 45s |
+| ios | ios-pub | PASS | 2s |
+| ios | macos-build | PASS | 113s |
+| launcher | launcher-analyze | PASS | 6s |
+| launcher | launcher-apk | PASS | 166s |
+| launcher | launcher-kotlin-tests | PASS | 35s |
 | launcher | launcher-pub | PASS | 1s |
-| launcher | launcher-test | PASS | 11s |
-| python | codegen-up-to-date | PASS | 1s |
-| python | pip | PASS | 8s |
+| launcher | launcher-test | PASS | 9s |
+| python | codegen-up-to-date | PASS | 0s |
+| python | pip | PASS | 5s |
 | python | sim-tests | PASS | 8s |
-| remote | remote-analyze | PASS | 13s |
-| remote | remote-pub | PASS | 7s |
-| remote | remote-test | PASS | 18s |
+| remote | remote-analyze | PASS | 11s |
+| remote | remote-pub | PASS | 6s |
+| remote | remote-test | PASS | 17s |
