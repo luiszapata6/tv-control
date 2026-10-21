@@ -1,11 +1,14 @@
 import 'package:companion_protocol/companion_protocol.dart';
-import 'package:flutter/material.dart' show Icons, Size;
+import 'dart:ui' as ui;
+
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:tv_launcher/main.dart';
 import 'package:tv_launcher/src/format.dart';
 import 'package:tv_launcher/src/home_controller.dart';
 import 'package:tv_launcher/src/platform.dart';
+import 'package:tv_launcher/src/tint.dart';
+import 'package:tv_launcher/src/widgets/app_tile.dart';
 import 'package:tv_launcher/src/weather.dart';
 
 import 'fake_platform.dart';
@@ -34,11 +37,11 @@ void main() {
   testWidgets('home shows clock, weather, pinned apps in order and inputs', (tester) async {
     await pumpLauncher(tester);
     expect(find.text('21:05'), findsOneWidget);
-    expect(find.text('Domingo, 18 de octubre'), findsOneWidget);
+    expect(find.text('Domingo 18 de octubre'), findsOneWidget);
     expect(find.text('BUENAS NOCHES AMIGUE'), findsOneWidget);
     expect(find.text('22°'), findsOneWidget);
-    final netflix = tester.getTopLeft(find.text('Netflix'));
-    final youtube = tester.getTopLeft(find.text('YouTube'));
+    final netflix = tester.getTopLeft(find.text('Netflix').last);
+    final youtube = tester.getTopLeft(find.text('YouTube').last);
     expect(netflix.dx, lessThan(youtube.dx), reason: 'layout order is respected');
     expect(find.text('Disney+'), findsNothing, reason: 'not pinned');
     expect(find.text('HDMI 1'), findsOneWidget);
@@ -56,10 +59,10 @@ void main() {
 
   testWidgets('long press opens options and unpins', (tester) async {
     await pumpLauncher(tester);
-    await tester.longPress(find.text('Netflix'));
+    await tester.longPress(find.text('Netflix').last);
     await tester.pumpAndSettle();
-    expect(find.text('Quitar de inicio'), findsOneWidget);
-    await tester.tap(find.text('Quitar de inicio'));
+    expect(find.text('Quitar de Tus apps'), findsOneWidget);
+    await tester.tap(find.text('Quitar de Tus apps'));
     await tester.pumpAndSettle();
     expect(platform.current.order, ['com.google.android.youtube.tv']);
     expect(find.text('Netflix'), findsNothing);
@@ -78,11 +81,11 @@ void main() {
     await pumpLauncher(tester);
     await tester.tap(find.text('Todas las apps'));
     await tester.pumpAndSettle();
-    expect(find.text('Disney+'), findsOneWidget);
-    expect(find.text('Google Play Store'), findsOneWidget);
-    await tester.longPress(find.text('Disney+'));
+    expect(find.text('Disney+'), findsWidgets);
+    expect(find.text('Google Play Store'), findsWidgets);
+    await tester.longPress(find.text('Disney+').last);
     await tester.pumpAndSettle();
-    await tester.tap(find.text('Fijar en inicio'));
+    await tester.tap(find.text('Fijar en Tus apps'));
     await tester.pumpAndSettle();
     expect(platform.current.order.last, 'com.disney.disneyplus');
   });
@@ -98,31 +101,41 @@ void main() {
     await pumpLauncher(tester);
     platform.controller.add(const PairingCodeChanged('482915', 'iPhone de Luis'));
     await tester.pumpAndSettle();
-    expect(find.text('482915'), findsOneWidget);
+    expect(find.bySemanticsLabel('482915'), findsOneWidget);
     expect(find.text('iPhone de Luis quiere conectarse'), findsOneWidget);
     platform.controller.add(const PairingCodeChanged(null, null));
     platform.controller.add(const CompanionClientsChanged(['iPhone de Luis']));
     await tester.pumpAndSettle();
-    expect(find.text('482915'), findsNothing);
-    expect(find.text('iPhone de Luis conectado'), findsOneWidget);
+    expect(find.bySemanticsLabel('482915'), findsNothing);
+    expect(find.text('iPhone de Luis'), findsOneWidget);
+    expect(find.text('Conectado'), findsOneWidget);
   });
 
   testWidgets('layout changes from the iPhone update the grid', (tester) async {
     await pumpLauncher(tester);
     platform.controller.add(const LayoutChanged(LauncherLayout(order: ['com.disney.disneyplus'])));
     await tester.pumpAndSettle();
-    expect(find.text('Disney+'), findsOneWidget);
+    expect(find.text('Disney+'), findsWidgets);
     expect(find.text('Netflix'), findsNothing);
   });
 
   testWidgets('settings cycles grid columns', (tester) async {
     await pumpLauncher(tester);
-    await tester.tap(find.byIcon(Icons.settings_outlined));
+    await tester.tap(find.bySemanticsLabel('Ajustes'));
     await tester.pumpAndSettle();
-    expect(find.text('Columnas en inicio'), findsOneWidget);
-    await tester.tap(find.text('Columnas en inicio'));
+    expect(find.text('Columnas de la grilla'), findsOneWidget);
+    await tester.tap(find.text('Columnas de la grilla'));
     await tester.pumpAndSettle();
     expect(platform.current.columns, 7);
+    // The row has focus: ◀ ▶ change the value and stop at the ends.
+    await tester.sendKeyEvent(LogicalKeyboardKey.arrowLeft);
+    await tester.pumpAndSettle();
+    expect(platform.current.columns, 6);
+    for (var i = 0; i < 4; i++) {
+      await tester.sendKeyEvent(LogicalKeyboardKey.arrowRight);
+    }
+    await tester.pumpAndSettle();
+    expect(platform.current.columns, LauncherLayout.maxColumns);
     await tester.tap(find.text('Ajustes del sistema'));
     expect(platform.settingsOpened, 1);
   });
@@ -130,7 +143,7 @@ void main() {
   testWidgets('settings revokes paired devices after a second press', (tester) async {
     await pumpLauncher(tester);
     platform.controller.add(const CompanionClientsChanged(['iPhone de Luis']));
-    await tester.tap(find.byIcon(Icons.settings_outlined));
+    await tester.tap(find.bySemanticsLabel('Ajustes'));
     await tester.pumpAndSettle();
     await tester.tap(find.text('Dispositivos vinculados'));
     await tester.pumpAndSettle();
@@ -223,9 +236,37 @@ void main() {
     });
   });
 
+  group('app colours', () {
+    Future<Uint8List> png(int w, int h, void Function(ui.Canvas c) paint) async {
+      final rec = ui.PictureRecorder();
+      paint(ui.Canvas(rec));
+      final img = await rec.endRecording().toImage(w, h);
+      final data = await img.toByteData(format: ui.ImageByteFormat.png);
+      return data!.buffer.asUint8List();
+    }
+
+    test('png size tells banners from square icons', () async {
+      final banner = await png(32, 18, (_) {});
+      expect(pngSize(banner), (32, 18));
+      expect(pngSize(Uint8List.fromList([1, 2, 3])), isNull);
+    });
+
+    test('a white banner with a red logo is red, not white', () async {
+      final bytes = await png(40, 24, (c) {
+        c.drawRect(const ui.Rect.fromLTWH(0, 0, 40, 24), ui.Paint()..color = const Color(0xFFFFFFFF));
+        c.drawRect(const ui.Rect.fromLTWH(12, 6, 16, 12), ui.Paint()..color = const Color(0xFFE5222B));
+      });
+      final c = (await dominantColor(bytes))!;
+      expect((c.r * 255).round(), greaterThan(200));
+      expect((c.g * 255).round(), lessThan(90));
+      expect(await dominantColor(Uint8List.fromList([1, 2, 3])), isNull);
+      expect(AppArt.darkTint(c, 'YouTube').computeLuminance(), lessThan(0.05));
+    });
+  });
+
   group('formatting and weather', () {
     test('dates in Spanish', () {
-      expect(formatDate(DateTime(2026, 1, 5)), 'Lunes, 5 de enero');
+      expect(formatDate(DateTime(2026, 1, 5)), 'Lunes 5 de enero');
       expect(formatTime(DateTime(2026, 1, 5, 9, 3)), '9:03');
       expect(greetingFor(DateTime(2026, 1, 5, 8)), 'BUENOS DÍAS AMIGUE');
       expect(greetingFor(DateTime(2026, 1, 5, 14)), 'BUENAS TARDES AMIGUE');

@@ -63,16 +63,17 @@ class AppRepository(private val context: Context) {
         }
     }
 
-    /** PNG of the TV banner (16:9) if the app has one, else its icon. Max [Protocol.MAX_ICON_PX] px per side. */
-    fun iconPng(pkg: String): ByteArray? {
-        icons.get(pkg)?.let { return it }
+    /** PNG of the TV banner (16:9) if the app has one, else its icon. Max [maxSide] px per side. */
+    fun iconPng(pkg: String, maxSide: Int = Protocol.MAX_ICON_PX): ByteArray? {
+        val key = "$maxSide:$pkg"
+        icons.get(key)?.let { return it }
         val drawable: Drawable = try {
             pm.getApplicationBanner(pkg) ?: pm.getApplicationIcon(pkg)
         } catch (e: PackageManager.NameNotFoundException) {
             return null
         }
-        val png = render(drawable, Protocol.MAX_ICON_PX)
-        icons.put(pkg, png)
+        val png = render(drawable, maxSide)
+        icons.put(key, png)
         return png
     }
 

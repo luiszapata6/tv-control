@@ -1,9 +1,11 @@
 import 'dart:async';
+import 'dart:ui' show Color;
 
 import 'package:companion_protocol/companion_protocol.dart';
 import 'package:flutter/foundation.dart';
 
 import 'platform.dart';
+import 'tint.dart';
 import 'weather.dart';
 
 /// State of the launcher UI: apps, layout, inputs, weather and pairing.
@@ -44,6 +46,7 @@ class HomeController extends ChangeNotifier {
   Object? loadError;
   final _icons = <String, Uint8List>{};
   final _iconFailedAt = <String, DateTime>{};
+  final _tints = <String, Color>{};
 
   /// Pinned apps that are still installed, in the user's order. With no
   /// layout yet, the first launchable non-system apps are suggested.
@@ -107,6 +110,7 @@ class HomeController extends ChangeNotifier {
       case AppsChanged():
         _icons.clear();
         _iconFailedAt.clear();
+        _tints.clear();
         unawaited(refresh());
       case LayoutChanged(:final layout):
         this.layout = layout;
@@ -141,6 +145,17 @@ class HomeController extends ChangeNotifier {
       _iconFailedAt[package] = _now();
     }
     return bytes;
+  }
+
+  /// The app's colour (from its icon), cached; null while it has no icon.
+  Future<Color?> tint(String package) async {
+    final known = _tints[package];
+    if (known != null) return known;
+    final bytes = await icon(package);
+    if (bytes == null) return null;
+    final c = await dominantColor(bytes);
+    if (c != null) _tints[package] = c;
+    return c;
   }
 
   Future<void> launch(LauncherApp app) => platform.launch(app.package);

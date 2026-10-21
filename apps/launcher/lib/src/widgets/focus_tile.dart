@@ -3,29 +3,44 @@ import 'package:flutter/services.dart';
 
 import '../theme.dart';
 
-/// A D-pad focusable card: grows and gets an accent ring when focused,
-/// presses in on select, and reports long presses (hold OK / menu key).
+/// How focus shows: [card] for images (scale, white ring, indigo halo,
+/// sheen), [fill] for rows and buttons (light inverted fill).
+enum FocusLook { card, fill }
+
+/// A D-pad focusable element: focus is the only thing that glows. Presses in
+/// on select and reports long presses (hold OK / menu key).
 class FocusTile extends StatefulWidget {
   const FocusTile({
     super.key,
-    required this.child,
+    required this.builder,
     required this.onSelect,
+    this.look = FocusLook.fill,
     this.onLongPress,
+    this.onKey,
     this.autofocus = false,
     this.focusNode,
-    this.borderRadius = 24,
-    this.focusedScale = 1.08,
+    this.radius = 10,
+    this.focusedScale,
+    this.restColor = const Color(0x0DFFFFFF),
+    this.restBorder,
     this.onFocusChange,
     this.semanticLabel,
   });
 
-  final Widget child;
+  /// Builds the content; [focused] lets it invert its colours on [FocusLook.fill].
+  final Widget Function(BuildContext context, bool focused) builder;
   final VoidCallback onSelect;
+  final FocusLook look;
   final VoidCallback? onLongPress;
+
+  /// Extra keys (e.g. left/right to change a value); return true if handled.
+  final bool Function(LogicalKeyboardKey key)? onKey;
   final bool autofocus;
   final FocusNode? focusNode;
-  final double borderRadius;
-  final double focusedScale;
+  final double radius;
+  final double? focusedScale;
+  final Color restColor;
+  final Color? restBorder;
   final ValueChanged<bool>? onFocusChange;
   final String? semanticLabel;
 
@@ -48,7 +63,10 @@ class _FocusTileState extends State<FocusTile> {
       widget.onLongPress?.call();
       return widget.onLongPress == null ? KeyEventResult.ignored : KeyEventResult.handled;
     }
-    if (!isSelect) return KeyEventResult.ignored;
+    if (!isSelect) {
+      if (event is! KeyUpEvent && (widget.onKey?.call(key) ?? false)) return KeyEventResult.handled;
+      return KeyEventResult.ignored;
+    }
     if (event is KeyDownEvent) {
       _downAt = DateTime.now();
       setState(() => _pressed = true);
@@ -72,7 +90,21 @@ class _FocusTileState extends State<FocusTile> {
 
   @override
   Widget build(BuildContext context) {
-    final scale = _pressed ? 0.97 : (_focused ? widget.focusedScale : 1.0);
+    final card = widget.look == FocusLook.card;
+    final lit = _focused || _pressed;
+    final focusScale = widget.focusedScale ?? (card ? 1.10 : 1.03);
+    final scale = _pressed ? (card ? 1.04 : 1.0) : (_focused ? focusScale : 1.0);
+    final duration = _pressed ? Motion.pressDown : (_focused ? Motion.focusIn : Motion.focusOut);
+    final r = BorderRadius.circular(widget.radius);
+    final shadows = lit
+        ? [
+            const BoxShadow(color: Color(0x666C6CF2), blurRadius: 36, spreadRadius: 2),
+            const BoxShadow(color: Color(0xCC000000), offset: Offset(0, 14), blurRadius: 24, spreadRadius: -5),
+            // Ring: 2 dp white outside a 1.5 dp gap of background, so it reads on white banners too.
+            if (card) const BoxShadow(color: Palette.ink, spreadRadius: 3.5),
+            if (card) const BoxShadow(color: Palette.bg, spreadRadius: 1.5),
+          ]
+        : [if (card) const BoxShadow(color: Color(0x99000000), offset: Offset(0, 4), blurRadius: 10, spreadRadius: -4)];
     return Semantics(
       button: true,
       label: widget.semanticLabel,
@@ -89,23 +121,46 @@ class _FocusTileState extends State<FocusTile> {
           onLongPress: widget.onLongPress,
           child: AnimatedScale(
             scale: scale,
-            duration: _pressed ? const Duration(milliseconds: 90) : Motion.focus,
-            curve: _pressed ? Curves.easeOut : Motion.spring,
+            duration: duration,
+            curve: _pressed ? Curves.easeOut : (_focused ? Motion.standard : Motion.exit),
             child: AnimatedContainer(
-              duration: Motion.focus,
+              duration: duration,
               curve: Motion.standard,
               decoration: BoxDecoration(
-                color: _focused ? Palette.card2 : Palette.card,
-                borderRadius: BorderRadius.circular(widget.borderRadius),
-                border: Border.all(
-                  color: _focused ? Palette.accent : Palette.line,
-                  width: _focused ? 2.5 : 1,
-                ),
-                boxShadow: _focused
-                    ? [BoxShadow(color: Palette.accentDeep.withValues(alpha: 0.45), blurRadius: 28, offset: const Offset(0, 12))]
-                    : const [],
+                color: card ? null : (lit ? Palette.ink : widget.restColor),
+                borderRadius: r,
+                border: !card && !lit && widget.restBorder != null ? Border.all(color: widget.restBorder!, width: 1) : null,
+                boxShadow: shadows,
               ),
-              child: widget.child,
+              child: ClipRRect(
+                borderRadius: r,
+                child: Stack(
+                  fit: StackFit.passthrough,
+                  children: [
+                    widget.builder(context, lit),
+                    if (card)
+                      Positioned.fill(
+                        child: IgnorePointer(
+                          child: AnimatedOpacity(
+                            opacity: lit ? 1 : 0,
+                            duration: duration,
+                            child: const DecoratedBox(
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                  begin: Alignment(-0.6, -1),
+                                  end: Alignment(0.6, 1),
+                                  colors: [Color(0x38FFFFFF), Color(0x00FFFFFF)],
+                                  stops: [0, 0.4],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    if (card && _pressed) const Positioned.fill(child: IgnorePointer(child: ColoredBox(color: Color(0x1F000000)))),
+                  ],
+                ),
+              ),
             ),
           ),
         ),

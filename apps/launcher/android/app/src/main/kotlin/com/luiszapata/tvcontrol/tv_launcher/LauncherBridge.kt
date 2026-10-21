@@ -76,7 +76,8 @@ class LauncherBridge(private val context: Context, messenger: BinaryMessenger) :
         "apps" -> Launcher.apps.apps().map {
             mapOf("package" to it.packageName, "label" to it.label, "isSystem" to it.isSystem)
         }
-        "icon" -> Launcher.apps.iconPng(call.argument<String>("package")!!)
+        // The TV draws banners full size; the iPhone gets Protocol.MAX_ICON_PX.
+        "icon" -> Launcher.apps.iconPng(call.argument<String>("package")!!, maxSide = 640)
         "launch" -> {
             val pkg = call.argument<String>("package")!!
             Launcher.apps.launch(pkg).also { if (it) EventBus.post(LauncherEvent.ForegroundApp(pkg)) }
