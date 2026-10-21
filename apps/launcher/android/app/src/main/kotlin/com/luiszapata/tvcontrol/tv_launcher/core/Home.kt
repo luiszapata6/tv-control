@@ -12,17 +12,15 @@ object Home {
     /** Pinned apps that are installed, in order. Without a layout, non-system apps are suggested. */
     fun pinned(apps: List<AppInfo>, layout: Layout): List<AppInfo> {
         if (layout.order.isEmpty()) {
-            return apps.filter { !it.isSystem && it.packageName !in layout.hidden }.take(MAX_PINNED)
+            return apps.filter { !it.isSystem }.take(MAX_PINNED)
         }
         val byPackage = apps.associateBy { it.packageName }
         return layout.order.mapNotNull { byPackage[it] }.take(MAX_PINNED)
     }
 
-    /** Everything not hidden, alphabetically. */
-    fun visible(apps: List<AppInfo>, layout: Layout): List<AppInfo> =
-        apps.filter { it.packageName !in layout.hidden }.sortedBy { it.label.lowercase() }
-
-    fun hidden(apps: List<AppInfo>, layout: Layout): List<AppInfo> = apps.filter { it.packageName in layout.hidden }
+    /** Every app, alphabetically. (The layout's legacy `hidden` list is ignored: hiding was removed.) */
+    @Suppress("UNUSED_PARAMETER")
+    fun visible(apps: List<AppInfo>, layout: Layout): List<AppInfo> = apps.sortedBy { it.label.lowercase() }
 
     fun isPinned(pkg: String, apps: List<AppInfo>, layout: Layout): Boolean = pinned(apps, layout).any { it.packageName == pkg }
 
@@ -35,16 +33,12 @@ object Home {
     fun pin(pkg: String, apps: List<AppInfo>, layout: Layout): Layout {
         val base = materialized(apps, layout)
         if (pkg in base.order || !canPin(apps, base)) return base
-        return base.copy(order = base.order + pkg, hidden = base.hidden - pkg)
+        return base.copy(order = base.order + pkg)
     }
 
     fun unpin(pkg: String, apps: List<AppInfo>, layout: Layout): Layout =
         materialized(apps, layout).let { it.copy(order = it.order - pkg) }
 
-    fun hide(pkg: String, apps: List<AppInfo>, layout: Layout): Layout =
-        materialized(apps, layout).let { it.copy(order = it.order - pkg, hidden = (it.hidden + pkg).distinct()) }
-
-    fun unhide(pkg: String, layout: Layout): Layout = layout.copy(hidden = layout.hidden - pkg)
 
     /** Moves a pinned app one step left (-1) or right (+1) among the installed ones. */
     fun shift(pkg: String, delta: Int, apps: List<AppInfo>, layout: Layout): Layout {

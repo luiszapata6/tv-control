@@ -51,7 +51,6 @@ object Ic {
     const val REMOVE = 0xF00EB
     const val LEFT = 0xF572
     const val RIGHT = 0xF57A
-    const val HIDE = 0xF4A0
     const val INFO = 0xF815
     const val UNLINK = 0xF859
     const val SETTINGS = 0xF36E

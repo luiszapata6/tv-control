@@ -24,10 +24,8 @@ class HomeTest {
 
     @Test fun `without a layout, non-system apps are suggested and the first edit materializes them`() {
         assertEquals(listOf("Disney+", "Netflix", "YouTube"), Home.pinned(apps, Layout()).map { it.label })
-        val hidden = Home.hide("dp", apps, Layout())
-        assertEquals(listOf("nf", "yt"), hidden.order)
-        assertEquals(listOf("dp"), hidden.hidden)
-        assertFalse(Home.visible(apps, hidden).any { it.packageName == "dp" })
+        val edited = Home.unpin("dp", apps, Layout())
+        assertEquals(listOf("nf", "yt"), edited.order)
     }
 
     @Test fun `at most nine favourites, and pinning a tenth does nothing`() {
@@ -53,10 +51,10 @@ class HomeTest {
         assertEquals(5, Home.columns(6, -1))
     }
 
-    @Test fun `recent apps are newest first, installed, not hidden, favourites included`() {
+    @Test fun `recent apps are newest first, installed, favourites included`() {
         val used = mapOf("yt" to 30L, "nf" to 50L, "gone" to 99L, "dp" to 10L)
         assertEquals(listOf("Netflix", "YouTube", "Disney+"), Home.recent(used, apps, Layout(order = listOf("yt"))).map { it.label })
-        assertEquals(listOf("Netflix"), Home.recent(used, apps, Layout(hidden = listOf("dp")), limit = 1).map { it.label })
+        assertEquals(listOf("Netflix"), Home.recent(used, apps, Layout(), limit = 1).map { it.label })
     }
 
     @Test fun `favourites skip what is in Seguir viendo and show the last opened first`() {

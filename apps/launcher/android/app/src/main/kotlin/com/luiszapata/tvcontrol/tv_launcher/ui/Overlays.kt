@@ -82,7 +82,6 @@ object Overlays {
                 add(Triple(Ic.REMOVE, "Quitar de favoritos") { act.saveLayout(Home.unpin(pkg, act.apps, act.layout)) })
             }
             if (!recent) add(Triple(Ic.CLOSE, "Cerrar app") { act.closeApp(pkg) })
-            add(Triple(Ic.HIDE, "Ocultar") { act.saveLayout(Home.hide(pkg, act.apps, act.layout)) })
             add(Triple(Ic.INFO, "Información de la app") { act.openAppInfo(pkg) })
         }
 
@@ -165,14 +164,8 @@ object Overlays {
             lp(WRAP, WRAP).apply { topMargin = ui.px(top); bottomMargin = ui.px(5); marginStart = ui.px(3) })
         fun add(v: View) = panel.addView(v, lp(MATCH, WRAP).apply { bottomMargin = ui.px(0) })
 
-        section("PANTALLA", 18f)
-        val hidden = Home.hidden(act.apps, act.layout)
-        add(row(ui, null, "Apps ocultas", if (hidden.isEmpty()) "Ninguna" else "${hidden.size} · OK muestra la primera", 50f) {
-            Home.hidden(act.apps, act.layout).firstOrNull()?.let { act.saveLayout(Home.unhide(it.packageName, act.layout)) }
-            act.pop(); settings(act)
-        }.first)
 
-        section("IPHONE", 12f)
+        section("IPHONE", 18f)
         val connected = act.clients.isNotEmpty()
         val address = act.companionAddress()
         val (phone, phoneSub) = row(ui, Ic.PHONE, if (connected) act.clients.joinToString(", ") else "App del iPhone",
