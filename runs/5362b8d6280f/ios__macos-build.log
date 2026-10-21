@@ -1,0 +1,16 @@
+Xcode is fetching Swift Package Manager dependencies. This may take several minutes...
+  Fetching from https://github.com/mattgallagher/CwlCatchException.git (cached)...     
+Building macOS application...                                   
+lib/src/services/storage.dart:21:7: Error: No named parameter with the name 'useDataProtectionKeyChain'.
+      useDataProtectionKeyChain: false,
+      ^^^^^^^^^^^^^^^^^^^^^^^^^
+../../../../../.pub-cache/hosted/pub.dev/flutter_secure_storage-10.3.4/lib/options/macos_options.dart:8:9: Context: Found this candidate, but the arguments don't match.
+  const MacOsOptions({
+        ^^^^^^^^^^^^
+Target kernel_snapshot_program failed: Exception
+Failed to package /Users/runner/work/tv-control/tv-control/apps/remote.
+Command PhaseScriptExecution failed with a nonzero exit code
+warning: Run script build phase 'Run Script' will be run during every build because it does not specify any outputs. To address this issue, either add output dependencies to the script phase, or configure it to run in every build by unchecking "Based on dependency analysis" in the script phase. (in target 'Flutter Assemble' from project 'Runner')
+** BUILD FAILED **
+
+Build process failed

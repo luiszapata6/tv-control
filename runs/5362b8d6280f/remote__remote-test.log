@@ -1,0 +1,91 @@
+00:00 +0: loading /home/runner/work/tv-control/tv-control/apps/remote/test/session_test.dart
+lib/src/services/storage.dart:21:7: Error: No named parameter with the name 'useDataProtectionKeyChain'.
+      useDataProtectionKeyChain: false,
+      ^^^^^^^^^^^^^^^^^^^^^^^^^
+../../../../../.pub-cache/hosted/pub.dev/flutter_secure_storage-10.3.4/lib/options/macos_options.dart:8:9: Context: Found this candidate, but the arguments don't match.
+  const MacOsOptions({
+        ^^^^^^^^^^^^
+00:00 +0 -1: loading /home/runner/work/tv-control/tv-control/apps/remote/test/session_test.dart [E]
+  Failed to load "/home/runner/work/tv-control/tv-control/apps/remote/test/session_test.dart":
+  Compilation failed for testPath=/home/runner/work/tv-control/tv-control/apps/remote/test/session_test.dart: lib/src/services/storage.dart:21:7: Error: No named parameter with the name 'useDataProtectionKeyChain'.
+        useDataProtectionKeyChain: false,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^
+  ../../../../../.pub-cache/hosted/pub.dev/flutter_secure_storage-10.3.4/lib/options/macos_options.dart:8:9: Context: Found this candidate, but the arguments don't match.
+    const MacOsOptions({
+          ^^^^^^^^^^^^
+  .
+  Error: The Dart compiler exited unexpectedly.
+  package:flutter_tools/src/base/common.dart 34:3  throwToolExit
+  package:flutter_tools/src/compile.dart 1024:11   DefaultResidentCompiler._compile.<fn>
+  dart:async/zone_root.dart 48:47                  _rootRunUnary
+  dart:async/zone.dart 816:35                      _CustomZone.runUnary
+  dart:async/future_impl.dart 948:45               Future._propagateToListeners.handleValueCallback
+  dart:async/future_impl.dart 977:13               Future._propagateToListeners
+  dart:async/future_impl.dart 862:9                Future._propagateToListeners
+  dart:async/future_impl.dart 720:5                Future._completeWithValue
+  dart:async/future_impl.dart 804:7                Future._asyncCompleteWithValue.<fn>
+  dart:async/zone_root.dart 35:13                  _rootRun
+  dart:async/zone.dart 810:35                      _CustomZone.run
+  dart:async/zone.dart 702:7                       _CustomZone.runGuarded
+  dart:async/zone.dart 743:23                      _CustomZone.bindCallbackGuarded.<fn>
+  dart:async/schedule_microtask.dart 40:35         _microtaskLoop
+  dart:async/schedule_microtask.dart 49:5          _startMicrotaskLoop
+  dart:isolate-patch/isolate_patch.dart 127:13     _runPendingImmediateCallback
+  dart:isolate-patch/isolate_patch.dart 193:5      _RawReceivePort._handleMessage
+  
+lib/src/services/storage.dart:21:7: Error: No named parameter with the name 'useDataProtectionKeyChain'.
+      useDataProtectionKeyChain: false,
+      ^^^^^^^^^^^^^^^^^^^^^^^^^
+../../../../../.pub-cache/hosted/pub.dev/flutter_secure_storage-10.3.4/lib/options/macos_options.dart:8:9: Context: Found this candidate, but the arguments don't match.
+  const MacOsOptions({
+        ^^^^^^^^^^^^
+00:00 +0 -2: loading /home/runner/work/tv-control/tv-control/apps/remote/test/app_test.dart [E]
+  Failed to load "/home/runner/work/tv-control/tv-control/apps/remote/test/app_test.dart":
+  Compilation failed for testPath=/home/runner/work/tv-control/tv-control/apps/remote/test/app_test.dart: lib/src/services/storage.dart:21:7: Error: No named parameter with the name 'useDataProtectionKeyChain'.
+        useDataProtectionKeyChain: false,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^
+  ../../../../../.pub-cache/hosted/pub.dev/flutter_secure_storage-10.3.4/lib/options/macos_options.dart:8:9: Context: Found this candidate, but the arguments don't match.
+    const MacOsOptions({
+          ^^^^^^^^^^^^
+  .
+00:00 +0 -2: loading /home/runner/work/tv-control/tv-control/apps/remote/test/session_test.dart [E]
+  Error: The Dart compiler exited unexpectedly.
+  package:flutter_tools/src/base/common.dart 34:3  throwToolExit
+  package:flutter_tools/src/compile.dart 1024:11   DefaultResidentCompiler._compile.<fn>
+  dart:async/zone_root.dart 48:47                  _rootRunUnary
+  dart:async/zone.dart 816:35                      _CustomZone.runUnary
+  dart:async/future_impl.dart 948:45               Future._propagateToListeners.handleValueCallback
+  dart:async/future_impl.dart 977:13               Future._propagateToListeners
+  dart:async/future_impl.dart 862:9                Future._propagateToListeners
+  dart:async/future_impl.dart 720:5                Future._completeWithValue
+  dart:async/future_impl.dart 804:7                Future._asyncCompleteWithValue.<fn>
+  dart:async/zone_root.dart 35:13                  _rootRun
+  dart:async/zone.dart 810:35                      _CustomZone.run
+  dart:async/zone.dart 702:7                       _CustomZone.runGuarded
+  dart:async/zone.dart 743:23                      _CustomZone.bindCallbackGuarded.<fn>
+  dart:async/schedule_microtask.dart 40:35         _microtaskLoop
+  dart:async/schedule_microtask.dart 49:5          _startMicrotaskLoop
+  dart:isolate-patch/isolate_patch.dart 127:13     _runPendingImmediateCallback
+  dart:isolate-patch/isolate_patch.dart 193:5      _RawReceivePort._handleMessage
+  
+lib/src/services/storage.dart:21:7: Error: No named parameter with the name 'useDataProtectionKeyChain'.
+      useDataProtectionKeyChain: false,
+      ^^^^^^^^^^^^^^^^^^^^^^^^^
+../../../../../.pub-cache/hosted/pub.dev/flutter_secure_storage-10.3.4/lib/options/macos_options.dart:8:9: Context: Found this candidate, but the arguments don't match.
+  const MacOsOptions({
+        ^^^^^^^^^^^^
+00:00 +0 -3: loading /home/runner/work/tv-control/tv-control/apps/remote/test/shared_sync_test.dart [E]
+  Failed to load "/home/runner/work/tv-control/tv-control/apps/remote/test/shared_sync_test.dart":
+  Compilation failed for testPath=/home/runner/work/tv-control/tv-control/apps/remote/test/shared_sync_test.dart: lib/src/services/storage.dart:21:7: Error: No named parameter with the name 'useDataProtectionKeyChain'.
+        useDataProtectionKeyChain: false,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^
+  ../../../../../.pub-cache/hosted/pub.dev/flutter_secure_storage-10.3.4/lib/options/macos_options.dart:8:9: Context: Found this candidate, but the arguments don't match.
+    const MacOsOptions({
+          ^^^^^^^^^^^^
+  .
+00:00 +0 -3: Some tests failed.
+
+Failing tests:
+  /home/runner/work/tv-control/tv-control/apps/remote/test/app_test.dart: loading /home/runner/work/tv-control/tv-control/apps/remote/test/app_test.dart
+  /home/runner/work/tv-control/tv-control/apps/remote/test/session_test.dart: loading /home/runner/work/tv-control/tv-control/apps/remote/test/session_test.dart
+  /home/runner/work/tv-control/tv-control/apps/remote/test/shared_sync_test.dart: loading /home/runner/work/tv-control/tv-control/apps/remote/test/shared_sync_test.dart
