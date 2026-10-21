@@ -102,6 +102,7 @@ class TvSession extends ChangeNotifier {
   LauncherLayout? layout;
   NowPlaying? nowPlaying;
   final _icons = <String, Uint8List?>{};
+  final _iconRequests = <String, Future<Uint8List?>>{};
 
   /// Volume the user is dragging to (shown instead of the TV value meanwhile).
   int? pendingVolume;
@@ -342,6 +343,7 @@ class TvSession extends ChangeNotifier {
         layout = e.layout ?? layout;
       case CompanionEvent.appsChanged:
         _icons.clear();
+        _iconRequests.clear();
         unawaited(_loadCompanionData());
       case CompanionEvent.foregroundApp:
         break;
@@ -369,10 +371,17 @@ class TvSession extends ChangeNotifier {
     await _loadCompanionData();
   }
 
-  Future<Uint8List?> icon(String package) async {
-    if (_icons.containsKey(package)) return _icons[package];
+  /// The same future per package, so a FutureBuilder rebuilt on every
+  /// notify does not restart.
+  Future<Uint8List?> icon(String package) {
+    final known = _iconRequests[package];
+    if (known != null) return known;
     final c = _companion;
-    if (c == null || companionStatus != CompanionStatus.connected) return null;
+    if (c == null || companionStatus != CompanionStatus.connected) return Future.value(_icons[package]);
+    return _iconRequests[package] = _loadIcon(c, package);
+  }
+
+  Future<Uint8List?> _loadIcon(CompanionClient c, String package) async {
     try {
       return _icons[package] = await c.icon(package);
     } on CompanionException {
