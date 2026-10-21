@@ -382,6 +382,19 @@ class TvSession extends ChangeNotifier {
 
   Uint8List? cachedIcon(String package) => _icons[package];
 
+  /// Time each app spent in front over the last [days], most used first.
+  /// Null without the launcher.
+  Future<List<UsageEntry>?> usage({int days = 7}) async {
+    final c = _companion;
+    if (c == null || companionStatus != CompanionStatus.connected) return null;
+    try {
+      final r = await c.usage(days: days);
+      return [...r.entries.where((e) => e.foregroundMs > 0)]..sort((a, b) => b.foregroundMs.compareTo(a.foregroundMs));
+    } on CompanionException {
+      return null;
+    }
+  }
+
   /// Apps to show: the TV's real list via the launcher, else well-known apps.
   List<RemoteApp> get apps {
     if (companionStatus == CompanionStatus.connected && companionApps.isNotEmpty) {

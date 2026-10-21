@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:atv_remote/atv_remote.dart';
 import 'package:atv_remote/testing.dart';
 import 'package:companion_protocol/companion_protocol.dart';
@@ -208,7 +210,7 @@ void main() {
     expect(s.nowPlaying?.title, 'Serie');
     expect(await s.launch(s.apps.last), isTrue);
     expect(companion.launched, ['com.plexapp.android']);
-    expect(await s.icon('com.plexapp.android'), [1, 2, 3]);
+    expect(await s.icon('com.plexapp.android'), base64Decode(onePixelPng));
     await s.pin('com.plexapp.android');
     expect(companion.layout.order, ['com.netflix.ninja', 'com.plexapp.android']);
     await s.reorder(1, 0);

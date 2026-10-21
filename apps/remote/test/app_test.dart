@@ -225,6 +225,24 @@ void main() {
       expect(find.text('Abriendo YouTube en la TV'), findsOneWidget);
     });
 
+    testWidgets('settings shows app usage from the launcher, most used first', (tester) async {
+      env = FakeTvEnv(identity);
+      final companion = FakeCompanion();
+      final services = buildServices(identity: identity, env: env, saved: const [sala], companion: companion.connect);
+      await services.devices.setCompanionToken(sala.id, companion.token);
+      await pumpApp(tester, TvRemoteApp(services: services, useGoogleFonts: false));
+      await settle(tester);
+      await tester.tap(find.bySemanticsLabel('Televisores y ajustes'));
+      await settle(tester);
+      await tester.tap(find.text('Uso de apps'));
+      await settle(tester);
+      expect(find.text('Últimos 7 días en la TV'), findsOneWidget);
+      expect(find.text('2 h 5 min'), findsOneWidget);
+      expect(find.text('45 min'), findsOneWidget);
+      expect(find.text('Idle'), findsNothing);
+      expect(tester.getTopLeft(find.text('Netflix').last).dy, lessThan(tester.getTopLeft(find.text('Plex').last).dy));
+    });
+
     testWidgets('settings sheet lists TVs and changes the accent', (tester) async {
       await pumpRemote(tester);
       await tester.tap(find.bySemanticsLabel('Televisores y ajustes'));

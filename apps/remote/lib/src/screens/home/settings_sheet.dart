@@ -10,6 +10,7 @@ import '../../widgets/common.dart';
 import '../../widgets/pressable.dart';
 import '../onboarding/discover_screen.dart';
 import 'companion_pairing.dart';
+import 'usage_sheet.dart';
 
 /// TVs, launcher connection, accent and haptics.
 Future<void> showSettingsSheet(BuildContext context, TvSession? session) => showModalBottomSheet<void>(
@@ -116,6 +117,28 @@ class _SettingsSheet extends StatelessWidget {
                   ],
                 ),
               ),
+              if (session!.companionStatus == CompanionStatus.connected) ...[
+                const SizedBox(height: 12),
+                Surface(
+                  color: Tokens.card2,
+                  child: Pressable(
+                    onTap: () => showUsageSheet(context, session!),
+                    size: PressSize.row,
+                    semanticLabel: 'Uso de apps',
+                    child: const Padding(
+                      padding: EdgeInsets.all(14),
+                      child: Row(
+                        children: [
+                          Sym(Symbols.bar_chart, color: Tokens.ink2),
+                          SizedBox(width: 12),
+                          Expanded(child: Text('Uso de apps', style: Txt.titleRow)),
+                          Sym(Symbols.chevron_right, color: Tokens.ink3),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ],
             const SizedBox(height: 24),
             const Text('Apariencia', style: Txt.titleSheet),

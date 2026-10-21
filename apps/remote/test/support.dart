@@ -52,6 +52,9 @@ class FakeDictation implements Dictation {
   Future<void> stop() async => stopped = true;
 }
 
+/// A valid 1×1 PNG, so icons decode in widget tests.
+const onePixelPng = 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=';
+
 /// Minimal companion server: answers like the launcher.
 class FakeCompanion {
   FakeCompanion({this.token = 'tok'});
@@ -114,7 +117,16 @@ class FakeCompanion {
                   ).toJson(),
                 });
               case 'apps.icon':
-                ok({'package': f.params['package'], 'png': base64Encode([1, 2, 3])});
+                ok({'package': f.params['package'], 'png': onePixelPng});
+              case 'usage.get':
+                ok({
+                  'since': 0,
+                  'entries': [
+                    const UsageEntry(package: 'com.plexapp.android', label: 'Plex', foregroundMs: 45 * 60000).toJson(),
+                    const UsageEntry(package: 'com.idle', label: 'Idle', foregroundMs: 0).toJson(),
+                    const UsageEntry(package: 'com.netflix.ninja', label: 'Netflix', foregroundMs: 125 * 60000).toJson(),
+                  ],
+                });
               case 'apps.launch':
                 launched.add(f.params['package'] as String);
                 ok();
