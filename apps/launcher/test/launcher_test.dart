@@ -35,7 +35,7 @@ void main() {
     await pumpLauncher(tester);
     expect(find.text('21:05'), findsOneWidget);
     expect(find.text('Domingo, 18 de octubre'), findsOneWidget);
-    expect(find.text('BUENAS NOCHES'), findsOneWidget);
+    expect(find.text('BUENAS NOCHES AMIGUE'), findsOneWidget);
     expect(find.text('22°'), findsOneWidget);
     final netflix = tester.getTopLeft(find.text('Netflix'));
     final youtube = tester.getTopLeft(find.text('YouTube'));
@@ -227,8 +227,12 @@ void main() {
     test('dates in Spanish', () {
       expect(formatDate(DateTime(2026, 1, 5)), 'Lunes, 5 de enero');
       expect(formatTime(DateTime(2026, 1, 5, 9, 3)), '9:03');
-      expect(greetingFor(DateTime(2026, 1, 5, 8)), 'BUENOS DÍAS');
-      expect(greetingFor(DateTime(2026, 1, 5, 14)), 'BUENAS TARDES');
+      expect(greetingFor(DateTime(2026, 1, 5, 8)), 'BUENOS DÍAS AMIGUE');
+      expect(greetingFor(DateTime(2026, 1, 5, 14)), 'BUENAS TARDES AMIGUE');
+      expect(greetingFor(DateTime(2026, 1, 5, 11, 59)), 'BUENOS DÍAS AMIGUE');
+      expect(greetingFor(DateTime(2026, 1, 5, 12)), 'BUENAS TARDES AMIGUE');
+      expect(greetingFor(DateTime(2026, 1, 5, 18, 59)), 'BUENAS TARDES AMIGUE');
+      expect(greetingFor(DateTime(2026, 1, 5, 19)), 'BUENAS NOCHES AMIGUE');
     });
     test('open-meteo parsing', () async {
       final w = await WeatherService(get: (_) async => '{"current":{"temperature_2m":17.6,"weather_code":63,"is_day":0}}')
