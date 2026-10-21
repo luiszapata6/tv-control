@@ -113,6 +113,7 @@ class MainActivity : Activity() {
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
         while (overlays.isNotEmpty() && overlays.last() !== pairing) pop()
+        if (overlays.isEmpty()) home.focusFirst()
     }
 
     // ------------------------------------------------------------------ data

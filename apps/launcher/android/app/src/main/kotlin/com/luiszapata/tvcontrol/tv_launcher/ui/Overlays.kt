@@ -3,7 +3,6 @@ package com.luiszapata.tvcontrol.tv_launcher.ui
 import android.os.Handler
 import android.os.Looper
 import android.view.Gravity
-import android.view.KeyEvent
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.LinearLayout
@@ -75,10 +74,10 @@ object Overlays {
         val position = pinned.indexOfFirst { it.packageName == pkg }
         val actions = buildList<Triple<Int, String, () -> Unit>> {
             if (position < 0 && Home.canPin(act.apps, act.layout)) {
-                add(Triple(Ic.ADD, "Fijar en Tus apps") { act.saveLayout(Home.pin(pkg, act.apps, act.layout)) })
+                add(Triple(Ic.ADD, "Agregar a favoritos") { act.saveLayout(Home.pin(pkg, act.apps, act.layout)) })
             }
             if (position >= 0) {
-                add(Triple(Ic.REMOVE, "Quitar de Tus apps") { act.saveLayout(Home.unpin(pkg, act.apps, act.layout)) })
+                add(Triple(Ic.REMOVE, "Quitar de favoritos") { act.saveLayout(Home.unpin(pkg, act.apps, act.layout)) })
             }
             add(Triple(Ic.CLOSE, "Cerrar app") { act.closeApp(pkg) })
             add(Triple(Ic.HIDE, "Ocultar") { act.saveLayout(Home.hide(pkg, act.apps, act.layout)) })
@@ -96,7 +95,7 @@ object Overlays {
         AppCard.appArt(ui, app, 220f * 9 / 16)(art)
         left.addView(art, lp(ui.px(220), ui.px(220f * 9 / 16)))
         left.addView(ui.text(app.label, 22f, 700, spacing = -0.2f).apply { maxLines = 2 }, lp(ui.px(220), WRAP).apply { topMargin = ui.px(14) })
-        left.addView(ui.text(if (position >= 0) "En Tus apps" else "No está en Tus apps", 12f, 600, C.INK3),
+        left.addView(ui.text(if (position >= 0) "En favoritos" else "No está en favoritos", 12f, 600, C.INK3),
             lp(WRAP, WRAP).apply { topMargin = ui.px(3) })
         panel.addView(left, lp(ui.px(220), WRAP))
 
@@ -115,6 +114,7 @@ object Overlays {
         root.addView(panel, flp(ui.px(590), WRAP, Gravity.CENTER))
         enter(panel, dy = 6f)
         act.push(root)
+        right.getChildAt(0).let { first -> first.post { first.requestFocus() } }
     }
 
     // -------------------------------------------------------------- inputs
@@ -164,30 +164,6 @@ object Overlays {
         fun add(v: View) = panel.addView(v, lp(MATCH, WRAP).apply { bottomMargin = ui.px(0) })
 
         section("PANTALLA", 18f)
-        val value = ui.text("${act.layout.columns}", 24f, 700, tabular = true).apply {
-            gravity = Gravity.CENTER
-            setTextColor(ui.onFill(C.INK))
-            isDuplicateParentStateEnabled = true
-        }
-        fun setColumns(delta: Int) {
-            act.saveLayout(act.layout.copy(columns = Home.columns(act.layout.columns, delta)))
-            value.text = "${act.layout.columns}"
-        }
-        val (columns, _) = row(ui, null, "Columnas de la grilla", "Apps por fila en Tus apps", 50f) { setColumns(0) }
-        (((columns.getChildAt(0) as LinearLayout))).apply {
-            addView(ui.icon(Ic.CHEVRON_LEFT, 18f).apply { setTextColor(ui.onFill(C.INK3, C.INK_ON_FILL)); isDuplicateParentStateEnabled = true })
-            addView(value, lp(ui.px(26), WRAP))
-            addView(ui.icon(Ic.CHEVRON_RIGHT, 18f).apply { setTextColor(ui.onFill(C.INK3)); isDuplicateParentStateEnabled = true })
-        }
-        columns.setOnKeyListener { _, code, e ->
-            if (e.action != KeyEvent.ACTION_DOWN) return@setOnKeyListener code == KeyEvent.KEYCODE_DPAD_LEFT || code == KeyEvent.KEYCODE_DPAD_RIGHT
-            when (code) {
-                KeyEvent.KEYCODE_DPAD_LEFT -> { setColumns(-1); true }
-                KeyEvent.KEYCODE_DPAD_RIGHT -> { setColumns(1); true }
-                else -> false
-            }
-        }
-        add(columns)
         val hidden = Home.hidden(act.apps, act.layout)
         add(row(ui, null, "Apps ocultas", if (hidden.isEmpty()) "Ninguna" else "${hidden.size} · OK muestra la primera", 50f) {
             Home.hidden(act.apps, act.layout).firstOrNull()?.let { act.saveLayout(Home.unhide(it.packageName, act.layout)) }
@@ -220,13 +196,13 @@ object Overlays {
         add(row(ui, Ic.SETTINGS, "Ajustes del sistema", "Red, pantalla, sonido, protector", 50f) { act.openSystemSettings() }.first)
 
         panel.addView(View(act), lp(1, 0, 1f))
-        panel.addView(hints(ui, "‹  ›" to "Cambiar", "Atrás" to "Cerrar"), lp(WRAP, WRAP).apply { marginStart = ui.px(3) })
+        panel.addView(hints(ui, "Atrás" to "Cerrar"), lp(WRAP, WRAP).apply { marginStart = ui.px(3) })
 
         root.addView(panel, flp(ui.px(400), MATCH, Gravity.END))
         panel.translationX = ui.pxf(400f)
         panel.animate().translationX(0f).setDuration(Motion.PANEL).setInterpolator(Motion.standard).start()
         act.push(root)
-        columns.post { columns.requestFocus() }
+        (panel.getChildAt(2) as? View)?.let { first -> first.post { first.requestFocus() } }
     }
 
     // ------------------------------------------------------------ all apps

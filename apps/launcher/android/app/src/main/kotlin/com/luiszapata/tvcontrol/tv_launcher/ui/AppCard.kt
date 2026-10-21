@@ -117,7 +117,8 @@ class AppCard(
     art: (FrameLayout) -> Unit,
 ) : LinearLayout(ui.context) {
     val frame = FocusFrame(ui, FocusFrame.Look.CARD, 8f)
-    private val name = ui.text(label, 13f, 700).apply {
+    // Quieter than the section titles (15 dp, white): it labels a card, not a section.
+    private val name = ui.text(label, 12f, 600, C.INK2).apply {
         gravity = Gravity.CENTER
         alpha = 0f
     }

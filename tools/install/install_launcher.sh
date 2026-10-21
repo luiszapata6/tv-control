@@ -58,8 +58,13 @@ sh cmd notification allow_listener "$PKG/$PKG.core.NowPlayingListenerService" ||
 echo "→ Iniciando el servicio de compañía…"
 sh am start -n "$PKG/.MainActivity" >/dev/null
 
+# Updating the app clears Android's preferred home: set it again whenever this
+# launcher is (or becomes) the home screen, or Home opens a chooser.
+if [ "$make_default" = 1 ] || [ -f "$(dirname "$0")/.disabled-launchers" ]; then
+  sh cmd package set-home-activity --user 0 "$PKG/.MainActivity" >/dev/null 2>&1 || true
+fi
+
 if [ "$make_default" = 1 ]; then
-  sh cmd package set-home-activity "$PKG/.MainActivity" >/dev/null 2>&1 || true
   for p in "${STOCK_LAUNCHERS[@]}"; do
     if sh pm list packages | tr -d '\r' | grep -qx "package:$p"; then
       echo "→ Desactivando launcher de fábrica $p"

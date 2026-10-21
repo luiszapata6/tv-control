@@ -53,17 +53,19 @@ class HomeTest {
         assertEquals(5, Home.columns(6, -1))
     }
 
-    @Test fun `recent apps are newest first, installed, not hidden and not favourites`() {
+    @Test fun `recent apps are newest first, installed, not hidden, favourites included`() {
         val used = mapOf("yt" to 30L, "nf" to 50L, "gone" to 99L, "dp" to 10L)
-        val onlyYt = Layout(order = listOf("yt"))
-        assertEquals(listOf("Netflix", "Disney+"), Home.recent(used, apps, onlyYt).map { it.label })
-        assertEquals(listOf("Netflix"), Home.recent(used, apps, onlyYt.copy(hidden = listOf("dp")), limit = 1).map { it.label })
+        assertEquals(listOf("Netflix", "YouTube", "Disney+"), Home.recent(used, apps, Layout(order = listOf("yt"))).map { it.label })
+        assertEquals(listOf("Netflix"), Home.recent(used, apps, Layout(hidden = listOf("dp")), limit = 1).map { it.label })
     }
 
-    @Test fun `favourites show the last opened first, never-opened ones keep their order`() {
-        val l = Layout(order = listOf("yt", "nf", "dp"))
-        assertEquals(listOf("Disney+", "Netflix", "YouTube"), Home.favourites(apps, l, mapOf("dp" to 9L, "nf" to 5L)).map { it.label })
-        assertEquals(listOf("YouTube", "Netflix", "Disney+"), Home.favourites(apps, l, emptyMap()).map { it.label })
+    @Test fun `favourites skip what is in Seguir viendo and show the last opened first`() {
+        val many = (1..8).map { app("p$it", "App $it") }
+        val l = Layout(order = many.map { it.packageName })
+        // p1..p5 were used (p5 last): they go to "Seguir viendo"; the rest stay, used ones first.
+        val used = (1..5).associate { "p$it" to it.toLong() } + ("p8" to 0L)
+        assertEquals(listOf("App 8", "App 6", "App 7"), Home.favourites(many, l, used).map { it.label })
+        assertEquals(listOf("App 1", "App 2", "App 3", "App 4", "App 5", "App 6", "App 7", "App 8"), Home.favourites(many, l, emptyMap()).map { it.label })
     }
 
     @Test fun `greeting changes at 5, 12 and 19`() {

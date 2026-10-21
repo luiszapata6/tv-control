@@ -236,6 +236,35 @@ class FocusFrame(private val ui: Ui, val look: Look, radiusDp: Float, restColor:
         translationZ = if (gainFocus) 1f else 0f
     }
 
+    private var longFired = false
+
+    /**
+     * Hold OK opens the options as soon as the remote reports a long press
+     * (repeat / FLAG_LONG_PRESS), not only after View's own timer: some
+     * remotes send the release right after, which View would treat as a click.
+     */
+    override fun dispatchKeyEvent(event: android.view.KeyEvent): Boolean {
+        val select = event.keyCode == android.view.KeyEvent.KEYCODE_DPAD_CENTER ||
+            event.keyCode == android.view.KeyEvent.KEYCODE_ENTER || event.keyCode == android.view.KeyEvent.KEYCODE_NUMPAD_ENTER
+        val long = onLongPress
+        if (select && long != null) {
+            if (event.action == android.view.KeyEvent.ACTION_DOWN) {
+                if (event.repeatCount == 0) longFired = false
+                else if (!longFired) {
+                    longFired = true
+                    cancelLongPress()
+                    isPressed = false
+                    long()
+                    return true
+                }
+            } else if (event.action == android.view.KeyEvent.ACTION_UP && longFired) {
+                longFired = false
+                return true
+            }
+        }
+        return super.dispatchKeyEvent(event)
+    }
+
     override fun setPressed(pressed: Boolean) {
         val was = isPressed
         super.setPressed(pressed)
