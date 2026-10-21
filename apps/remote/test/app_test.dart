@@ -32,8 +32,6 @@ void main() {
     tester.view.physicalSize = const Size(1170, 2532);
     tester.view.devicePixelRatio = 3;
     addTearDown(tester.view.reset);
-    final semantics = tester.ensureSemantics();
-    addTearDown(semantics.dispose);
     await tester.pumpWidget(app);
     // Let the fake TV handshake (in-memory streams, real microtasks).
     for (var i = 0; i < 20; i++) {
@@ -42,6 +40,9 @@ void main() {
   }
 
   Future<void> settle(WidgetTester tester) async {
+    // `await sub.cancel()` resumes through a root-zone microtask that fake
+    // async never flushes; one real event-loop turn lets it run.
+    await tester.runAsync(() async {});
     for (var i = 0; i < 12; i++) {
       await tester.pump(const Duration(milliseconds: 100));
     }

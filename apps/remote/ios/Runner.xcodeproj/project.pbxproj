@@ -7,18 +7,44 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		02E8C41A9D4F88FA03F53B66 /* TVConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39EDDE1B0578CD5BAEEC5B9 /* TVConnection.swift */; };
+		0ACC71F90EF0E111467746B4 /* Intents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C40E63033E8D809BAAA0B3A /* Intents.swift */; };
 		1498D2341E8E89220040F4C2 /* GeneratedPluginRegistrant.m in Sources */ = {isa = PBXBuildFile; fileRef = 1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */; };
+		156E67C9287A102C38FD8DA0 /* TVConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39EDDE1B0578CD5BAEEC5B9 /* TVConnection.swift */; };
+		19D702DE3ED667F57C4D50E0 /* SharedStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD70C80D7179486B4279569 /* SharedStore.swift */; };
 		331C808B294A63AB00263BE5 /* RunnerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331C807B294A618700263BE5 /* RunnerTests.swift */; };
+		35CFA68820287150B0798390 /* SharedBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 620E21A873E4453C86F99D67 /* SharedBridge.swift */; };
 		3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */; };
+		42A3DFC55DFB323E805CE62C /* LiveActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FEABE2D41CD04D9BE30461E /* LiveActivity.swift */; };
+		43E56A6109B0F2912D8E8823 /* TVKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DA32542DC2FDDCDA5EB1157 /* TVKeys.swift */; };
+		46729ACCB349213432D87A85 /* LiveActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FEABE2D41CD04D9BE30461E /* LiveActivity.swift */; };
+		641CEE27ACAF427EEC186BC8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BFCCCF867C9DC8866EAC82B /* Foundation.framework */; };
 		74858FAF1ED2DC5600515810 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74858FAE1ED2DC5600515810 /* AppDelegate.swift */; };
 		7884E8682EC3CC0700C636F2 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7884E8672EC3CC0400C636F2 /* SceneDelegate.swift */; };
 		78A318202AECB46A00862997 /* FlutterGeneratedPluginSwiftPackage in Frameworks */ = {isa = PBXBuildFile; productRef = 78A3181F2AECB46A00862997 /* FlutterGeneratedPluginSwiftPackage */; };
+		7E879EFC6781057A0EAFC820 /* Identity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E56826A600AF1C034FE80B1 /* Identity.swift */; };
+		81BE5F434B5ABF301FC795DE /* Intents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C40E63033E8D809BAAA0B3A /* Intents.swift */; };
+		874904C0982ED81DA7D0A7AD /* TVKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DA32542DC2FDDCDA5EB1157 /* TVKeys.swift */; };
+		8D320A0BD8A8B14F85CA42E3 /* TVWidgets.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 9BEC966F4B03B86CC7F4D048 /* TVWidgets.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		8F903A3F5CB1E2DA69FB8113 /* TVShortcuts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30F3EA1B91A895F56A4943A2 /* TVShortcuts.swift */; };
 		97C146FC1CF9000F007C117D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FA1CF9000F007C117D /* Main.storyboard */; };
 		97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FD1CF9000F007C117D /* Assets.xcassets */; };
 		97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FF1CF9000F007C117D /* LaunchScreen.storyboard */; };
+		9E586F017E985CA8B2CB2935 /* SharedStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD70C80D7179486B4279569 /* SharedStore.swift */; };
+		B6C4E2E5F30A3E4869DBE8F5 /* Proto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3367549CB39E2E20D1CDED73 /* Proto.swift */; };
+		BE2D5896F6514DC9802BA752 /* TVWidgets.swift in Sources */ = {isa = PBXBuildFile; fileRef = D50E1FD15D818664BF5A7812 /* TVWidgets.swift */; };
+		BE789D95BCFBE5D1B0274B93 /* Identity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E56826A600AF1C034FE80B1 /* Identity.swift */; };
+		D32B1933255B2980FFC45D43 /* Proto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3367549CB39E2E20D1CDED73 /* Proto.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		11939A2C3B1DFABD3AD4EDA7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 97C146E61CF9000F007C117D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8C1D02C2A9CE97C358FA6822;
+			remoteInfo = TVWidgets;
+		};
 		331C8085294A63A400263BE5 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 97C146E61CF9000F007C117D /* Project object */;
@@ -39,19 +65,41 @@
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		F3C4861D3321772D00EBBBCF /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				8D320A0BD8A8B14F85CA42E3 /* TVWidgets.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		1498D2321E8E86230040F4C2 /* GeneratedPluginRegistrant.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GeneratedPluginRegistrant.h; sourceTree = "<group>"; };
 		1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeneratedPluginRegistrant.m; sourceTree = "<group>"; };
+		1D4A8C4DCE8DA2DCA7337E60 /* Runner.entitlements */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.entitlements; path = Runner.entitlements; sourceTree = "<group>"; };
+		1DA32542DC2FDDCDA5EB1157 /* TVKeys.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TVKeys.swift; sourceTree = "<group>"; };
+		1E56826A600AF1C034FE80B1 /* Identity.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Identity.swift; sourceTree = "<group>"; };
+		2CD70C80D7179486B4279569 /* SharedStore.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SharedStore.swift; sourceTree = "<group>"; };
+		30F3EA1B91A895F56A4943A2 /* TVShortcuts.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TVShortcuts.swift; sourceTree = "<group>"; };
 		331C807B294A618700263BE5 /* RunnerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunnerTests.swift; sourceTree = "<group>"; };
 		331C8081294A63A400263BE5 /* RunnerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RunnerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		3367549CB39E2E20D1CDED73 /* Proto.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Proto.swift; sourceTree = "<group>"; };
 		3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = AppFrameworkInfo.plist; path = Flutter/AppFrameworkInfo.plist; sourceTree = "<group>"; };
+		620E21A873E4453C86F99D67 /* SharedBridge.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SharedBridge.swift; sourceTree = "<group>"; };
+		729BC218131952656113F323 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		74858FAD1ED2DC5600515810 /* Runner-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Runner-Bridging-Header.h"; sourceTree = "<group>"; };
 		74858FAE1ED2DC5600515810 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		7592657E553B53921BBD6BDD /* TVWidgets.entitlements */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.entitlements; path = TVWidgets.entitlements; sourceTree = "<group>"; };
 		7884E8672EC3CC0400C636F2 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		78E0A7A72DC9AD7400C4905E /* FlutterGeneratedPluginSwiftPackage */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = FlutterGeneratedPluginSwiftPackage; path = Flutter/ephemeral/Packages/FlutterGeneratedPluginSwiftPackage; sourceTree = "<group>"; };
 		7AFA3C8E1D35360C0083082E /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Release.xcconfig; path = Flutter/Release.xcconfig; sourceTree = "<group>"; };
+		7FEABE2D41CD04D9BE30461E /* LiveActivity.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = LiveActivity.swift; sourceTree = "<group>"; };
+		8BFCCCF867C9DC8866EAC82B /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		9740EEB21CF90195004384FC /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Debug.xcconfig; path = Flutter/Debug.xcconfig; sourceTree = "<group>"; };
 		9740EEB31CF90195004384FC /* Generated.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Generated.xcconfig; path = Flutter/Generated.xcconfig; sourceTree = "<group>"; };
 		97C146EE1CF9000F007C117D /* Runner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Runner.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -59,9 +107,22 @@
 		97C146FD1CF9000F007C117D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		97C147001CF9000F007C117D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		97C147021CF9000F007C117D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9BEC966F4B03B86CC7F4D048 /* TVWidgets.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = TVWidgets.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		9C40E63033E8D809BAAA0B3A /* Intents.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Intents.swift; sourceTree = "<group>"; };
+		B5B315853FD45062A5CF620B /* TVWidgets.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = TVWidgets.xcconfig; sourceTree = "<group>"; };
+		C39EDDE1B0578CD5BAEEC5B9 /* TVConnection.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TVConnection.swift; sourceTree = "<group>"; };
+		D50E1FD15D818664BF5A7812 /* TVWidgets.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TVWidgets.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		18019A9896DFC01ACFA42576 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				641CEE27ACAF427EEC186BC8 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		97C146EB1CF9000F007C117D /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -73,12 +134,39 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		30C40E4EDD16678253200EAC /* TVWidgets */ = {
+			isa = PBXGroup;
+			children = (
+				B5B315853FD45062A5CF620B /* TVWidgets.xcconfig */,
+				D50E1FD15D818664BF5A7812 /* TVWidgets.swift */,
+				729BC218131952656113F323 /* Info.plist */,
+				7592657E553B53921BBD6BDD /* TVWidgets.entitlements */,
+			);
+			name = TVWidgets;
+			path = TVWidgets;
+			sourceTree = "<group>";
+		};
 		331C8082294A63A400263BE5 /* RunnerTests */ = {
 			isa = PBXGroup;
 			children = (
 				331C807B294A618700263BE5 /* RunnerTests.swift */,
 			);
 			path = RunnerTests;
+			sourceTree = "<group>";
+		};
+		6FBF6F98C579F845DF324F6A /* TVKit */ = {
+			isa = PBXGroup;
+			children = (
+				1E56826A600AF1C034FE80B1 /* Identity.swift */,
+				9C40E63033E8D809BAAA0B3A /* Intents.swift */,
+				7FEABE2D41CD04D9BE30461E /* LiveActivity.swift */,
+				3367549CB39E2E20D1CDED73 /* Proto.swift */,
+				2CD70C80D7179486B4279569 /* SharedStore.swift */,
+				C39EDDE1B0578CD5BAEEC5B9 /* TVConnection.swift */,
+				1DA32542DC2FDDCDA5EB1157 /* TVKeys.swift */,
+			);
+			name = TVKit;
+			path = TVKit;
 			sourceTree = "<group>";
 		};
 		9740EEB11CF90186004384FC /* Flutter */ = {
@@ -100,6 +188,9 @@
 				97C146F01CF9000F007C117D /* Runner */,
 				97C146EF1CF9000F007C117D /* Products */,
 				331C8082294A63A400263BE5 /* RunnerTests */,
+				A2681092C4EA6859AF313180 /* Frameworks */,
+				30C40E4EDD16678253200EAC /* TVWidgets */,
+				6FBF6F98C579F845DF324F6A /* TVKit */,
 			);
 			sourceTree = "<group>";
 		};
@@ -108,6 +199,7 @@
 			children = (
 				97C146EE1CF9000F007C117D /* Runner.app */,
 				331C8081294A63A400263BE5 /* RunnerTests.xctest */,
+				9BEC966F4B03B86CC7F4D048 /* TVWidgets.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -124,8 +216,27 @@
 				74858FAE1ED2DC5600515810 /* AppDelegate.swift */,
 				7884E8672EC3CC0400C636F2 /* SceneDelegate.swift */,
 				74858FAD1ED2DC5600515810 /* Runner-Bridging-Header.h */,
+				620E21A873E4453C86F99D67 /* SharedBridge.swift */,
+				30F3EA1B91A895F56A4943A2 /* TVShortcuts.swift */,
+				1D4A8C4DCE8DA2DCA7337E60 /* Runner.entitlements */,
 			);
 			path = Runner;
+			sourceTree = "<group>";
+		};
+		A2681092C4EA6859AF313180 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				BC96D6A53097362C49786776 /* iOS */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		BC96D6A53097362C49786776 /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				8BFCCCF867C9DC8866EAC82B /* Foundation.framework */,
+			);
+			name = iOS;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -148,6 +259,23 @@
 			productReference = 331C8081294A63A400263BE5 /* RunnerTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		8C1D02C2A9CE97C358FA6822 /* TVWidgets */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2AB60CA01A2C7E6B6ACEE673 /* Build configuration list for PBXNativeTarget "TVWidgets" */;
+			buildPhases = (
+				EDD6AA00C0B5DFEEB8AB17C0 /* Sources */,
+				18019A9896DFC01ACFA42576 /* Frameworks */,
+				A7F0A4F32E9D2FF9EAADBF9A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = TVWidgets;
+			productName = TVWidgets;
+			productReference = 9BEC966F4B03B86CC7F4D048 /* TVWidgets.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		97C146ED1CF9000F007C117D /* Runner */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 97C147051CF9000F007C117D /* Build configuration list for PBXNativeTarget "Runner" */;
@@ -157,11 +285,13 @@
 				97C146EB1CF9000F007C117D /* Frameworks */,
 				97C146EC1CF9000F007C117D /* Resources */,
 				9705A1C41CF9048500538489 /* Embed Frameworks */,
+				F3C4861D3321772D00EBBBCF /* Embed Foundation Extensions */,
 				3B06AD1E1E4923F5004D2608 /* Thin Binary */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				8E0DACB99B48B70E27635CC9 /* PBXTargetDependency */,
 			);
 			name = Runner;
 			packageProductDependencies = (
@@ -201,7 +331,7 @@
 			);
 			mainGroup = 97C146E51CF9000F007C117D;
 			packageReferences = (
-				781AD8BC2B33823900A9FFBB /* XCLocalSwiftPackageReference "Flutter/ephemeral/Packages/FlutterGeneratedPluginSwiftPackage" */,
+				781AD8BC2B33823900A9FFBB /* XCLocalSwiftPackageReference "FlutterGeneratedPluginSwiftPackage" */,
 			);
 			productRefGroup = 97C146EF1CF9000F007C117D /* Products */;
 			projectDirPath = "";
@@ -209,6 +339,7 @@
 			targets = (
 				97C146ED1CF9000F007C117D /* Runner */,
 				331C8080294A63A400263BE5 /* RunnerTests */,
+				8C1D02C2A9CE97C358FA6822 /* TVWidgets */,
 			);
 		};
 /* End PBXProject section */
@@ -229,6 +360,13 @@
 				3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */,
 				97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */,
 				97C146FC1CF9000F007C117D /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A7F0A4F32E9D2FF9EAADBF9A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -284,6 +422,30 @@
 				74858FAF1ED2DC5600515810 /* AppDelegate.swift in Sources */,
 				1498D2341E8E89220040F4C2 /* GeneratedPluginRegistrant.m in Sources */,
 				7884E8682EC3CC0700C636F2 /* SceneDelegate.swift in Sources */,
+				35CFA68820287150B0798390 /* SharedBridge.swift in Sources */,
+				8F903A3F5CB1E2DA69FB8113 /* TVShortcuts.swift in Sources */,
+				BE789D95BCFBE5D1B0274B93 /* Identity.swift in Sources */,
+				81BE5F434B5ABF301FC795DE /* Intents.swift in Sources */,
+				46729ACCB349213432D87A85 /* LiveActivity.swift in Sources */,
+				B6C4E2E5F30A3E4869DBE8F5 /* Proto.swift in Sources */,
+				19D702DE3ED667F57C4D50E0 /* SharedStore.swift in Sources */,
+				156E67C9287A102C38FD8DA0 /* TVConnection.swift in Sources */,
+				874904C0982ED81DA7D0A7AD /* TVKeys.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EDD6AA00C0B5DFEEB8AB17C0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BE2D5896F6514DC9802BA752 /* TVWidgets.swift in Sources */,
+				7E879EFC6781057A0EAFC820 /* Identity.swift in Sources */,
+				0ACC71F90EF0E111467746B4 /* Intents.swift in Sources */,
+				42A3DFC55DFB323E805CE62C /* LiveActivity.swift in Sources */,
+				D32B1933255B2980FFC45D43 /* Proto.swift in Sources */,
+				9E586F017E985CA8B2CB2935 /* SharedStore.swift in Sources */,
+				02E8C41A9D4F88FA03F53B66 /* TVConnection.swift in Sources */,
+				43E56A6109B0F2912D8E8823 /* TVKeys.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -294,6 +456,12 @@
 			isa = PBXTargetDependency;
 			target = 97C146ED1CF9000F007C117D /* Runner */;
 			targetProxy = 331C8085294A63A400263BE5 /* PBXContainerItemProxy */;
+		};
+		8E0DACB99B48B70E27635CC9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = TVWidgets;
+			target = 8C1D02C2A9CE97C358FA6822 /* TVWidgets */;
+			targetProxy = 11939A2C3B1DFABD3AD4EDA7 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -360,7 +528,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
@@ -376,9 +544,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -438,6 +608,80 @@
 			};
 			name = Profile;
 		};
+		789FF6A288CCB3932660EFAC /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = B5B315853FD45062A5CF620B /* TVWidgets.xcconfig */;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_ENTITLEMENTS = TVWidgets/TVWidgets.entitlements;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = TVWidgets/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.luiszapata.tvcontrol.tvRemote.TVWidgets;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		90F2818E6BAEB61429A498E3 /* Profile */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = B5B315853FD45062A5CF620B /* TVWidgets.xcconfig */;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_ENTITLEMENTS = TVWidgets/TVWidgets.entitlements;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = TVWidgets/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.luiszapata.tvcontrol.tvRemote.TVWidgets;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Profile;
+		};
+		949731301C95C0E62802764D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = B5B315853FD45062A5CF620B /* TVWidgets.xcconfig */;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_ENTITLEMENTS = TVWidgets/TVWidgets.entitlements;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = TVWidgets/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.luiszapata.tvcontrol.tvRemote.TVWidgets;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
 		97C147031CF9000F007C117D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -487,7 +731,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -539,7 +783,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
@@ -557,9 +801,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -579,9 +825,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -597,6 +845,16 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		2AB60CA01A2C7E6B6ACEE673 /* Build configuration list for PBXNativeTarget "TVWidgets" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				789FF6A288CCB3932660EFAC /* Release */,
+				949731301C95C0E62802764D /* Debug */,
+				90F2818E6BAEB61429A498E3 /* Profile */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		331C8087294A63A400263BE5 /* Build configuration list for PBXNativeTarget "RunnerTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -630,7 +888,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCLocalSwiftPackageReference section */
-		781AD8BC2B33823900A9FFBB /* XCLocalSwiftPackageReference "Flutter/ephemeral/Packages/FlutterGeneratedPluginSwiftPackage" */ = {
+		781AD8BC2B33823900A9FFBB /* XCLocalSwiftPackageReference "FlutterGeneratedPluginSwiftPackage" */ = {
 			isa = XCLocalSwiftPackageReference;
 			relativePath = Flutter/ephemeral/Packages/FlutterGeneratedPluginSwiftPackage;
 		};

@@ -18,7 +18,7 @@ class KeychainSecretStore implements SecretStore {
     // so it uses the login keychain instead of the data-protection one.
     mOptions: MacOsOptions(
       accessibility: KeychainAccessibility.first_unlock_this_device,
-      useDataProtectionKeyChain: false,
+      usesDataProtectionKeychain: false,
     ),
   );
 
