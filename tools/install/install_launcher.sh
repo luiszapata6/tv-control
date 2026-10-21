@@ -41,6 +41,12 @@ done
 [ "${state:-}" = device ] || { echo "La TV no autorizó la conexión. Activa 'Depuración por red' en Opciones de desarrollador y reintenta."; exit 1; }
 sh() { adb -s "$target" shell "$@"; }
 
+# The first install keeps a snapshot of the stock state for the rollback.
+if ! ls -d "$(dirname "$0")/backups/$ip"/*/ >/dev/null 2>&1; then
+  echo "→ Guardando el estado actual de la TV (rollback)…"
+  "$(dirname "$0")/snapshot_tv.sh" "$ip"
+fi
+
 echo "→ Instalando $(basename "$apk")…"
 adb -s "$target" install -r -g "$apk"
 

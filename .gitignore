@@ -14,3 +14,4 @@ ci-logs/
 .DS_Store
 local.properties
 tools/install/.disabled-launchers
+tools/install/backups/
