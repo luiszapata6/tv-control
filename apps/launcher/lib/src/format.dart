@@ -8,8 +8,8 @@ String formatTime(DateTime t) => '${t.hour}:${t.minute.toString().padLeft(2, '0'
 
 String formatDate(DateTime t) => '${_days[t.weekday - 1]}, ${t.day} de ${_months[t.month - 1]}';
 
-String greetingFor(DateTime t) => t.hour < 12
-    ? 'BUENOS DÍAS AMIGUE'
-    : t.hour < 19
-        ? 'BUENAS TARDES AMIGUE'
-        : 'BUENAS NOCHES AMIGUE';
+String greetingFor(DateTime t) => t.hour < 5 || t.hour >= 19
+    ? 'BUENAS NOCHES AMIGUE'
+    : t.hour < 12
+        ? 'BUENOS DÍAS AMIGUE'
+        : 'BUENAS TARDES AMIGUE';

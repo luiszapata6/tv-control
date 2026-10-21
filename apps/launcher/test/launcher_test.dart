@@ -233,6 +233,8 @@ void main() {
       expect(greetingFor(DateTime(2026, 1, 5, 12)), 'BUENAS TARDES AMIGUE');
       expect(greetingFor(DateTime(2026, 1, 5, 18, 59)), 'BUENAS TARDES AMIGUE');
       expect(greetingFor(DateTime(2026, 1, 5, 19)), 'BUENAS NOCHES AMIGUE');
+      expect(greetingFor(DateTime(2026, 1, 5, 4, 59)), 'BUENAS NOCHES AMIGUE');
+      expect(greetingFor(DateTime(2026, 1, 5, 5)), 'BUENOS DÍAS AMIGUE');
     });
     test('open-meteo parsing', () async {
       final w = await WeatherService(get: (_) async => '{"current":{"temperature_2m":17.6,"weather_code":63,"is_day":0}}')
