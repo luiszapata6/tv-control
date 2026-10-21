@@ -69,20 +69,20 @@ public struct TVSleepIntent: AppIntent {
     public init() {}
 
     public func perform() async throws -> some IntentResult {
-        try await TVRemote.perform([.key(.sleep)])
+        try await TVRemote.perform([.setPower(on: false)])
         return .result()
     }
 }
 
-/// Only turns the TV on. Works while the TV keeps its remote service alive
-/// in standby.
+/// Only turns the TV on (never off). Works because the Hisense keeps its
+/// remote service alive in standby (verified in Fase 0).
 public struct TVWakeIntent: AppIntent {
     public static var title: LocalizedStringResource = "Encender la TV"
     public static var openAppWhenRun = false
     public init() {}
 
     public func perform() async throws -> some IntentResult {
-        try await TVRemote.perform([.key(.wakeup)])
+        try await TVRemote.perform([.setPower(on: true)])
         return .result()
     }
 }

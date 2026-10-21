@@ -5,8 +5,6 @@ public enum TVKey: Int, CaseIterable, Sendable {
     case home = 3, back = 4
     case up = 19, down = 20, left = 21, right = 22, center = 23
     case volumeUp = 24, volumeDown = 25, power = 26
-    // Discrete off / on, unlike the power toggle (safe for automations).
-    case sleep = 223, wakeup = 224
     case menu = 82, playPause = 85, next = 87, previous = 88
     case mute = 164
 }
@@ -19,6 +17,9 @@ public enum TVAction: Sendable {
     case key(TVKey)
     /// Package name or URL; packages become market://launch?id=<package>.
     case open(String)
+    /// Turn the TV on or off: presses power only if it is not already in that state.
+    /// (The Hisense ignores KEYCODE_SLEEP / WAKEUP; only the power toggle works.)
+    case setPower(on: Bool)
 
     var appLink: String? {
         guard case let .open(value) = self else { return nil }

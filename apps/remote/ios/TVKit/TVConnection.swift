@@ -79,6 +79,15 @@ final class TVConnection: @unchecked Sendable {
             case .open:
                 guard let link = action.appLink else { continue }
                 try await send { w in w.message(90) { $0.string(1, link) } }
+            case let .setPower(on):
+                // isOn arrives with remote_start, before open() returns.
+                guard isOn != on else { continue }
+                try await send { w in
+                    w.message(10) { k in
+                        k.int(1, TVKey.power.rawValue)
+                        k.int(2, shortPress)
+                    }
+                }
             }
         }
     }
