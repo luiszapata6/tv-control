@@ -8,7 +8,8 @@ PKG=com.luiszapata.tvcontrol.tv_launcher
 ip="${1:?usage: restore_stock_launcher.sh <TV_IP> [--uninstall]}"
 target="$ip:5555"
 adb connect "$target" >/dev/null
-sh() { adb -s "$target" shell "$@" | tr -d '\r'; }
+# </dev/null: adb shell would otherwise eat the stdin of the while-read loop below.
+sh() { adb -s "$target" shell "$@" </dev/null | tr -d '\r'; }
 here="$(dirname "$0")"
 snap="$(ls -d "$here/backups/$ip"/*/ 2>/dev/null | sort | head -1 || true)"
 
