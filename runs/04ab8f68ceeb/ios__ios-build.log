@@ -1,0 +1,16 @@
+Runner.xcodeproj updated
+Warning: Building for device with codesigning disabled. You will have to manually codesign before deploying to device.
+Xcode is fetching Swift Package Manager dependencies. This may take several minutes...
+  Fetching from https://github.com/mattgallagher/CwlCatchException.git...     
+Building com.luiszapata.tvcontrol.tvRemote for device (ios-release)...
+** BUILD SUCCEEDED **
+AppFrameworkInfo.plist
+AppIcon60x60@2x.png
+AppIcon76x76@2x~ipad.png
+Assets.car
+Base.lproj
+flutter_secure_storage_darwin_flutter_secure_storage_darwin.bundle
+Frameworks
+Info.plist
+Metadata.appintents
+PkgInfo
