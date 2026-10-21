@@ -96,15 +96,16 @@ class _FocusTileState extends State<FocusTile> {
     final scale = _pressed ? (card ? 1.04 : 1.0) : (_focused ? focusScale : 1.0);
     final duration = _pressed ? Motion.pressDown : (_focused ? Motion.focusIn : Motion.focusOut);
     final r = BorderRadius.circular(widget.radius);
+    // No blurred shadows: on the Hisense GPU a blurred halo cost ~13 ms per
+    // frame. Crisp rings read the same from the sofa.
     final shadows = lit
         ? [
-            const BoxShadow(color: Color(0x666C6CF2), blurRadius: 36, spreadRadius: 2),
-            const BoxShadow(color: Color(0xCC000000), offset: Offset(0, 14), blurRadius: 24, spreadRadius: -5),
-            // Ring: 2 dp white outside a 1.5 dp gap of background, so it reads on white banners too.
+            if (card) const BoxShadow(color: Color(0x596C6CF2), spreadRadius: 7),
             if (card) const BoxShadow(color: Palette.ink, spreadRadius: 3.5),
             if (card) const BoxShadow(color: Palette.bg, spreadRadius: 1.5),
+            if (!card) const BoxShadow(color: Color(0x596C6CF2), spreadRadius: 3),
           ]
-        : [if (card) const BoxShadow(color: Color(0x99000000), offset: Offset(0, 4), blurRadius: 10, spreadRadius: -4)];
+        : const <BoxShadow>[];
     return Semantics(
       button: true,
       label: widget.semanticLabel,

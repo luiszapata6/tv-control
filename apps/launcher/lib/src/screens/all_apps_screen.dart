@@ -14,14 +14,14 @@ class AllAppsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: DecoratedBox(
-        decoration: backgroundGlow,
-        child: ListenableBuilder(
+      backgroundColor: Palette.homeBg,
+      body: ListenableBuilder(
           listenable: controller,
           builder: (context, _) {
             final apps = controller.visibleApps;
             return Stack(
               children: [
+                const Positioned.fill(child: Backdrop()),
                 Padding(
                   padding: const EdgeInsets.only(top: 32),
                   child: Column(
@@ -83,28 +83,9 @@ class AllAppsScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-                const Positioned(
-                  left: 0,
-                  right: 0,
-                  bottom: 0,
-                  height: 80,
-                  child: IgnorePointer(
-                    child: DecoratedBox(
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                          colors: [Color(0x000A0B10), Palette.bg],
-                          stops: [0, 0.85],
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
               ],
             );
           },
-        ),
       ),
     );
   }

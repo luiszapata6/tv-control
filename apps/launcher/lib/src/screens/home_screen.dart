@@ -59,43 +59,7 @@ class _HomeScreenState extends State<HomeScreen> {
           final multiRow = c.pinned.length > c.layout.columns;
           return Stack(
             children: [
-              // Fixed glow, painted once: deep blue top right, a touch of indigo top left, black below.
-              const Positioned.fill(
-                child: DecoratedBox(
-                  decoration: BoxDecoration(
-                    gradient: RadialGradient(
-                      center: Alignment(0.6, -1.3),
-                      radius: 1.5,
-                      colors: [Color(0x47123A8C), Color(0x00123A8C)],
-                      stops: [0, 0.7],
-                    ),
-                  ),
-                ),
-              ),
-              const Positioned.fill(
-                child: DecoratedBox(
-                  decoration: BoxDecoration(
-                    gradient: RadialGradient(
-                      center: Alignment(-1, -1.4),
-                      radius: 1.35,
-                      colors: [Color(0x1A6C6CF2), Color(0x006C6CF2)],
-                      stops: [0, 0.65],
-                    ),
-                  ),
-                ),
-              ),
-              const Positioned.fill(
-                child: DecoratedBox(
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: [Color(0x0008090D), Color(0xB3040508)],
-                      stops: [0.55, 1],
-                    ),
-                  ),
-                ),
-              ),
+              const Positioned.fill(child: Backdrop()),
               Padding(
                 padding: const EdgeInsets.fromLTRB(0, 30, 0, 20),
                 child: Column(
@@ -406,3 +370,4 @@ class _Footer extends StatelessWidget {
     );
   }
 }
+

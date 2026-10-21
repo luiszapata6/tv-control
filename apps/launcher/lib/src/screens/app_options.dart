@@ -42,7 +42,6 @@ Future<void> showAppOptions(BuildContext context, HomeController c, LauncherApp 
             color: Palette.surface2,
             borderRadius: BorderRadius.circular(14),
             border: Border.all(color: const Color(0x12FFFFFF)),
-            boxShadow: const [BoxShadow(color: Color(0x99000000), offset: Offset(0, 20), blurRadius: 60)],
           ),
           child: Row(
             children: [

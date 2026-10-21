@@ -51,17 +51,6 @@ abstract final class Txt {
   static const hint = TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: Palette.ink3);
 }
 
-/// Static background glow (painted once, no blur).
-const backgroundGlow = BoxDecoration(
-  color: Palette.bg,
-  gradient: RadialGradient(
-    center: Alignment(-0.84, -1.24),
-    radius: 1.3,
-    colors: [Color(0x2B6C6CF2), Color(0x006C6CF2)],
-    stops: [0, 0.62],
-  ),
-);
-
 ThemeData buildTheme() {
   final base = ThemeData(
     brightness: Brightness.dark,
@@ -79,4 +68,39 @@ ThemeData buildTheme() {
     focusColor: Colors.transparent,
   );
   return base.copyWith(textTheme: base.textTheme.apply(bodyColor: Palette.ink, displayColor: Palette.ink));
+}
+
+/// Fixed glow: deep blue at the top right over black. One cached picture
+/// covering only that corner: full-screen gradients redrawn every frame cost
+/// ~37 ms per frame on the Hisense GPU.
+class Backdrop extends StatelessWidget {
+  const Backdrop({super.key});
+
+  @override
+  Widget build(BuildContext context) => const Align(
+        alignment: Alignment.topRight,
+        child: FractionallySizedBox(
+          widthFactor: 0.7,
+          heightFactor: 0.75,
+          child: RepaintBoundary(child: CustomPaint(painter: _BackdropPainter(), isComplex: true, willChange: false)),
+        ),
+      );
+}
+
+class _BackdropPainter extends CustomPainter {
+  const _BackdropPainter();
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final rect = Offset.zero & size;
+    const glow = RadialGradient(
+      center: Alignment(0.45, -1),
+      radius: 1.1,
+      colors: [Color(0x52123A8C), Color(0x00123A8C)],
+    );
+    canvas.drawRect(rect, Paint()..shader = glow.createShader(rect));
+  }
+
+  @override
+  bool shouldRepaint(_BackdropPainter old) => false;
 }

@@ -91,7 +91,6 @@ class _SettingsPanelState extends State<SettingsPanel> {
       decoration: const BoxDecoration(
         color: Palette.surface1,
         border: Border(left: BorderSide(color: Color(0x0FFFFFFF))),
-        boxShadow: [BoxShadow(color: Color(0x80000000), offset: Offset(-20, 0), blurRadius: 60)],
       ),
       child: ListenableBuilder(
         listenable: c,
