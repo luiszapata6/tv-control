@@ -1,7 +1,7 @@
-# CI PASS — 5c134d37095c
+# CI PASS — d9f27dc70c0f
 
-Run: https://github.com/luiszapata6/tv-control/actions/runs/39532282123
-Commit: feat(launcher): redesign from Claude Design (v2)
+Run: https://github.com/luiszapata6/tv-control/actions/runs/39533835719
+Commit: perf(launcher): fixed dark-blue glow instead of one that follows the focused app; decode banners at on-screen size
 Job results: [
   "success",
   "success",
@@ -14,21 +14,21 @@ Job results: [
 | --- | --- | --- | --- |
 | dart | atv-analyze | PASS | 1s |
 | dart | atv-test | PASS | 11s |
-| dart | companion-analyze | PASS | 1s |
+| dart | companion-analyze | PASS | 0s |
 | dart | companion-test | PASS | 6s |
-| dart | setup | PASS | 5s |
-| ios | ios-build | PASS | 166s |
+| dart | setup | PASS | 6s |
+| ios | ios-build | PASS | 96s |
 | ios | ios-ipa | PASS | 1s |
-| ios | ios-pub | PASS | 3s |
-| ios | macos-build | PASS | 149s |
-| launcher | launcher-analyze | PASS | 8s |
-| launcher | launcher-apk | PASS | 193s |
-| launcher | launcher-kotlin-tests | PASS | 44s |
+| ios | ios-pub | PASS | 1s |
+| ios | macos-build | PASS | 78s |
+| launcher | launcher-analyze | PASS | 5s |
+| launcher | launcher-apk | PASS | 154s |
+| launcher | launcher-kotlin-tests | PASS | 33s |
 | launcher | launcher-pub | PASS | 1s |
-| launcher | launcher-test | PASS | 13s |
+| launcher | launcher-test | PASS | 7s |
 | python | codegen-up-to-date | PASS | 0s |
-| python | pip | PASS | 6s |
-| python | sim-tests | PASS | 9s |
-| remote | remote-analyze | PASS | 11s |
-| remote | remote-pub | PASS | 6s |
+| python | pip | PASS | 8s |
+| python | sim-tests | PASS | 10s |
+| remote | remote-analyze | PASS | 10s |
+| remote | remote-pub | PASS | 4s |
 | remote | remote-test | PASS | 16s |
