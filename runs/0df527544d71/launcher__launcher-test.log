@@ -1,0 +1,18 @@
+00:00 +0: loading /home/runner/work/tv-control/tv-control/apps/launcher/test/launcher_test.dart
+00:00 +0: home shows clock, weather, pinned apps in order and inputs
+00:00 +1: D-pad moves focus and select opens the app
+00:00 +2: long press opens options and unpins
+00:00 +3: menu key moves an app to the right
+00:00 +4: all apps lists every visible app and can pin one
+00:01 +5: HDMI input opens
+00:01 +6: pairing code overlay appears and disappears
+00:01 +7: layout changes from the iPhone update the grid
+00:01 +8: settings cycles grid columns
+00:01 +9: settings revokes paired devices after a second press
+00:01 +10: controller failed icons are retried later and after appsChanged, found ones are cached
+00:01 +11: controller refresh errors do not leave the launcher loading
+00:01 +12: controller a layout that fails to save is reverted
+00:01 +13: controller without a layout, non-system apps are suggested and editing materializes them
+00:01 +14: formatting and weather dates in Spanish
+00:01 +15: formatting and weather open-meteo parsing
+00:01 +16: All tests passed!
