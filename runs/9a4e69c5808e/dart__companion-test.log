@@ -1,0 +1,54 @@
+00:00 +0: loading test/client_test.dart
+00:00 +0: test/client_test.dart: a stored token authenticates immediately
+00:00 +1: test/fixtures_test.dart: round trip hello
+00:00 +2: test/client_test.dart: without a token the client pairs with the code on the TV
+00:00 +3: test/client_test.dart: without a token the client pairs with the code on the TV
+00:00 +4: test/client_test.dart: without a token the client pairs with the code on the TV
+00:00 +5: test/client_test.dart: without a token the client pairs with the code on the TV
+00:00 +6: test/client_test.dart: without a token the client pairs with the code on the TV
+00:00 +7: test/client_test.dart: without a token the client pairs with the code on the TV
+00:00 +8: test/client_test.dart: without a token the client pairs with the code on the TV
+00:00 +9: test/client_test.dart: without a token the client pairs with the code on the TV
+00:00 +10: test/fixtures_test.dart: round trip locked
+00:00 +11: test/client_test.dart: too many wrong codes lock pairing
+00:00 +12: test/client_test.dart: too many wrong codes lock pairing
+00:00 +13: test/client_test.dart: too many wrong codes lock pairing
+00:00 +14: test/fixtures_test.dart: round trip pong
+00:00 +15: test/client_test.dart: authenticated apps, icons and launching
+00:00 +16: test/client_test.dart: authenticated apps, icons and launching
+00:00 +17: test/client_test.dart: authenticated apps, icons and launching
+00:00 +18: test/client_test.dart: authenticated apps, icons and launching
+00:00 +19: test/client_test.dart: authenticated apps, icons and launching
+00:00 +20: test/client_test.dart: authenticated apps, icons and launching
+00:00 +21: test/client_test.dart: authenticated apps, icons and launching
+00:00 +22: test/client_test.dart: authenticated apps, icons and launching
+00:00 +23: test/client_test.dart: authenticated apps, icons and launching
+00:00 +24: test/client_test.dart: authenticated apps, icons and launching
+00:00 +25: test/client_test.dart: authenticated apps, icons and launching
+00:00 +26: test/client_test.dart: authenticated apps, icons and launching
+00:00 +27: test/client_test.dart: authenticated apps, icons and launching
+00:00 +28: test/fixtures_test.dart: round trip inputs_open
+00:00 +29: test/client_test.dart: authenticated layout round trip and change event
+00:00 +30: test/client_test.dart: authenticated layout round trip and change event
+00:00 +31: test/client_test.dart: authenticated layout round trip and change event
+00:00 +32: test/client_test.dart: authenticated layout round trip and change event
+00:00 +33: test/client_test.dart: authenticated layout round trip and change event
+00:00 +34: test/fixtures_test.dart: round trip usage_result
+00:00 +35: test/client_test.dart: authenticated inputs, now playing, usage, backup, ping
+00:00 +36: test/client_test.dart: authenticated inputs, now playing, usage, backup, ping
+00:00 +37: test/client_test.dart: authenticated inputs, now playing, usage, backup, ping
+00:00 +38: test/client_test.dart: authenticated inputs, now playing, usage, backup, ping
+00:00 +39: test/client_test.dart: authenticated inputs, now playing, usage, backup, ping
+00:00 +40: test/client_test.dart: authenticated inputs, now playing, usage, backup, ping
+00:00 +41: test/client_test.dart: authenticated inputs, now playing, usage, backup, ping
+00:00 +42: test/client_test.dart: authenticated inputs, now playing, usage, backup, ping
+00:00 +43: test/client_test.dart: authenticated inputs, now playing, usage, backup, ping
+00:00 +44: test/fixtures_test.dart: models parse their fixtures
+00:00 +45: test/client_test.dart: authenticated requests time out
+00:00 +46: test/client_test.dart: authenticated requests time out
+00:00 +47: test/client_test.dart: authenticated requests time out
+00:00 +48: test/client_test.dart: authenticated requests time out
+00:00 +49: test/client_test.dart: authenticated pending requests fail when the TV disconnects
+00:00 +50: test/client_test.dart: real WebSocket against a local server
+00:00 +51: test/client_test.dart: unreachable TV fails with disconnected
+00:00 +52: All tests passed!
