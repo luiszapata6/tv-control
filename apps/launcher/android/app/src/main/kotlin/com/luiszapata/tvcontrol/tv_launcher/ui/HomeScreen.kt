@@ -111,7 +111,7 @@ class HomeScreen(private val act: MainActivity) {
             gravity = Gravity.CENTER_VERTICAL
             clipChildren = false
         }
-        val title = ui.horizontal().apply { gravity = Gravity.BOTTOM; setPadding(0, ui.px(10), 0, 0) }
+        val title = ui.horizontal().apply { gravity = Gravity.BOTTOM; setPadding(0, ui.px(4), 0, 0) }
         title.addView(ui.text("Tus apps", 15f, 700, spacing = -0.15f))
         col.addView(title)
         col.addView(grid, lp(MATCH, WRAP).apply { topMargin = ui.px(10) })
@@ -170,7 +170,7 @@ class HomeScreen(private val act: MainActivity) {
         val cols = act.layout.columns
         val compact = pinned.size + 1 > cols
         // Two rows of apps need the room: smaller clock (540 dp tall screen, 8% safe margins).
-        clock.setTextSize(android.util.TypedValue.COMPLEX_UNIT_PX, ui.pxf(if (compact) 54f else 78f))
+        clock.setTextSize(android.util.TypedValue.COMPLEX_UNIT_PX, ui.pxf(if (compact) 50f else 78f))
 
         grid.removeAllViews()
         val w = (960f - 2 * SIDE - 16f * (cols - 1)) / cols
@@ -192,7 +192,7 @@ class HomeScreen(private val act: MainActivity) {
         inputsRow.visibility = if (hdmi.isEmpty()) View.GONE else View.VISIBLE
         // Two rows of apps: the HDMI icons say enough, the title gives its room to the apps.
         inputsTitle.visibility = if (hdmi.isEmpty() || compact) View.GONE else View.VISIBLE
-        (inputsRow.layoutParams as LinearLayout.LayoutParams).topMargin = ui.px(if (compact) 6 else 10)
+        (inputsRow.layoutParams as LinearLayout.LayoutParams).topMargin = ui.px(if (compact) 0 else 4)
         hdmi.forEachIndexed { i, input ->
             inputsRow.addView(inputCard(input.label, "input:${input.id}") { act.openInput(input.id) },
                 lp(0, MATCH, 1f).apply { if (i > 0) marginStart = ui.px(10) })

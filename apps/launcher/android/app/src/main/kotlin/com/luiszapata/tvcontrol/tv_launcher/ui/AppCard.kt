@@ -142,7 +142,8 @@ class AppCard(
             name.animate().alpha(if (f) 1f else 0f).setDuration(if (f) Motion.FOCUS_IN else Motion.FOCUS_OUT).start()
         }
         addView(frame, lp(w + 2 * frame.inset, h + 2 * frame.inset).apply { setMargins(-frame.inset, -frame.inset, -frame.inset, -frame.inset) })
-        addView(name, lp(MATCH, ui.px(18)).apply { topMargin = ui.px(12) })
+        // Clears the focused card's scale + ring; the bottom margin separates rows.
+        addView(name, lp(MATCH, ui.px(18)).apply { topMargin = ui.px(15); bottomMargin = ui.px(9) })
     }
 
     companion object {
