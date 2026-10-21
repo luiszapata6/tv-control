@@ -1,28 +1,25 @@
-# CI FAIL — d6e48e09c8fd
+# CI PASS — 84ca16a45010
 
-Run: https://github.com/luiszapata6/tv-control/actions/runs/39542642986
-Commit: feat(launcher): five-card carousels (always whole cards, arrows when there is more), 'Todas las apps' next to 'Tus favoritos', favourites skip what is in 'Seguir viendo', quieter focus label
+Run: https://github.com/luiszapata6/tv-control/actions/runs/39543095592
+Commit: fix(launcher): 'Cerrar app' confirms with a toast and the next launch starts the app over; focus returns to the card after an overlay
 Job results: [
-  "success",
-  "success",
-  "failure",
-  "success",
+  "cancelled",
+  "cancelled",
+  "cancelled",
+  "cancelled",
   "cancelled"
 ]
 
 | job | step | result | time |
 | --- | --- | --- | --- |
-| dart | atv-analyze | PASS | 2s |
-| dart | atv-test | PASS | 13s |
+| dart | atv-analyze | PASS | 1s |
+| dart | atv-test | PASS | 12s |
 | dart | companion-analyze | PASS | 1s |
-| dart | companion-test | PASS | 7s |
-| dart | setup | PASS | 6s |
-| ios | ios-build | PASS | 133s |
-| ios | ios-pub | PASS | 2s |
-| ios | macos-build | PASS | 120s |
+| dart | companion-test | PASS | 5s |
+| dart | setup | PASS | 8s |
 | python | codegen-up-to-date | PASS | 0s |
 | python | pip | PASS | 6s |
 | python | sim-tests | PASS | 9s |
-| remote | remote-analyze | PASS | 12s |
+| remote | remote-analyze | PASS | 10s |
 | remote | remote-pub | PASS | 6s |
-| remote | remote-test | PASS | 18s |
+| remote | remote-test | PASS | 14s |

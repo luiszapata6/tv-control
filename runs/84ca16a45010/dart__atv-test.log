@@ -1,0 +1,106 @@
+00:00 +0: loading test/protocol_test.dart
+00:00 +0: test/protocol_test.dart: (setUpAll)
+00:00 +0: test/integration_sim_test.dart: (setUpAll)
+00:00 +1: test/integration_sim_test.dart: (setUpAll)
+00:00 +2: test/integration_sim_test.dart: (setUpAll)
+00:00 +3: test/integration_sim_test.dart: (setUpAll)
+00:00 +4: test/integration_sim_test.dart: (setUpAll)
+00:00 +5: test/integration_sim_test.dart: (setUpAll)
+00:00 +6: test/integration_sim_test.dart: (setUpAll)
+00:00 +7: test/integration_sim_test.dart: (setUpAll)
+00:00 +8: test/integration_sim_test.dart: (setUpAll)
+00:00 +9: test/integration_sim_test.dart: (setUpAll)
+00:00 +9: test/protocol_test.dart: remote connection closes itself when the TV goes silent
+00:00 +10: test/integration_sim_test.dart: pairs with the code the TV shows
+00:00 +11: test/integration_sim_test.dart: pairs with the code the TV shows
+00:00 +12: test/integration_sim_test.dart: pairs with the code the TV shows
+00:00 +13: test/integration_sim_test.dart: pairs with the code the TV shows
+00:00 +14: test/integration_sim_test.dart: pairs with the code the TV shows
+00:01 +15: test/client_test.dart: connects, forwards state and commands
+00:01 +16: test/client_test.dart: connects, forwards state and commands
+00:01 +17: test/integration_sim_test.dart: connects, reads state and drives the TV
+00:01 +18: test/integration_sim_test.dart: connects, reads state and drives the TV
+00:01 +19: test/integration_sim_test.dart: connects, reads state and drives the TV
+00:01 +20: test/integration_sim_test.dart: connects, reads state and drives the TV
+00:01 +21: test/integration_sim_test.dart: connects, reads state and drives the TV
+00:01 +22: test/integration_sim_test.dart: connects, reads state and drives the TV
+00:01 +23: test/integration_sim_test.dart: connects, reads state and drives the TV
+00:01 +24: test/integration_sim_test.dart: connects, reads state and drives the TV
+00:01 +25: test/integration_sim_test.dart: connects, reads state and drives the TV
+00:01 +26: test/integration_sim_test.dart: connects, reads state and drives the TV
+00:01 +27: test/integration_sim_test.dart: connects, reads state and drives the TV
+00:01 +28: test/integration_sim_test.dart: connects, reads state and drives the TV
+00:01 +29: test/integration_sim_test.dart: connects, reads state and drives the TV
+00:01 +30: test/integration_sim_test.dart: connects, reads state and drives the TV
+00:01 +31: test/integration_sim_test.dart: connects, reads state and drives the TV
+00:01 +32: test/integration_sim_test.dart: connects, reads state and drives the TV
+00:01 +33: test/integration_sim_test.dart: connects, reads state and drives the TV
+00:01 +34: test/integration_sim_test.dart: connects, reads state and drives the TV
+00:01 +35: test/integration_sim_test.dart: connects, reads state and drives the TV
+00:01 +36: test/integration_sim_test.dart: connects, reads state and drives the TV
+00:01 +37: test/integration_sim_test.dart: connects, reads state and drives the TV
+00:01 +38: test/integration_sim_test.dart: connects, reads state and drives the TV
+00:01 +39: test/integration_sim_test.dart: connects, reads state and drives the TV
+00:01 +40: test/integration_sim_test.dart: connects, reads state and drives the TV
+00:01 +41: test/integration_sim_test.dart: connects, reads state and drives the TV
+00:01 +42: test/integration_sim_test.dart: connects, reads state and drives the TV
+00:01 +43: test/integration_sim_test.dart: connects, reads state and drives the TV
+00:01 +44: test/integration_sim_test.dart: connects, reads state and drives the TV
+00:01 +45: test/integration_sim_test.dart: connects, reads state and drives the TV
+00:01 +46: test/integration_sim_test.dart: connects, reads state and drives the TV
+00:01 +47: test/integration_sim_test.dart: connects, reads state and drives the TV
+00:01 +48: test/integration_sim_test.dart: connects, reads state and drives the TV
+00:01 +49: test/integration_sim_test.dart: connects, reads state and drives the TV
+00:01 +50: test/integration_sim_test.dart: connects, reads state and drives the TV
+00:01 +51: test/integration_sim_test.dart: connects, reads state and drives the TV
+00:01 +52: test/integration_sim_test.dart: connects, reads state and drives the TV
+00:01 +53: test/integration_sim_test.dart: connects, reads state and drives the TV
+00:01 +54: test/integration_sim_test.dart: connects, reads state and drives the TV
+00:01 +55: test/integration_sim_test.dart: connects, reads state and drives the TV
+00:01 +56: test/integration_sim_test.dart: connects, reads state and drives the TV
+00:01 +57: test/integration_sim_test.dart: connects, reads state and drives the TV
+00:01 +58: test/integration_sim_test.dart: connects, reads state and drives the TV
+00:01 +59: test/integration_sim_test.dart: connects, reads state and drives the TV
+00:01 +60: test/integration_sim_test.dart: connects, reads state and drives the TV
+00:01 +61: test/integration_sim_test.dart: connects, reads state and drives the TV
+00:01 +62: test/integration_sim_test.dart: connects, reads state and drives the TV
+00:01 +63: test/integration_sim_test.dart: connects, reads state and drives the TV
+00:01 +64: test/integration_sim_test.dart: connects, reads state and drives the TV
+00:01 +65: test/integration_sim_test.dart: connects, reads state and drives the TV
+00:01 +66: test/integration_sim_test.dart: connects, reads state and drives the TV
+00:01 +67: test/integration_sim_test.dart: connects, reads state and drives the TV
+00:01 +68: test/integration_sim_test.dart: connects, reads state and drives the TV
+00:01 +69: test/integration_sim_test.dart: connects, reads state and drives the TV
+00:01 +70: test/misc_test.dart: wake on lan sends to loopback without throwing
+00:01 +71: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:01 +72: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:01 +73: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:02 +74: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:02 +75: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:02 +76: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:02 +77: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:02 +78: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:02 +79: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:02 +80: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:02 +81: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:02 +82: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:02 +83: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:02 +84: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:02 +85: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:02 +86: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:02 +87: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:02 +88: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:02 +89: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:02 +90: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:02 +91: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:02 +92: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:02 +93: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:02 +94: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:02 +95: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:02 +96: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:02 +97: test/integration_sim_test.dart: receives changes made on the TV and answers pings
+00:04 +98: test/integration_sim_test.dart: client reconnects after the TV drops the connection
+00:04 +99: test/integration_sim_test.dart: an unknown identity is rejected and needs pairing
+00:04 +100: test/integration_sim_test.dart: a wrong code is rejected by the TV
+00:05 +101: test/integration_sim_test.dart: (tearDownAll)
+00:05 +101: All tests passed!
