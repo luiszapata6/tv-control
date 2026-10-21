@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'devices.dart';
 import 'dictation.dart';
 import 'discovery.dart';
+import 'shared_bridge.dart';
 import 'tv_session.dart';
 
 /// Opens a pairing session with the TV (faked in tests).
@@ -26,6 +27,7 @@ class AppServices {
     PairingStarter? startPairing,
     TvInfoReader? readTvInfo,
     PairedChecker? isPaired,
+    this.shared = const NoopSharedBridge(),
   })  : sessionFactory = sessionFactory ?? ((tv, id, d) => TvSession(tv: tv, identity: id, devices: d)),
         startPairing = startPairing ?? ((host, id) => PairingSession.start(host: host, identity: id, clientName: 'iPhone')),
         readTvInfo = readTvInfo ?? _readInfo,
@@ -39,6 +41,9 @@ class AppServices {
   final PairingStarter startPairing;
   final TvInfoReader readTvInfo;
   final PairedChecker isPaired;
+
+  /// Widgets / Siri / Live Activity hand-off (no-op in tests).
+  final SharedBridge shared;
 
   static Future<({String? name, String? mac})> _readInfo(String host, ClientIdentity id) async {
     final r = await fetchTvCertificate(host: host, identity: id);

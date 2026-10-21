@@ -16,10 +16,40 @@ class CompanionHandler(
     private val onLayoutChanged: (Layout) -> Unit = {},
     private val onForegroundApp: (String) -> Unit = {},
 ) {
+    // Written on the connection's worker thread, read by the server sweep and broadcasts.
+    @Volatile
     var authenticated = false
         private set
+
+    @Volatile
     var clientName: String = "iPhone"
         private set
+
+    /** Start of the current unauthenticated grace period (open or last pair.request). */
+    @Volatile
+    private var graceStart = clock()
+
+    /**
+     * True when this connection should be closed: still not authenticated
+     * [Protocol.UNAUTHENTICATED_TIMEOUT_MS] after opening (or after its last
+     * pair.request), and not waiting on the code it asked for.
+     */
+    fun isUnauthenticatedTooLong(now: Long = clock()): Boolean =
+        !authenticated && !pairing.isOwner(this) && now - graceStart > Protocol.UNAUTHENTICATED_TIMEOUT_MS
+
+    /** The connection closed: hide its pairing code if it had one on screen. */
+    fun onClosed() {
+        if (pairing.cancel(this)) backend.showPairingCode(null, null)
+    }
+
+    /** Pairings were revoked on the TV: refuse further requests on this connection. */
+    fun revoke() {
+        authenticated = false
+    }
+
+    private fun hideCodeIfNoneActive() {
+        if (pairing.activeCode() == null) backend.showPairingCode(null, null)
+    }
 
     fun handle(text: String): String {
         val req = Frames.parseRequest(text) ?: return Frames.error(null, Protocol.Error.BAD_REQUEST, "malformed frame")
@@ -58,11 +88,19 @@ class CompanionHandler(
             }
             Protocol.Method.PAIR_REQUEST -> {
                 clientName = (p.opt("client") as? String)?.take(60)?.ifBlank { null } ?: clientName
-                val code = pairing.requestCode(clientName)
-                backend.showPairingCode(code, clientName)
-                Frames.result(id, JSONObject().put("pending", true))
+                when (val r = pairing.requestCode(clientName, owner = this)) {
+                    is PairingManager.RequestResult.Code -> {
+                        graceStart = clock()
+                        backend.showPairingCode(r.code, clientName)
+                        Frames.result(id, JSONObject().put("pending", true))
+                    }
+                    PairingManager.RequestResult.Busy ->
+                        Frames.error(id, Protocol.Error.BUSY, "another device is pairing, try again later")
+                    is PairingManager.RequestResult.Locked ->
+                        Frames.error(id, Protocol.Error.LOCKED, "try again in ${r.secondsLeft} s")
+                }
             }
-            Protocol.Method.PAIR_CONFIRM -> when (val r = pairing.confirm(p.requireString("code"))) {
+            Protocol.Method.PAIR_CONFIRM -> when (val r = pairing.confirm(p.requireString("code"), owner = this)) {
                 is PairingManager.ConfirmResult.Ok -> {
                     authenticated = true
                     backend.showPairingCode(null, null)
@@ -71,11 +109,14 @@ class CompanionHandler(
                 is PairingManager.ConfirmResult.BadCode ->
                     Frames.error(id, Protocol.Error.BAD_CODE, "wrong code, ${r.attemptsLeft} attempts left")
                 is PairingManager.ConfirmResult.Locked -> {
-                    backend.showPairingCode(null, null)
+                    hideCodeIfNoneActive()
                     Frames.error(id, Protocol.Error.LOCKED, "try again in ${r.secondsLeft} s")
                 }
-                PairingManager.ConfirmResult.NoPendingCode ->
+                PairingManager.ConfirmResult.NoPendingCode -> {
+                    // The code may have just expired: hide it unless another device's code is live.
+                    hideCodeIfNoneActive()
                     Frames.error(id, Protocol.Error.BAD_CODE, "request a new code")
+                }
             }
             Protocol.Method.PING -> Frames.result(id, JSONObject().put("time", clock()))
             Protocol.Method.APPS_LIST ->

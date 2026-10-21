@@ -5,6 +5,7 @@ import 'src/services/devices.dart';
 import 'src/services/dictation.dart';
 import 'src/services/discovery.dart';
 import 'src/services/services.dart';
+import 'src/services/shared_bridge.dart';
 import 'src/services/storage.dart';
 
 void main() {
@@ -15,6 +16,7 @@ void main() {
     preferences: Preferences(settings),
     discovery: BonsoirTvDiscovery(),
     dictation: SpeechDictation(),
+    shared: MethodChannelSharedBridge(),
   );
   runApp(TvRemoteApp(services: services));
 }

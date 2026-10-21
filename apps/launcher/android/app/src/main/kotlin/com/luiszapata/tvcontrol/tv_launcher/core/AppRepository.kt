@@ -11,6 +11,8 @@ import android.graphics.drawable.Drawable
 import android.os.Build
 import android.util.LruCache
 import com.luiszapata.tvcontrol.tv_launcher.companion.AppInfo
+import com.luiszapata.tvcontrol.tv_launcher.companion.Protocol
+import com.luiszapata.tvcontrol.tv_launcher.companion.fitIconSize
 import java.io.ByteArrayOutputStream
 
 /** Installed apps that can be opened, with their TV banners or icons. */
@@ -61,7 +63,7 @@ class AppRepository(private val context: Context) {
         }
     }
 
-    /** PNG of the TV banner (16:9) if the app has one, else its icon. Max 320 px wide. */
+    /** PNG of the TV banner (16:9) if the app has one, else its icon. Max [Protocol.MAX_ICON_PX] px per side. */
     fun iconPng(pkg: String): ByteArray? {
         icons.get(pkg)?.let { return it }
         val drawable: Drawable = try {
@@ -69,22 +71,22 @@ class AppRepository(private val context: Context) {
         } catch (e: PackageManager.NameNotFoundException) {
             return null
         }
-        val png = render(drawable, 320)
+        val png = render(drawable, Protocol.MAX_ICON_PX)
         icons.put(pkg, png)
         return png
     }
 
     fun clearIcons() = icons.evictAll()
 
-    private fun render(d: Drawable, maxWidth: Int): ByteArray {
-        val bitmap = if (d is BitmapDrawable && d.bitmap != null && d.bitmap.width <= maxWidth) {
-            d.bitmap
+    /** Draws [d] so that max(width, height) <= [maxSide], keeping its aspect ratio. */
+    private fun render(d: Drawable, maxSide: Int): ByteArray {
+        val src = (d as? BitmapDrawable)?.bitmap
+        val bitmap = if (src != null && maxOf(src.width, src.height) <= maxSide) {
+            src
         } else {
-            val w0 = d.intrinsicWidth.takeIf { it > 0 } ?: maxWidth
-            val h0 = d.intrinsicHeight.takeIf { it > 0 } ?: maxWidth
-            val scale = minOf(1f, maxWidth.toFloat() / w0)
-            val w = (w0 * scale).toInt().coerceAtLeast(1)
-            val h = (h0 * scale).toInt().coerceAtLeast(1)
+            val w0 = src?.width ?: d.intrinsicWidth.takeIf { it > 0 } ?: maxSide
+            val h0 = src?.height ?: d.intrinsicHeight.takeIf { it > 0 } ?: maxSide
+            val (w, h) = fitIconSize(w0, h0, maxSide)
             Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888).also {
                 val c = Canvas(it)
                 d.setBounds(0, 0, w, h)

@@ -93,6 +93,10 @@ class LauncherBridge(private val context: Context, messenger: BinaryMessenger) :
         "openAppInfo" -> start(
             Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:" + call.argument<String>("package"))),
         )
+        "revokeDevices" -> {
+            Launcher.revokeAll()
+            true
+        }
         "companionAddress" -> localIp()?.let { "$it:${Protocol.PORT}" } ?: ""
         else -> NOT_IMPLEMENTED
     }

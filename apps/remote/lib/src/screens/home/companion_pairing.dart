@@ -65,7 +65,12 @@ Future<void> showCompanionPairing(BuildContext context, TvSession session) async
   try {
     await session.requestCompanionPairing();
   } on CompanionException catch (e) {
-    toast?.show('No pude pedir el código: ${e.message}', kind: ToastKind.error);
+    final why = switch (e.code) {
+      'busy' => 'Otro dispositivo está vinculándose. Inténtalo en un par de minutos.',
+      'locked' => 'Demasiados intentos. Espera un minuto.',
+      _ => 'No pude pedir el código: ${e.message}',
+    };
+    toast?.show(why, kind: ToastKind.error);
     return;
   }
   if (!context.mounted) return;
@@ -110,6 +115,7 @@ class _CompanionCodeSheetState extends State<_CompanionCodeSheet> {
         _error = switch (e.code) {
           'bad_code' => 'Código incorrecto. Revísalo en la TV.',
           'locked' => 'Demasiados intentos. Espera un minuto.',
+          'busy' => 'Otro dispositivo está vinculándose. Inténtalo en un par de minutos.',
           _ => e.message,
         };
       });

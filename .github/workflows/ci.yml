@@ -113,6 +113,7 @@ jobs:
           cache: true
       - run: tools/ci/step.sh ios-pub "cd apps/remote && flutter pub get"
       - run: tools/ci/step.sh ios-build "tools/ci/build_ios.sh"
+      - run: tools/ci/step.sh macos-build "cd apps/remote && flutter build macos --release && cd build/macos/Build/Products/Release && ditto -c -k --keepParent 'TV Control.app' \"$GITHUB_WORKSPACE/TVControl-mac.zip\""
       - run: tools/ci/step.sh ios-ipa "tools/ci/package_ipa.sh apps/remote/build/ios/iphoneos/Runner.app TVControl.ipa"
       - if: always()
         uses: actions/upload-artifact@v4
@@ -125,6 +126,23 @@ jobs:
           name: ipa
           path: TVControl.ipa
           if-no-files-found: ignore
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mac
+          path: TVControl-mac.zip
+          if-no-files-found: ignore
+      - name: Keep the generated Xcode project in the repo
+        if: success()
+        run: |
+          built=$(cut -d' ' -f1 ci-logs/ios-build.status 2>/dev/null || echo 1)
+          if [ "$built" = 0 ] && ! git diff --quiet -- apps/remote/ios/Runner.xcodeproj; then
+            git config user.name "ci"
+            git config user.email "ci@users.noreply.github.com"
+            git add apps/remote/ios/Runner.xcodeproj
+            git commit -m "chore: sync Xcode project (TVWidgets extension)"
+            git pull --rebase -q origin main && git push -q origin HEAD:main || echo "push skipped"
+          fi
       - run: tools/ci/finish.sh
 
   release:
@@ -140,6 +158,10 @@ jobs:
         with:
           name: ipa
           path: dist
+      - uses: actions/download-artifact@v4
+        with:
+          name: mac
+          path: dist
       - name: Update the rolling "latest" release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -148,9 +170,9 @@ jobs:
           ls -la dist
           mv dist/app-release.apk dist/TVControl-launcher.apk
           gh release delete latest --yes --cleanup-tag 2>/dev/null || true
-          gh release create latest dist/TVControl-launcher.apk dist/TVControl.ipa \
+          gh release create latest dist/TVControl-launcher.apk dist/TVControl.ipa dist/TVControl-mac.zip \
             --title "Última build (${GITHUB_SHA::7})" --prerelease --target "$GITHUB_SHA" \
-            --notes "Build automática de ${GITHUB_SHA::12}. IPA sin firmar para SideStore; APK del launcher para instalar por ADB."
+            --notes "Build automática de ${GITHUB_SHA::12}. IPA sin firmar para SideStore; APK del launcher para instalar por ADB; app de barra de menú para Mac (sin notarizar: clic derecho › Abrir)."
 
   report:
     needs: [python, dart, launcher, remote, ios]

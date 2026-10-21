@@ -70,7 +70,7 @@ class FakeCompanionServer {
           if (frame.params['code'] == pairingCode) {
             authed = true;
             failedCodes = 0;
-            ok({'token': validToken});
+            ok({'token': validToken, 'server': const ServerInfo(name: 'Hisense 65U6GA', version: 1, deviceId: 'a1').toJson()});
           } else {
             failedCodes++;
             if (failedCodes >= CompanionProtocol.maxFailedCodes) locked = true;

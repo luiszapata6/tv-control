@@ -45,7 +45,12 @@
   "id": 3,
   "type": "result",
   "data": {
-   "token": "q83vEjRWeJAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+   "token": "q83vEjRWeJAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+   "server": {
+    "name": "Hisense 65U6GA",
+    "version": 1,
+    "deviceId": "a1b2c3"
+   }
   }
  },
  "bad_code": {
@@ -59,6 +64,12 @@
   "type": "error",
   "code": "locked",
   "message": "try again in 60 s"
+ },
+ "busy": {
+  "id": 2,
+  "type": "error",
+  "code": "busy",
+  "message": "another device is pairing, try again later"
  },
  "ping": {
   "id": 4,

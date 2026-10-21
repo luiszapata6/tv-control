@@ -23,11 +23,13 @@ void main() {
   test('without a token the client pairs with the code on the TV', () async {
     final c = await connect();
     expect(c.authenticated, isFalse);
+    expect(c.server, isNull);
     await expectLater(c.listApps(), throwsA(isA<CompanionException>().having((e) => e.needsPairing, 'needsPairing', true)));
     await c.requestPairing();
     await expectLater(c.confirmPairing('000000'), throwsA(isA<CompanionException>().having((e) => e.code, 'code', 'bad_code')));
     expect(await c.confirmPairing(' 482915 '), 'secret-token');
     expect(c.authenticated, isTrue);
+    expect(c.server!.name, 'Hisense 65U6GA', reason: 'pair.confirm carries the server info');
     expect(await c.listApps(), hasLength(2));
     await c.close();
   });

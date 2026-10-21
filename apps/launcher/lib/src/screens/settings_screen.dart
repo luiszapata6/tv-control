@@ -16,6 +16,33 @@ class SettingsScreen extends StatefulWidget {
 class _SettingsScreenState extends State<SettingsScreen> {
   String _address = '';
 
+  /// Revoking needs two presses so a stray OK does not unpair the iPhone.
+  bool _confirmRevoke = false;
+  bool _revoked = false;
+
+  Future<void> _onRevoke() async {
+    if (!_confirmRevoke) {
+      setState(() {
+        _confirmRevoke = true;
+        _revoked = false;
+      });
+      return;
+    }
+    setState(() => _confirmRevoke = false);
+    try {
+      await widget.controller.revokeDevices();
+      if (mounted) setState(() => _revoked = true);
+    } catch (_) {
+      // Native side unavailable: nothing was revoked, the row keeps its prompt.
+    }
+  }
+
+  String get _revokeLabel {
+    if (_confirmRevoke) return 'OK otra vez para desvincular todos';
+    if (_revoked) return 'Listo · el iPhone debe vincularse de nuevo';
+    return 'Desvincular todos';
+  }
+
   @override
   void initState() {
     super.initState();
@@ -63,6 +90,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       ? (_address.isEmpty ? 'Esperando conexión' : 'Esperando conexión · $_address')
                       : c.companionClients.join(', '),
                   onSelect: () {},
+                ),
+                _Row(
+                  icon: Icons.link_off,
+                  title: 'Dispositivos vinculados',
+                  value: _revokeLabel,
+                  onSelect: _onRevoke,
                 ),
                 _Row(
                   icon: Icons.settings_outlined,

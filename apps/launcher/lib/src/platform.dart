@@ -55,6 +55,9 @@ abstract class LauncherPlatform {
   Future<void> openSystemSettings();
   Future<void> openAppInfo(String package);
   Future<String> companionAddress();
+
+  /// Forgets every paired iPhone and disconnects them.
+  Future<void> revokeDevices();
   Stream<LauncherEvent> get events;
 }
 
@@ -100,6 +103,9 @@ class MethodChannelLauncherPlatform implements LauncherPlatform {
 
   @override
   Future<String> companionAddress() async => await _method.invokeMethod<String>('companionAddress') ?? '';
+
+  @override
+  Future<void> revokeDevices() => _method.invokeMethod<void>('revokeDevices');
 
   @override
   late final Stream<LauncherEvent> events = _events.receiveBroadcastStream().map((raw) {

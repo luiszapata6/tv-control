@@ -141,7 +141,7 @@ class _SettingsSheet extends StatelessWidget {
                           children: [
                             Container(width: 22, height: 22, decoration: BoxDecoration(shape: BoxShape.circle, gradient: a.gradient)),
                             const SizedBox(width: 8),
-                            Text(a.name, style: Txt.label),
+                            Flexible(child: Text(a.name, style: Txt.label, maxLines: 1, overflow: TextOverflow.ellipsis)),
                           ],
                         ),
                       ),
@@ -159,6 +159,17 @@ class _SettingsSheet extends StatelessWidget {
                 onChanged: prefs.setHaptics,
                 title: const Text('Vibración al tocar', style: Txt.titleRow),
                 subtitle: const Text('Respuesta háptica en botones y gestos', style: Txt.bodyS),
+                activeThumbColor: AccentScope.of(context).light,
+              ),
+            ),
+            const SizedBox(height: 12),
+            Surface(
+              color: Tokens.card2,
+              child: SwitchListTile(
+                value: prefs.liveActivity.value,
+                onChanged: prefs.setLiveActivity,
+                title: const Text('Actividad en vivo', style: Txt.titleRow),
+                subtitle: const Text('Volumen y app actual en la pantalla bloqueada y la Dynamic Island', style: Txt.bodyS),
                 activeThumbColor: AccentScope.of(context).light,
               ),
             ),

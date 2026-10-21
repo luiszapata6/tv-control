@@ -159,10 +159,13 @@ class CompanionClient {
   Future<void> requestPairing({String clientName = 'TV Control'}) =>
       _call(CompanionMethod.pairRequest, {'client': clientName});
 
-  /// Sends the code shown on the TV; returns the token to store.
+  /// Sends the code shown on the TV; returns the token to store. Also
+  /// fills [server] from the answer.
   Future<String> confirmPairing(String code) async {
     final data = await _call(CompanionMethod.pairConfirm, {'code': code.trim()});
     authenticated = true;
+    final s = data['server'];
+    if (s is Map) server = ServerInfo.fromJson(s.cast<String, dynamic>());
     return data['token'] as String;
   }
 

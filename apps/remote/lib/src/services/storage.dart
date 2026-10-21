@@ -12,8 +12,14 @@ class KeychainSecretStore implements SecretStore {
   const KeychainSecretStore();
 
   static const _storage = FlutterSecureStorage(
-    iOptions: IOSOptions(accessibility: KeychainAccessibility.first_unlock),
-    mOptions: MacOsOptions(accessibility: KeychainAccessibility.first_unlock),
+    // this_device: the client key never travels to another device in a backup.
+    iOptions: IOSOptions(accessibility: KeychainAccessibility.first_unlock_this_device),
+    // The Mac build is ad-hoc signed (no keychain-access-groups entitlement),
+    // so it uses the login keychain instead of the data-protection one.
+    mOptions: MacOsOptions(
+      accessibility: KeychainAccessibility.first_unlock_this_device,
+      useDataProtectionKeyChain: false,
+    ),
   );
 
   @override

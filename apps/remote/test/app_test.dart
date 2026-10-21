@@ -8,9 +8,14 @@ import 'package:tv_remote/src/app.dart';
 import 'package:tv_remote/src/services/devices.dart';
 import 'package:tv_remote/src/services/discovery.dart';
 import 'package:tv_remote/src/services/services.dart';
+import 'package:tv_remote/src/widgets/controls.dart';
 import 'package:tv_remote/src/widgets/pressable.dart';
 
 import 'support.dart';
+
+/// Every text on screen, for failure messages.
+String visibleTexts(WidgetTester tester) =>
+    tester.widgetList<Text>(find.byType(Text)).map((t) => t.data ?? t.textSpan?.toPlainText() ?? '').join(' | ');
 
 void main() {
   late ClientIdentity identity;
@@ -27,6 +32,8 @@ void main() {
     tester.view.physicalSize = const Size(1170, 2532);
     tester.view.devicePixelRatio = 3;
     addTearDown(tester.view.reset);
+    final semantics = tester.ensureSemantics();
+    addTearDown(semantics.dispose);
     await tester.pumpWidget(app);
     // Let the fake TV handshake (in-memory streams, real microtasks).
     for (var i = 0; i < 20; i++) {
@@ -86,9 +93,10 @@ void main() {
     await tester.tap(find.text('Hisense 65U6GA'));
     await settle(tester);
     expect(find.text('Escribe el código que aparece en tu TV'), findsOneWidget);
+    expect(find.text('Código de 6 caracteres'), findsOneWidget, reason: 'screen: ${visibleTexts(tester)}');
     await tester.enterText(find.byType(TextField), code);
     await settle(tester);
-    expect(find.text('Listo, ya controlas tu TV'), findsOneWidget);
+    expect(find.text('Listo, ya controlas tu TV'), findsOneWidget, reason: 'screen: ${visibleTexts(tester)}');
     expect(services.devices.tvs.single.mac, 'AA:BB:CC:DD:EE:FF');
     await tester.tap(find.text('Ir al control'));
     await settle(tester);
@@ -156,6 +164,8 @@ void main() {
       await tester.tap(find.bySemanticsLabel('Arriba'));
       await tester.tap(find.text('OK'));
       await tester.tap(find.text('Atrás'));
+      await tester.ensureVisible(find.text('Inicio').last);
+      await tester.pump();
       await tester.tap(find.text('Inicio').last);
       await settle(tester);
       expect(env.keyNames, containsAllInOrder(['KEYCODE_DPAD_UP', 'KEYCODE_DPAD_CENTER', 'KEYCODE_BACK', 'KEYCODE_HOME']));
@@ -172,7 +182,9 @@ void main() {
 
     testWidgets('dragging the volume slider sends volume keys', (tester) async {
       await pumpRemote(tester);
-      final slider = find.bySemanticsLabel('Volumen');
+      await tester.scrollUntilVisible(find.byType(VolumeSlider), 200, scrollable: find.byType(Scrollable).first);
+      await settle(tester);
+      final slider = find.byType(VolumeSlider);
       final rect = tester.getRect(slider);
       await tester.dragFrom(rect.centerLeft + const Offset(10, 0), Offset(rect.width * 0.4, 0));
       await settle(tester);

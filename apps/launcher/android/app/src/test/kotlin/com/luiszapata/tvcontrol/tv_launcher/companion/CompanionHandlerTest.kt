@@ -3,6 +3,7 @@ package com.luiszapata.tvcontrol.tv_launcher.companion
 import org.json.JSONObject
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
+import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
@@ -53,6 +54,98 @@ class CompanionHandlerTest {
         assertEquals(null, backend.shownCode)
         assertTrue(handler.authenticated)
         assertEquals("iPhone de Luis", handler.clientName)
+    }
+
+    @Test
+    fun `pair confirm returns the server info`() {
+        call("pair.request", JSONObject().put("client", "iPhone"))
+        val data = call("pair.confirm", JSONObject().put("code", backend.shownCode)).getJSONObject("data")
+        assertEquals("Hisense 65U6GA", data.getJSONObject("server").getString("name"))
+        assertEquals("a1b2c3", data.getJSONObject("server").getString("deviceId"))
+    }
+
+    private fun request(h: CompanionHandler, type: String, params: JSONObject = JSONObject()): JSONObject =
+        JSONObject(h.handle(JSONObject(params.toString()).put("id", nextId++).put("type", type).toString()))
+
+    @Test
+    fun `a second device cannot request a code while one is shown`() {
+        call("pair.request", JSONObject().put("client", "iPhone de Luis"))
+        val shown = backend.shownCode
+        val other = CompanionHandler(backend, pairing)
+        assertEquals("busy", request(other, "pair.request", JSONObject().put("client", "Intruso")).getString("code"))
+        assertEquals("the code on screen is unchanged", shown, backend.shownCode)
+        assertEquals("iPhone de Luis", backend.shownClient)
+        assertEquals("bad_code", request(other, "pair.confirm", JSONObject().put("code", shown)).getString("code"))
+        assertEquals(shown, backend.shownCode)
+        assertFalse(other.authenticated)
+    }
+
+    @Test
+    fun `pair request is refused while locked`() {
+        call("pair.request")
+        val wrong = if (backend.shownCode == "000000") "111111" else "000000"
+        repeat(Protocol.MAX_FAILED_CODES) { call("pair.confirm", JSONObject().put("code", wrong)) }
+        assertNull("lock hides the code", backend.shownCode)
+        val r = call("pair.request")
+        assertEquals("locked", r.getString("code"))
+        assertNull(backend.shownCode)
+    }
+
+    @Test
+    fun `closing the requesting connection hides the code`() {
+        call("pair.request", JSONObject().put("client", "iPhone"))
+        val other = CompanionHandler(backend, pairing)
+        other.onClosed()
+        assertTrue("other connections do not hide it", backend.shownCode != null)
+        handler.onClosed()
+        assertNull(backend.shownCode)
+        assertNull(pairing.activeCode())
+        assertEquals("result", request(other, "pair.request").getString("type"))
+    }
+
+    @Test
+    fun `expired code is hidden and cannot be confirmed`() {
+        var now = 0L
+        val timedPairing = PairingManager(MemoryTokenStore(), clock = { now })
+        val h = CompanionHandler(backend, timedPairing, clock = { now })
+        request(h, "pair.request")
+        val code = backend.shownCode!!
+        now += Protocol.CODE_TTL_SECONDS * 1000 + 1
+        assertEquals("bad_code", request(h, "pair.confirm", JSONObject().put("code", code)).getString("code"))
+        assertNull(backend.shownCode)
+        assertFalse(h.authenticated)
+    }
+
+    @Test
+    fun `unauthenticated connections time out unless waiting on their code`() {
+        var now = 0L
+        val timedPairing = PairingManager(MemoryTokenStore(), clock = { now })
+        val idle = CompanionHandler(backend, timedPairing, clock = { now })
+        val pairingOne = CompanionHandler(backend, timedPairing, clock = { now })
+        request(pairingOne, "pair.request")
+        now = Protocol.UNAUTHENTICATED_TIMEOUT_MS
+        assertFalse(idle.isUnauthenticatedTooLong())
+        now = Protocol.UNAUTHENTICATED_TIMEOUT_MS + 1
+        assertTrue(idle.isUnauthenticatedTooLong())
+        assertFalse("its code is still on screen", pairingOne.isUnauthenticatedTooLong())
+        now = Protocol.CODE_TTL_SECONDS * 1000 + 1
+        assertTrue(pairingOne.isUnauthenticatedTooLong())
+        val authed = CompanionHandler(backend, timedPairing, clock = { now })
+        request(authed, "pair.request")
+        request(authed, "pair.confirm", JSONObject().put("code", backend.shownCode))
+        now += Protocol.UNAUTHENTICATED_TIMEOUT_MS * 10
+        assertFalse(authed.isUnauthenticatedTooLong())
+    }
+
+    @Test
+    fun `revoked connections need to pair again`() {
+        val token = pair()
+        assertEquals("result", call("apps.list").getString("type"))
+        pairing.revokeAll()
+        handler.revoke()
+        assertEquals("auth_required", call("apps.list").getString("code"))
+        val fresh = CompanionHandler(backend, pairing)
+        assertEquals("auth_required", request(fresh, "hello", JSONObject().put("token", token)).getString("code"))
     }
 
     @Test

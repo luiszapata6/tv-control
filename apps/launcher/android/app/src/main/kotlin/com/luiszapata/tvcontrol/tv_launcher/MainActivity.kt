@@ -15,6 +15,9 @@ class MainActivity : FlutterActivity() {
 
     override fun onResume() {
         super.onResume()
+        Launcher.init(this)
+        // Notification access may have been granted while we were away.
+        Launcher.nowPlayingTracker.start()
         if (!CompanionService.running) CompanionService.start(this)
     }
 

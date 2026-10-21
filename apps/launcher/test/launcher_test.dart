@@ -13,14 +13,13 @@ import 'fake_platform.dart';
 void main() {
   late FakeLauncherPlatform platform;
   HomeController? controllerRef;
-  HomeController get controller => controllerRef!;
-  set controller(HomeController c) => controllerRef = c;
 
   Future<void> pumpLauncher(WidgetTester tester) async {
     tester.view.physicalSize = const Size(1920, 1080);
     tester.view.devicePixelRatio = 1;
     addTearDown(tester.view.reset);
-    controller = HomeController(platform, weather: WeatherService(get: (_) async => '{"current":{"temperature_2m":22.4,"weather_code":2,"is_day":1}}'));
+    final controller = HomeController(platform, weather: WeatherService(get: (_) async => '{"current":{"temperature_2m":22.4,"weather_code":2,"is_day":1}}'));
+    controllerRef = controller;
     await controller.start();
     await tester.pumpWidget(TvLauncher(controller: controller, now: () => DateTime(2026, 10, 18, 21, 5)));
     await tester.pumpAndSettle();
@@ -128,10 +127,93 @@ void main() {
     expect(platform.settingsOpened, 1);
   });
 
+  testWidgets('settings revokes paired devices after a second press', (tester) async {
+    await pumpLauncher(tester);
+    platform.controller.add(const CompanionClientsChanged(['iPhone de Luis']));
+    await tester.tap(find.byIcon(Icons.settings_outlined));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Dispositivos vinculados'));
+    await tester.pumpAndSettle();
+    expect(platform.revoked, 0, reason: 'first press only asks for confirmation');
+    expect(find.text('OK otra vez para desvincular todos'), findsOneWidget);
+    await tester.tap(find.text('Dispositivos vinculados'));
+    await tester.pumpAndSettle();
+    expect(platform.revoked, 1);
+    expect(controllerRef!.companionClients, isEmpty);
+    expect(find.text('Listo · el iPhone debe vincularse de nuevo'), findsOneWidget);
+  });
+
   group('controller', () {
+    Future<void> flush() async {
+      for (var i = 0; i < 5; i++) {
+        await Future<void>.delayed(Duration.zero);
+      }
+    }
+
+    test('failed icons are retried later and after appsChanged, found ones are cached', () async {
+      var now = DateTime(2026, 10, 19, 12);
+      platform.iconBytes = {'com.netflix.ninja': [1, 2, 3]};
+      final controller = HomeController(platform, weather: WeatherService(get: (_) async => '{}'), now: () => now);
+      controllerRef = controller;
+      await controller.start();
+
+      expect(await controller.icon('com.netflix.ninja'), [1, 2, 3]);
+      expect(await controller.icon('com.netflix.ninja'), [1, 2, 3]);
+      expect(platform.iconCalls, ['com.netflix.ninja'], reason: 'cached');
+
+      platform.failIcons = true;
+      expect(await controller.icon('com.disney.disneyplus'), isNull);
+      expect(await controller.icon('com.disney.disneyplus'), isNull);
+      expect(platform.iconCalls.where((p) => p == 'com.disney.disneyplus'), hasLength(1), reason: 'not hammered');
+
+      platform.failIcons = false;
+      platform.iconBytes['com.disney.disneyplus'] = [9];
+      now = now.add(const Duration(minutes: 2));
+      expect(await controller.icon('com.disney.disneyplus'), [9], reason: 'retried after a while');
+
+      platform.iconBytes.remove('com.google.android.youtube.tv');
+      expect(await controller.icon('com.google.android.youtube.tv'), isNull);
+      platform.iconBytes['com.google.android.youtube.tv'] = [7];
+      platform.controller.add(const AppsChanged());
+      await flush();
+      expect(await controller.icon('com.google.android.youtube.tv'), [7], reason: 'retried on appsChanged');
+    });
+
+    test('refresh errors do not leave the launcher loading', () async {
+      platform.appsError = StateError('package manager died');
+      final controller = HomeController(platform, weather: WeatherService(get: (_) async => '{}'));
+      controllerRef = controller;
+      await controller.refresh();
+      expect(controller.loading, isFalse);
+      expect(controller.loadError, isA<StateError>());
+      platform.appsError = null;
+      await controller.refresh();
+      expect(controller.loadError, isNull);
+      expect(controller.allApps, hasLength(4));
+    });
+
+    test('a layout that fails to save is reverted', () async {
+      final controller = HomeController(platform, weather: WeatherService(get: (_) async => '{}'));
+      controllerRef = controller;
+      await controller.refresh();
+      final before = controller.layout;
+      platform.setLayoutError = StateError('prefs unavailable');
+      var notified = 0;
+      controller.addListener(() => notified++);
+      final disney = controller.allApps.firstWhere((a) => a.package == 'com.disney.disneyplus');
+      expect(await controller.pin(disney), isFalse);
+      expect(controller.layout, before);
+      expect(controller.pinned.map((a) => a.package), isNot(contains('com.disney.disneyplus')));
+      expect(notified, 2, reason: 'optimistic update, then the revert');
+      platform.setLayoutError = null;
+      expect(await controller.pin(disney), isTrue);
+      expect(controller.layout.order.last, 'com.disney.disneyplus');
+    });
+
     test('without a layout, non-system apps are suggested and editing materializes them', () async {
       platform = FakeLauncherPlatform(layout: const LauncherLayout());
-      controller = HomeController(platform, weather: WeatherService(get: (_) async => '{}'));
+      final controller = HomeController(platform, weather: WeatherService(get: (_) async => '{}'));
+      controllerRef = controller;
       await controller.refresh();
       expect(controller.pinned.map((a) => a.label), ['YouTube', 'Netflix', 'Disney+']);
       await controller.hide(controller.pinned.first);

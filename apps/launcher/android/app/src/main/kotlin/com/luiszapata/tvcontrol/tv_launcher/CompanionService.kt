@@ -8,7 +8,10 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.ServiceInfo
 import android.os.Build
+import android.os.Handler
 import android.os.IBinder
+import android.os.Looper
+import android.util.Log
 import com.luiszapata.tvcontrol.tv_launcher.companion.CompanionHandler
 import com.luiszapata.tvcontrol.tv_launcher.companion.CompanionServer
 import com.luiszapata.tvcontrol.tv_launcher.companion.NsdAdvertiser
@@ -23,9 +26,18 @@ import org.json.JSONObject
  * screen (the launcher activity is stopped then).
  */
 class CompanionService : Service() {
+    private val main = Handler(Looper.getMainLooper())
     private var server: CompanionServer? = null
     private var nsd: NsdAdvertiser? = null
     private var unsubscribe: (() -> Unit)? = null
+    private var failures = 0
+    private val retry = Runnable { startServer() }
+    private val sweep = object : Runnable {
+        override fun run() {
+            server?.sweep()
+            main.postDelayed(this, SWEEP_MS)
+        }
+    }
 
     override fun onBind(intent: Intent?): IBinder? = null
 
@@ -33,26 +45,9 @@ class CompanionService : Service() {
         super.onCreate()
         Launcher.init(this)
         startForegroundCompat()
-        val s = CompanionServer(
-            Protocol.PORT,
-            handlerFactory = {
-                CompanionHandler(
-                    backend = Launcher,
-                    pairing = Launcher.pairing,
-                    onForegroundApp = { EventBus.post(LauncherEvent.ForegroundApp(it)) },
-                )
-            },
-            onClientsChanged = { EventBus.post(LauncherEvent.Clients(it)) },
-        )
-        server = s
-        try {
-            s.start()
-        } catch (e: Exception) {
-            stopSelf()
-            return
-        }
-        nsd = NsdAdvertiser(this).also { it.start(Launcher.tvName, Protocol.PORT, Launcher.deviceId) }
+        nsd = NsdAdvertiser(this)
         unsubscribe = EventBus.subscribe { event ->
+            val s = server ?: return@subscribe
             when (event) {
                 is LauncherEvent.LayoutChanged ->
                     s.broadcastEvent(Protocol.Event.LAYOUT_CHANGED, JSONObject().put("layout", JSONObject(event.layoutJson)))
@@ -64,20 +59,85 @@ class CompanionService : Service() {
                 is LauncherEvent.ForegroundApp ->
                     s.broadcastEvent(Protocol.Event.FOREGROUND_APP, JSONObject().put("package", event.packageName))
                 LauncherEvent.AppsChanged -> s.broadcastEvent(Protocol.Event.APPS_CHANGED, JSONObject())
+                LauncherEvent.DevicesRevoked -> s.closeAuthenticated()
                 else -> Unit
             }
         }
-        running = true
+        startServer()
+        main.postDelayed(sweep, SWEEP_MS)
     }
 
-    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int = START_STICKY
+    /** Also called when MainActivity resumes: restarts a server that failed. */
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        if (server == null) {
+            main.removeCallbacks(retry)
+            failures = 0
+            startServer()
+        }
+        return START_STICKY
+    }
+
+    private fun startServer() {
+        if (server != null) return
+        val s = CompanionServer(
+            Protocol.PORT,
+            handlerFactory = {
+                CompanionHandler(
+                    backend = Launcher,
+                    pairing = Launcher.pairing,
+                    onForegroundApp = { EventBus.post(LauncherEvent.ForegroundApp(it)) },
+                )
+            },
+            onClientsChanged = { EventBus.post(LauncherEvent.Clients(it)) },
+            onStarted = { started -> main.post { onServerStarted(started) } },
+            onFailed = { failedServer, e -> main.post { onServerFailed(failedServer, e) } },
+            onSweep = { if (Launcher.pairing.expireIfStale()) Launcher.showPairingCode(null, null) },
+        )
+        server = s
+        try {
+            s.start()
+        } catch (e: Exception) {
+            onServerFailed(s, e)
+        }
+    }
+
+    private fun onServerStarted(s: CompanionServer) {
+        if (server !== s) return
+        failures = 0
+        running = true
+        Log.i(TAG, "companion server listening on ${Protocol.PORT}")
+        nsd?.start(Launcher.tvName, Protocol.PORT, Launcher.deviceId)
+    }
+
+    private fun onServerFailed(s: CompanionServer, e: Exception) {
+        if (server !== s) return
+        Log.e(TAG, "companion server failed", e)
+        running = false
+        server = null
+        nsd?.stop()
+        try {
+            s.stop(0)
+        } catch (_: Exception) {
+        }
+        failures++
+        if (failures >= MAX_RETRIES) {
+            // MainActivity.onResume starts the service again.
+            stopSelf()
+        } else {
+            main.postDelayed(retry, RETRY_DELAY_MS * failures)
+        }
+    }
 
     override fun onDestroy() {
         running = false
+        main.removeCallbacks(retry)
+        main.removeCallbacks(sweep)
         unsubscribe?.invoke()
         nsd?.stop()
+        val s = server
+        server = null
         try {
-            server?.stop(500)
+            s?.stop(500)
         } catch (_: Exception) {
         }
         super.onDestroy()
@@ -104,7 +164,12 @@ class CompanionService : Service() {
     companion object {
         private const val CHANNEL = "companion"
         private const val ID = 7790
+        private const val TAG = "CompanionService"
+        private const val SWEEP_MS = 5_000L
+        private const val RETRY_DELAY_MS = 5_000L
+        private const val MAX_RETRIES = 5
 
+        /** True only while the server is bound and listening (set from its onStart). */
         @Volatile
         var running = false
             private set

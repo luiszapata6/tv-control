@@ -69,3 +69,14 @@ fun JSONArray?.strings(): List<String> {
     if (this == null) return emptyList()
     return (0 until length()).mapNotNull { optString(it, null) }
 }
+
+/** Scales (w, h) down so that max(w, h) <= maxSide, keeping the aspect ratio; never scales up. */
+fun fitIconSize(w0: Int, h0: Int, maxSide: Int = Protocol.MAX_ICON_PX): Pair<Int, Int> {
+    val w = w0.coerceAtLeast(1)
+    val h = h0.coerceAtLeast(1)
+    val longest = maxOf(w, h)
+    if (longest <= maxSide) return w to h
+    // Integer math so the longest side is exactly maxSide.
+    return (w.toLong() * maxSide / longest).toInt().coerceAtLeast(1) to
+        (h.toLong() * maxSide / longest).toInt().coerceAtLeast(1)
+}

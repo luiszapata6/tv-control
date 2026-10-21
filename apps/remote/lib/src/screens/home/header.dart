@@ -145,19 +145,23 @@ class Dock extends StatelessWidget {
                         color: i == index ? a.tint : Colors.transparent,
                         borderRadius: BorderRadius.circular(28),
                       ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Sym(icon, filled: i == index, color: i == index ? a.ink : Tokens.ink2),
-                          const SizedBox(height: 2),
-                          Text(
-                            label,
-                            style: Txt.caption.copyWith(
-                              color: i == index ? a.ink : Tokens.ink2,
-                              fontWeight: i == index ? FontWeight.w800 : FontWeight.w700,
+                      child: FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Sym(icon, filled: i == index, color: i == index ? a.ink : Tokens.ink2),
+                            const SizedBox(height: 2),
+                            Text(
+                              label,
+                              maxLines: 1,
+                              style: Txt.caption.copyWith(
+                                color: i == index ? a.ink : Tokens.ink2,
+                                fontWeight: i == index ? FontWeight.w800 : FontWeight.w700,
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   ),

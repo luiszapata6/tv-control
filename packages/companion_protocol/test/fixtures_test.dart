@@ -39,6 +39,9 @@ void main() {
     expect(usage.entries.single.foreground, const Duration(hours: 2));
     final backup = LauncherBackup.fromJson(data('backup_result')['backup'] as Map<String, dynamic>);
     expect(backup.layout, layout);
+    final server = ServerInfo.fromJson((data('pair_token')['server'] as Map).cast<String, dynamic>());
+    expect(server.deviceId, 'a1b2c3');
+    expect((CompanionFrame.decode(jsonEncode(fixtures['busy'])) as ErrorFrame).code, CompanionErrorCode.busy);
     expect(TvInput.fromJson((data('inputs_result')['inputs'] as List).first as Map<String, dynamic>).kind, InputKind.hdmi);
   });
 

@@ -8,6 +8,7 @@ abstract final class CompanionProtocol {
   static const mdnsType = '_tvcontrol._tcp';
   static const maxFailedCodes = 5;
   static const lockSeconds = 60;
+  static const codeTtlSeconds = 120;
 }
 
 /// Request and event names.
@@ -43,6 +44,7 @@ abstract final class CompanionErrorCode {
   static const authRequired = 'auth_required';
   static const badCode = 'bad_code';
   static const locked = 'locked';
+  static const busy = 'busy';
   static const notFound = 'not_found';
   static const badRequest = 'bad_request';
   static const unsupported = 'unsupported';

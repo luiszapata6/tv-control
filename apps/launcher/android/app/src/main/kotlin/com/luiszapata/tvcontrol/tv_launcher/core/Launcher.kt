@@ -2,6 +2,10 @@ package com.luiszapata.tvcontrol.tv_launcher.core
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.pm.LauncherApps
+import android.os.Handler
+import android.os.Looper
+import android.os.UserHandle
 import android.provider.Settings
 import com.luiszapata.tvcontrol.tv_launcher.companion.AppInfo
 import com.luiszapata.tvcontrol.tv_launcher.companion.CompanionBackend
@@ -39,6 +43,45 @@ object Launcher : CompanionBackend {
         usageRepo = UsageRepository(context) { pkg -> apps.apps().firstOrNull { it.packageName == pkg }?.label ?: pkg }
         nowPlayingTracker = NowPlayingTracker(context).also { it.start() }
         pairing = PairingManager(PrefsTokenStore(context))
+        watchPackages()
+    }
+
+    private val main = Handler(Looper.getMainLooper())
+    private val appsChanged = Runnable {
+        apps.clearIcons()
+        EventBus.post(LauncherEvent.AppsChanged)
+    }
+
+    /**
+     * Manifest receivers no longer get PACKAGE_ADDED/REMOVED/REPLACED (API 26+),
+     * so installs and removals are watched at runtime while the process lives.
+     */
+    private fun watchPackages() {
+        val launcherApps = context.getSystemService(LauncherApps::class.java) ?: return
+        val callback = object : LauncherApps.Callback() {
+            override fun onPackageAdded(packageName: String?, user: UserHandle?) = changed()
+            override fun onPackageRemoved(packageName: String?, user: UserHandle?) = changed()
+            override fun onPackageChanged(packageName: String?, user: UserHandle?) = changed()
+            override fun onPackagesAvailable(packageNames: Array<out String>?, user: UserHandle?, replacing: Boolean) = changed()
+            override fun onPackagesUnavailable(packageNames: Array<out String>?, user: UserHandle?, replacing: Boolean) = changed()
+        }
+        try {
+            launcherApps.registerCallback(callback, main)
+        } catch (e: Exception) {
+            android.util.Log.w("Launcher", "cannot watch package changes", e)
+        }
+    }
+
+    /** Debounced: an update fires several callbacks. */
+    private fun changed() {
+        main.removeCallbacks(appsChanged)
+        main.postDelayed(appsChanged, 500)
+    }
+
+    /** Forgets every paired iPhone and disconnects the ones connected now. */
+    fun revokeAll() {
+        pairing.revokeAll()
+        EventBus.post(LauncherEvent.DevicesRevoked)
     }
 
     override val tvName: String
@@ -64,10 +107,22 @@ object Launcher : CompanionBackend {
     }
 }
 
+/** SHA-256 hashes of the pairing tokens. */
 private class PrefsTokenStore(context: Context) : TokenStore {
     private val prefs = context.getSharedPreferences("companion", Context.MODE_PRIVATE)
-    override fun tokens(): Set<String> = prefs.getStringSet("tokens", emptySet()).orEmpty().toSet()
-    override fun save(tokens: Set<String>) {
-        prefs.edit().putStringSet("tokens", tokens).apply()
+
+    init {
+        // Older builds kept plaintext tokens: drop them (those iPhones pair again).
+        if (prefs.contains(LEGACY_KEY)) prefs.edit().remove(LEGACY_KEY).apply()
+    }
+
+    override fun tokenHashes(): Set<String> = prefs.getStringSet(KEY, emptySet()).orEmpty().toSet()
+    override fun save(tokenHashes: Set<String>) {
+        prefs.edit().putStringSet(KEY, tokenHashes).apply()
+    }
+
+    private companion object {
+        const val KEY = "token_hashes"
+        const val LEGACY_KEY = "tokens"
     }
 }

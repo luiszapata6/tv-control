@@ -19,20 +19,37 @@ Requests carry an integer `id`; the answer echoes it.
 {"id": 3, "type": "error", "code": "not_found", "message": "app not installed"}
 ```
 
-Error codes: `auth_required`, `bad_code`, `locked`, `not_found`, `bad_request`,
-`unsupported`, `internal`.
+Error codes: `auth_required`, `bad_code`, `locked`, `busy`, `not_found`,
+`bad_request`, `unsupported`, `internal`.
 
 ## Authentication
 
 1. `hello` `{client, version, token?}` — first frame. Valid token: result
    `{authenticated: true, server: {name, version, deviceId}}`. Otherwise
    error `auth_required`.
-2. `pair.request` `{client}` — the TV shows a 6 digit code. Result `{pending: true}`.
-3. `pair.confirm` `{code}` — result `{token}`; error `bad_code`; after 5 wrong
-   codes `locked` for 60 s. The token is 32 random bytes, base64url.
+2. `pair.request` `{client}` — the TV shows a 6 digit code, valid for 120 s.
+   Result `{pending: true}`. Only one code is active at a time and it belongs
+   to the connection that asked: while it is live, `pair.request` from another
+   connection fails with `busy` (the same connection may ask again for a fresh
+   code). While pairing is locked it fails with `locked`. The TV hides the code
+   when it expires, is confirmed, or its connection closes.
+3. `pair.confirm` `{code}` (on the connection that requested the code) — result
+   `{token, server: {name, version, deviceId}}`; error `bad_code` (also when
+   there is no live code for this connection); after 5 wrong codes `locked`
+   for 60 s. The token is 32 random bytes, base64url. The TV stores only its
+   SHA-256 hash; revoking paired devices on the TV closes their connections
+   (close code 4001) and invalidates every token.
 
 Until authenticated only `hello`, `pair.request`, `pair.confirm` and `ping`
 are accepted.
+
+## Limits
+
+* The path must be exactly `/v1` (a query string is allowed); others are closed with 1008.
+* Connections that are not authenticated 30 s after opening (or after their
+  last `pair.request`, or once their code expires) are closed with 1008.
+* Text frames over 64 KB close the connection with 1009.
+* At most 8 connections; further ones are closed with 1013.
 
 ## Methods
 

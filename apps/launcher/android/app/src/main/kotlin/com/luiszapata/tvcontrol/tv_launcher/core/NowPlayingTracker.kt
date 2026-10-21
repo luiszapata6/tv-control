@@ -15,15 +15,29 @@ import com.luiszapata.tvcontrol.tv_launcher.companion.NowPlaying
  * Exists so the launcher can be granted notification access, which is what
  * lets it read active media sessions (title, app, play state).
  */
-class NowPlayingListenerService : NotificationListenerService()
+class NowPlayingListenerService : NotificationListenerService() {
+    override fun onListenerConnected() {
+        super.onListenerConnected()
+        // Access was just granted (or the system rebound us): start watching sessions.
+        Launcher.init(this)
+        Launcher.nowPlayingTracker.start()
+    }
+}
 
 /** Watches the active media session and publishes changes. */
 class NowPlayingTracker(private val context: Context) {
     private val manager = context.getSystemService(Context.MEDIA_SESSION_SERVICE) as MediaSessionManager
     private val component = ComponentName(context, NowPlayingListenerService::class.java)
     private val main = Handler(Looper.getMainLooper())
+    // Changed on the main thread, read from the companion server threads.
+    @Volatile
     private var watched: MediaController? = null
+
+    @Volatile
     private var last: NowPlaying? = null
+
+    @Volatile
+    private var listening = false
 
     private val callback = object : MediaController.Callback() {
         override fun onPlaybackStateChanged(state: PlaybackState?) = publish()
@@ -33,16 +47,22 @@ class NowPlayingTracker(private val context: Context) {
 
     private val sessionsListener = MediaSessionManager.OnActiveSessionsChangedListener { refresh() }
 
+    /** Safe to call repeatedly; retries until notification access is granted. Main thread. */
+    @Synchronized
     fun start() {
+        if (listening) return
         try {
             manager.addOnActiveSessionsChangedListener(sessionsListener, component, main)
+            listening = true
             refresh()
         } catch (e: SecurityException) {
-            // Notification access not granted yet: nowPlaying stays null.
+            // Notification access not granted yet: nowPlaying stays null until a retry.
         }
     }
 
+    @Synchronized
     fun stop() {
+        listening = false
         try {
             manager.removeOnActiveSessionsChangedListener(sessionsListener)
         } catch (_: Exception) {

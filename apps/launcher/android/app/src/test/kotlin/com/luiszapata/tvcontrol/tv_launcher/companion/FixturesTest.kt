@@ -52,5 +52,19 @@ class FixturesTest {
         assertSimilar(frame("pair_pending"), JSONObject(Frames.result(2, JSONObject().put("pending", true))))
         assertSimilar(frame("bad_code"), JSONObject(Frames.error(3, "bad_code", "wrong code, 4 attempts left")))
         assertSimilar(frame("event_apps_changed"), JSONObject(Frames.event("appsChanged")))
+        assertSimilar(frame("busy"), JSONObject(Frames.error(2, Protocol.Error.BUSY, "another device is pairing, try again later")))
+        assertSimilar(frame("locked"), JSONObject(Frames.error(3, Protocol.Error.LOCKED, "try again in 60 s")))
+    }
+
+    @Test
+    fun `pair confirm answers like the fixture`() {
+        val backend = FakeBackend()
+        val handler = CompanionHandler(backend, PairingManager(MemoryTokenStore()))
+        handler.handle(frame("pair_request").toString())
+        val confirm = JSONObject(frame("pair_confirm").toString()).put("code", backend.shownCode)
+        val reply = JSONObject(handler.handle(confirm.toString()))
+        val expected = JSONObject(frame("pair_token").toString())
+        expected.getJSONObject("data").put("token", reply.getJSONObject("data").getString("token"))
+        assertSimilar(expected, reply)
     }
 }

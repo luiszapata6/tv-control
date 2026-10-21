@@ -23,12 +23,33 @@ class FakeLauncherPlatform implements LauncherPlatform {
   final openedInputs = <String>[];
   final controller = StreamController<LauncherEvent>.broadcast();
   int settingsOpened = 0;
+  int revoked = 0;
+
+  /// Icon bytes per package (missing: no icon). [iconCalls] counts requests.
+  Map<String, List<int>> iconBytes = {};
+  final iconCalls = <String>[];
+  bool failIcons = false;
+
+  /// When set, [setLayout] throws it (the optimistic layout must be reverted).
+  Object? setLayoutError;
+
+  /// When set, [apps] throws it.
+  Object? appsError;
 
   @override
-  Future<List<LauncherApp>> apps() async => appsList;
+  Future<List<LauncherApp>> apps() async {
+    final e = appsError;
+    if (e != null) throw e;
+    return appsList;
+  }
 
   @override
-  Future<Uint8List?> icon(String package) async => null;
+  Future<Uint8List?> icon(String package) async {
+    iconCalls.add(package);
+    if (failIcons) throw StateError('icon failed');
+    final bytes = iconBytes[package];
+    return bytes == null ? null : Uint8List.fromList(bytes);
+  }
 
   @override
   Future<void> launch(String package) async => launched.add(package);
@@ -37,7 +58,11 @@ class FakeLauncherPlatform implements LauncherPlatform {
   Future<LauncherLayout> layout() async => current;
 
   @override
-  Future<LauncherLayout> setLayout(LauncherLayout layout) async => current = layout;
+  Future<LauncherLayout> setLayout(LauncherLayout layout) async {
+    final e = setLayoutError;
+    if (e != null) throw e;
+    return current = layout;
+  }
 
   @override
   Future<List<TvInput>> inputs() async => inputList;
@@ -53,6 +78,9 @@ class FakeLauncherPlatform implements LauncherPlatform {
 
   @override
   Future<String> companionAddress() async => '192.168.1.50:7790';
+
+  @override
+  Future<void> revokeDevices() async => revoked++;
 
   @override
   Stream<LauncherEvent> get events => controller.stream;

@@ -2,6 +2,19 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>LSUIElement</key>
+	<true/>
+	<key>NSLocalNetworkUsageDescription</key>
+	<string>TV Control busca tu TV en la red local y le envía los botones.</string>
+	<key>NSBonjourServices</key>
+	<array>
+		<string>_androidtvremote2._tcp</string>
+		<string>_tvcontrol._tcp</string>
+	</array>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Usa el micrófono para dictar búsquedas en la TV.</string>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>Convierte tu voz en texto para escribir en la TV.</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>

@@ -12,6 +12,9 @@ sealed interface LauncherEvent {
     data class Clients(val names: List<String>) : LauncherEvent
     data class NowPlayingChanged(val json: String?) : LauncherEvent
     data class ForegroundApp(val packageName: String) : LauncherEvent
+
+    /** Every paired device was forgotten; the companion server closes their sockets. */
+    data object DevicesRevoked : LauncherEvent
 }
 
 object EventBus {

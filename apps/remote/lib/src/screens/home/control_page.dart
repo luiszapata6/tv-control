@@ -143,7 +143,11 @@ class _NavButton extends StatelessWidget {
               height: 60,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: [Sym(icon), const SizedBox(width: 8), Text(label, style: Txt.label)],
+                children: [
+                  Sym(icon),
+                  const SizedBox(width: 8),
+                  Flexible(child: Text(label, style: Txt.label, maxLines: 1, overflow: TextOverflow.ellipsis)),
+                ],
               ),
             ),
           ),

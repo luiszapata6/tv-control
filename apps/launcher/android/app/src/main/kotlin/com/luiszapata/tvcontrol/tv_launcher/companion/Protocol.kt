@@ -10,6 +10,31 @@ object Protocol {
     const val LOCK_SECONDS = 60L
     const val CODE_TTL_SECONDS = 120L
 
+    /** Connections that have not authenticated (or own the pending code) are closed after this. */
+    const val UNAUTHENTICATED_TIMEOUT_MS = 30_000L
+
+    /** Text frames larger than this are refused (close code 1009). */
+    const val MAX_FRAME_BYTES = 64 * 1024
+
+    /** Further connections are refused (close code 1013). */
+    const val MAX_CONNECTIONS = 8
+
+    /** Max width and height of `apps.icon` PNGs. */
+    const val MAX_ICON_PX = 192
+
+    object Close {
+        const val POLICY = 1008
+        const val TOO_BIG = 1009
+        const val TRY_AGAIN_LATER = 1013
+        const val REVOKED = 4001
+    }
+
+    /** True for `/v1` and `/v1?query`, not `/v10` or `/v1/x`. */
+    fun isProtocolPath(resource: String?): Boolean {
+        if (resource == null) return false
+        return resource.substringBefore('?') == PATH
+    }
+
     object Method {
         const val HELLO = "hello"
         const val PAIR_REQUEST = "pair.request"
@@ -41,6 +66,7 @@ object Protocol {
         const val AUTH_REQUIRED = "auth_required"
         const val BAD_CODE = "bad_code"
         const val LOCKED = "locked"
+        const val BUSY = "busy"
         const val NOT_FOUND = "not_found"
         const val BAD_REQUEST = "bad_request"
         const val UNSUPPORTED = "unsupported"

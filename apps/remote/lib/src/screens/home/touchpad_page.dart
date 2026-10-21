@@ -237,7 +237,11 @@ class _Quick extends StatelessWidget {
               height: 56,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: [Sym(icon, filled: true), const SizedBox(width: 8), Text(label, style: Txt.label)],
+                children: [
+                  Sym(icon, filled: true),
+                  const SizedBox(width: 8),
+                  Flexible(child: Text(label, style: Txt.label, maxLines: 1, overflow: TextOverflow.ellipsis)),
+                ],
               ),
             ),
           ),

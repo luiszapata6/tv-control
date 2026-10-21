@@ -1,4 +1,5 @@
 import 'package:atv_remote/atv_remote.dart';
+import 'package:atv_remote/testing.dart';
 import 'package:companion_protocol/companion_protocol.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:tv_remote/src/services/devices.dart';

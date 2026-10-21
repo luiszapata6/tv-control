@@ -4,6 +4,7 @@
 # on package targets, so configure with flutter and build with xcodebuild,
 # turning signing off for every target.
 set -euo pipefail
+ruby tools/ios/add_extension.rb
 cd apps/remote
 flutter build ios --release --config-only --no-codesign
 log=$(mktemp)

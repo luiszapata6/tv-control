@@ -6,6 +6,7 @@ import 'screens/home/home_shell.dart';
 import 'screens/onboarding/discover_screen.dart';
 import 'services/devices.dart';
 import 'services/services.dart';
+import 'services/shared_bridge.dart';
 import 'services/tv_session.dart';
 import 'theme/theme.dart';
 import 'theme/tokens.dart';
@@ -27,6 +28,7 @@ class _TvRemoteAppState extends State<TvRemoteApp> with WidgetsBindingObserver {
   SavedTv? _sessionTv;
   DateTime? _sessionPairedAt;
   bool _ready = false;
+  SharedSync? _sync;
 
   DeviceStore get _devices => widget.services.devices;
 
@@ -45,7 +47,10 @@ class _TvRemoteAppState extends State<TvRemoteApp> with WidgetsBindingObserver {
     if (mounted) setState(() => _ready = true);
   }
 
-  void _applyPrefs() => hapticsEnabled = widget.services.preferences.haptics;
+  void _applyPrefs() {
+    hapticsEnabled = widget.services.preferences.haptics;
+    _sync?.refresh();
+  }
 
   void _onDevices() => unawaited(_syncSession().catchError((Object _) {
         // Identity generation failed (keychain unavailable): stay on the splash
@@ -58,6 +63,8 @@ class _TvRemoteAppState extends State<TvRemoteApp> with WidgetsBindingObserver {
     if (!changed) return;
     final old = _session;
     _session = null;
+    _sync?.dispose();
+    _sync = null;
     _sessionTv = tv;
     _sessionPairedAt = tv?.pairedAt;
     old?.dispose();
@@ -66,7 +73,10 @@ class _TvRemoteAppState extends State<TvRemoteApp> with WidgetsBindingObserver {
       if (!mounted || _sessionTv?.id != tv.id) return;
       final s = widget.services.sessionFactory(tv, identity, _devices);
       _session = s;
+      _sync = SharedSync(widget.services.shared, s, identity, liveActivity: widget.services.preferences.liveActivity);
       await s.start();
+    } else {
+      unawaited(widget.services.shared.clearTv());
     }
     if (mounted) setState(() {});
   }
@@ -81,6 +91,7 @@ class _TvRemoteAppState extends State<TvRemoteApp> with WidgetsBindingObserver {
     WidgetsBinding.instance.removeObserver(this);
     _devices.removeListener(_onDevices);
     widget.services.preferences.removeListener(_applyPrefs);
+    _sync?.dispose();
     _session?.dispose();
     super.dispose();
   }

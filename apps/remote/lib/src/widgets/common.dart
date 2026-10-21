@@ -36,7 +36,9 @@ class Surface extends StatelessWidget {
           borderRadius: BorderRadius.circular(radius),
           border: Border.all(color: Tokens.edge),
         ),
-        child: child,
+        // List tiles and ink inside a card paint on this material, not on
+        // whatever is behind the card.
+        child: Material(type: MaterialType.transparency, child: child),
       );
 }
 
@@ -124,7 +126,14 @@ class PrimaryButton extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       if (icon != null) ...[Sym(icon!, color: a.onFill), const SizedBox(width: 8)],
-                      Text(label, style: Txt.button.copyWith(color: a.onFill, fontSize: 16)),
+                      Flexible(
+                        child: Text(
+                          label,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: Txt.button.copyWith(color: a.onFill, fontSize: 16),
+                        ),
+                      ),
                     ],
                   ),
           ),

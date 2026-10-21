@@ -49,8 +49,10 @@ class AtvClient {
   final Duration maxBackoff;
   final RemoteConnectFn _connect;
 
-  final _status = StreamController<AtvConnectionStatus>.broadcast(sync: true);
-  final _states = StreamController<AtvState>.broadcast(sync: true);
+  // Asynchronous on purpose: a listener that reacts by calling stop() or
+  // dispose() must not re-enter the controller while it is firing.
+  final _status = StreamController<AtvConnectionStatus>.broadcast();
+  final _states = StreamController<AtvState>.broadcast();
   AtvConnectionStatus _current = AtvConnectionStatus.idle;
   AtvRemote? _remote;
   AtvState _state = const AtvState();

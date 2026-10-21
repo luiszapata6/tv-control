@@ -1,0 +1,2 @@
+// FLUTTER_BUILD_NAME / FLUTTER_BUILD_NUMBER for the extension Info.plist.
+#include? "../Flutter/Generated.xcconfig"

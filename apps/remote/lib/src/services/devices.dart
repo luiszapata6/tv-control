@@ -144,9 +144,13 @@ class Preferences extends ChangeNotifier {
   String accentName = 'Índigo';
   bool haptics = true;
 
+  /// Show the TV on the Lock Screen / Dynamic Island while connected.
+  final liveActivity = ValueNotifier<bool>(true);
+
   Future<void> load() async {
     accentName = await store.getString('accent') ?? accentName;
     haptics = (await store.getString('haptics')) != 'off';
+    liveActivity.value = (await store.getString('liveActivity')) != 'off';
     notifyListeners();
   }
 
@@ -154,6 +158,12 @@ class Preferences extends ChangeNotifier {
     accentName = name;
     notifyListeners();
     await store.setString('accent', name);
+  }
+
+  Future<void> setLiveActivity(bool on) async {
+    liveActivity.value = on;
+    notifyListeners();
+    await store.setString('liveActivity', on ? 'on' : 'off');
   }
 
   Future<void> setHaptics(bool on) async {
