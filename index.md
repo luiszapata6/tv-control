@@ -25,3 +25,4 @@
 - FAIL bfae01e10c61 https://github.com/luiszapata6/tv-control/actions/runs/39543499036
 - FAIL 7029495653cd https://github.com/luiszapata6/tv-control/actions/runs/39543804034
 - FAIL a3141daf6081 https://github.com/luiszapata6/tv-control/actions/runs/39544257116
+- FAIL 82837428efc4 https://github.com/luiszapata6/tv-control/actions/runs/39545130772

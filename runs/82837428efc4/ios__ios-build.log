@@ -1,0 +1,27 @@
+Runner.xcodeproj updated
+Resolving dependencies...
+Downloading packages...
+  dbus 0.7.15 (0.8.0 available)
+  flutter_secure_storage 10.3.4 (11.2.0 available)
+  flutter_secure_storage_darwin 0.3.2 (0.4.3 available)
+  google_fonts 8.2.1 (9.0.0 available)
+  material_color_utilities 0.13.0 (0.13.1 available)
+  test_api 0.7.12 (0.7.15 available)
+Got dependencies!
+6 packages have newer versions incompatible with dependency constraints.
+Try `flutter pub outdated` for more information.
+Warning: Building for device with codesigning disabled. You will have to manually codesign before deploying to device.
+Xcode is fetching Swift Package Manager dependencies. This may take several minutes...
+  Fetching from https://github.com/mattgallagher/CwlCatchException.git...     
+Building com.luiszapata.tvcontrol.tvRemote for device (ios-release)...
+** BUILD SUCCEEDED **
+AppFrameworkInfo.plist
+AppIcon60x60@2x.png
+AppIcon76x76@2x~ipad.png
+Assets.car
+Base.lproj
+flutter_secure_storage_darwin_flutter_secure_storage_darwin.bundle
+Frameworks
+Info.plist
+Metadata.appintents
+PkgInfo

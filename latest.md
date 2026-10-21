@@ -1,7 +1,7 @@
-# CI FAIL — a3141daf6081
+# CI FAIL — 82837428efc4
 
-Run: https://github.com/luiszapata6/tv-control/actions/runs/39544257116
-Commit: feat(remote): match the new launcher: 'Tus favoritos' (up to 9, add/remove), no hidden apps, no reordering (the TV orders favourites by last use)
+Run: https://github.com/luiszapata6/tv-control/actions/runs/39545130772
+Commit: fix(ios): 'Encender/Apagar la TV' read the TV's state and press power only if needed (the Hisense ignores SLEEP/WAKEUP); handoff with Fase 0 results
 Job results: [
   "success",
   "success",
@@ -13,17 +13,17 @@ Job results: [
 | job | step | result | time |
 | --- | --- | --- | --- |
 | dart | atv-analyze | PASS | 1s |
-| dart | atv-test | PASS | 11s |
+| dart | atv-test | PASS | 12s |
 | dart | companion-analyze | PASS | 1s |
-| dart | companion-test | PASS | 5s |
-| dart | setup | PASS | 5s |
-| ios | ios-build | PASS | 92s |
+| dart | companion-test | PASS | 7s |
+| dart | setup | PASS | 8s |
+| ios | ios-build | PASS | 165s |
 | ios | ios-ipa | PASS | 1s |
-| ios | ios-pub | PASS | 10s |
-| ios | macos-build | PASS | 81s |
+| ios | ios-pub | PASS | 2s |
+| ios | macos-build | PASS | 143s |
 | python | codegen-up-to-date | PASS | 0s |
-| python | pip | PASS | 6s |
-| python | sim-tests | PASS | 9s |
-| remote | remote-analyze | PASS | 11s |
-| remote | remote-pub | PASS | 11s |
-| remote | remote-test | PASS | 18s |
+| python | pip | PASS | 4s |
+| python | sim-tests | PASS | 8s |
+| remote | remote-analyze | PASS | 13s |
+| remote | remote-pub | PASS | 1s |
+| remote | remote-test | PASS | 19s |
