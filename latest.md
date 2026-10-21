@@ -1,7 +1,7 @@
-# CI FAIL — 9a4e69c5808e
+# CI FAIL — ac5a3a7e86d9
 
-Run: https://github.com/luiszapata6/tv-control/actions/runs/39540388423
-Commit: fix(launcher): more room between the focused card's name and the next row
+Run: https://github.com/luiszapata6/tv-control/actions/runs/39540855959
+Commit: feat(launcher): favourites in one scrolling row, 'Seguir viendo' (recently used apps), HDMI inputs in a drop-down next to Ajustes
 Job results: [
   "success",
   "success",
@@ -13,16 +13,15 @@ Job results: [
 | job | step | result | time |
 | --- | --- | --- | --- |
 | dart | atv-analyze | PASS | 2s |
-| dart | atv-test | PASS | 13s |
+| dart | atv-test | PASS | 12s |
 | dart | companion-analyze | PASS | 1s |
-| dart | companion-test | PASS | 7s |
-| dart | setup | PASS | 5s |
-| ios | ios-build | PASS | 123s |
-| ios | ios-pub | PASS | 5s |
-| ios | macos-build | PASS | 129s |
+| dart | companion-test | PASS | 8s |
+| dart | setup | PASS | 6s |
+| ios | ios-build | PASS | 146s |
+| ios | ios-pub | PASS | 2s |
 | python | codegen-up-to-date | PASS | 0s |
-| python | pip | PASS | 6s |
+| python | pip | PASS | 4s |
 | python | sim-tests | PASS | 9s |
 | remote | remote-analyze | PASS | 12s |
 | remote | remote-pub | PASS | 7s |
-| remote | remote-test | PASS | 18s |
+| remote | remote-test | PASS | 17s |

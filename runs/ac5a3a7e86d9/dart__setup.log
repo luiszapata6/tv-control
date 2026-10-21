@@ -1,0 +1,158 @@
+Collecting androidtvremote2==0.3.2 (from -r tools/sim/requirements.txt (line 1))
+  Downloading androidtvremote2-0.3.2-py3-none-any.whl.metadata (3.6 kB)
+Collecting pyOpenSSL>=24.2 (from -r tools/sim/requirements.txt (line 2))
+  Downloading pyopenssl-26.4.0-py3-none-any.whl.metadata (22 kB)
+Collecting cryptography>=43 (from -r tools/sim/requirements.txt (line 3))
+  Downloading cryptography-50.0.2-cp311-abi3-manylinux_2_34_x86_64.whl.metadata (4.4 kB)
+Collecting pytest>=8 (from -r tools/sim/requirements.txt (line 4))
+  Downloading pytest-9.1.1-py3-none-any.whl.metadata (7.6 kB)
+Collecting pytest-asyncio>=0.24 (from -r tools/sim/requirements.txt (line 5))
+  Downloading pytest_asyncio-1.4.0-py3-none-any.whl.metadata (4.1 kB)
+Collecting aiofiles>=0.8 (from androidtvremote2==0.3.2->-r tools/sim/requirements.txt (line 1))
+  Downloading aiofiles-25.1.0-py3-none-any.whl.metadata (6.3 kB)
+Collecting protobuf>=4.21 (from androidtvremote2==0.3.2->-r tools/sim/requirements.txt (line 1))
+  Downloading protobuf-7.36.2-cp310-abi3-manylinux2014_x86_64.whl.metadata (595 bytes)
+Collecting typing-extensions>=4.9 (from pyOpenSSL>=24.2->-r tools/sim/requirements.txt (line 2))
+  Downloading typing_extensions-4.16.0-py3-none-any.whl.metadata (3.3 kB)
+Collecting cffi>=2.0.0 (from cryptography>=43->-r tools/sim/requirements.txt (line 3))
+  Downloading cffi-2.1.1-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (2.5 kB)
+Collecting iniconfig>=1.0.1 (from pytest>=8->-r tools/sim/requirements.txt (line 4))
+  Downloading iniconfig-2.3.1-py3-none-any.whl.metadata (2.8 kB)
+Collecting packaging>=22 (from pytest>=8->-r tools/sim/requirements.txt (line 4))
+  Downloading packaging-26.3-py3-none-any.whl.metadata (3.5 kB)
+Collecting pluggy<2,>=1.5 (from pytest>=8->-r tools/sim/requirements.txt (line 4))
+  Downloading pluggy-1.7.0-py3-none-any.whl.metadata (5.0 kB)
+Collecting pygments>=2.7.2 (from pytest>=8->-r tools/sim/requirements.txt (line 4))
+  Downloading pygments-2.21.0-py3-none-any.whl.metadata (2.5 kB)
+Collecting pycparser (from cffi>=2.0.0->cryptography>=43->-r tools/sim/requirements.txt (line 3))
+  Downloading pycparser-3.11-py3-none-any.whl.metadata (8.2 kB)
+Downloading androidtvremote2-0.3.2-py3-none-any.whl (48 kB)
+Downloading pyopenssl-26.4.0-py3-none-any.whl (56 kB)
+Downloading cryptography-50.0.2-cp311-abi3-manylinux_2_34_x86_64.whl (4.8 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 4.8/4.8 MB 163.5 MB/s  0:00:00
+Downloading pytest-9.1.1-py3-none-any.whl (386 kB)
+Downloading pluggy-1.7.0-py3-none-any.whl (27 kB)
+Downloading pytest_asyncio-1.4.0-py3-none-any.whl (16 kB)
+Downloading aiofiles-25.1.0-py3-none-any.whl (14 kB)
+Downloading cffi-2.1.1-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (221 kB)
+Downloading iniconfig-2.3.1-py3-none-any.whl (7.6 kB)
+Downloading packaging-26.3-py3-none-any.whl (129 kB)
+Downloading protobuf-7.36.2-cp310-abi3-manylinux2014_x86_64.whl (343 kB)
+Downloading pygments-2.21.0-py3-none-any.whl (1.3 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.3/1.3 MB 190.4 MB/s  0:00:00
+Downloading typing_extensions-4.16.0-py3-none-any.whl (45 kB)
+Downloading pycparser-3.11-py3-none-any.whl (51 kB)
+Installing collected packages: typing-extensions, pygments, pycparser, protobuf, pluggy, packaging, iniconfig, aiofiles, pytest, cffi, pytest-asyncio, cryptography, pyOpenSSL, androidtvremote2
+
+Successfully installed aiofiles-25.1.0 androidtvremote2-0.3.2 cffi-2.1.1 cryptography-50.0.2 iniconfig-2.3.1 packaging-26.3 pluggy-1.7.0 protobuf-7.36.2 pyOpenSSL-26.4.0 pycparser-3.11 pygments-2.21.0 pytest-9.1.1 pytest-asyncio-1.4.0 typing-extensions-4.16.0
+
+[notice] A new release of pip is available: 26.2.1 -> 26.2.2
+[notice] To update, run: pip install --upgrade pip
+Dart SDK version: 3.13.6 (stable) (Tue Oct 20 01:00:48 2026 -0700) on "linux_x64"
+Resolving dependencies...
+Downloading packages...
++ _fe_analyzer_shared 110.0.0
++ analyzer 14.6.0
++ args 2.7.0
++ async 2.13.1
++ boolean_selector 2.1.2
++ cli_config 0.2.0
++ cli_util 0.6.0
++ collection 1.19.1
++ convert 3.1.2
++ coverage 1.16.0
++ crypto 3.0.7
++ ffi 2.2.0
++ file 7.0.1
++ frontend_server_client 4.2.0
++ glob 2.2.0
++ http_multi_server 3.2.3
++ http_parser 4.1.2
++ io 1.1.0
++ lints 6.1.0
++ logging 1.3.0
++ matcher 0.12.20
++ meta 1.19.0
++ mime 2.1.0
++ node_preamble 2.0.2
++ package_config 3.0.0
++ path 1.9.1
++ pointycastle 4.0.0
++ pool 1.5.3
++ pub_semver 2.2.1
++ shelf 1.4.3
++ shelf_packages_handler 3.0.2
++ shelf_static 1.2.0
++ shelf_web_socket 3.0.0
++ source_map_stack_trace 2.1.2
++ source_maps 0.10.14
++ source_span 1.10.2
++ stack_trace 1.12.2
++ stream_channel 2.1.4
++ string_scanner 1.4.1
++ term_glyph 1.2.2
++ test 1.33.0
++ test_api 0.7.15
++ test_core 0.6.21
++ typed_data 1.4.0
++ vm_service 15.4.0
++ watcher 1.2.1
++ web 1.1.1
++ web_socket 1.0.1
++ web_socket_channel 3.0.3
++ webkit_inspection_protocol 1.2.1
++ yaml 3.1.4
+Changed 51 dependencies!
+Resolving dependencies...
+Downloading packages...
++ _fe_analyzer_shared 110.0.0
++ analyzer 14.6.0
++ args 2.7.0
++ async 2.13.1
++ boolean_selector 2.1.2
++ cli_config 0.2.0
++ cli_util 0.6.0
++ collection 1.19.1
++ convert 3.1.2
++ coverage 1.16.0
++ crypto 3.0.7
++ ffi 2.2.0
++ file 7.0.1
++ frontend_server_client 4.2.0
++ glob 2.2.0
++ http_multi_server 3.2.3
++ http_parser 4.1.2
++ io 1.1.0
++ lints 6.1.0
++ logging 1.3.0
++ matcher 0.12.20
++ meta 1.19.0
++ mime 2.1.0
++ node_preamble 2.0.2
++ package_config 3.0.0
++ path 1.9.1
++ pool 1.5.3
++ pub_semver 2.2.1
++ shelf 1.4.3
++ shelf_packages_handler 3.0.2
++ shelf_static 1.2.0
++ shelf_web_socket 3.0.0
++ source_map_stack_trace 2.1.2
++ source_maps 0.10.14
++ source_span 1.10.2
++ stack_trace 1.12.2
++ stream_channel 2.1.4
++ string_scanner 1.4.1
++ term_glyph 1.2.2
++ test 1.33.0
++ test_api 0.7.15
++ test_core 0.6.21
++ typed_data 1.4.0
++ vm_service 15.4.0
++ watcher 1.2.1
++ web 1.1.1
++ web_socket 1.0.1
++ web_socket_channel 3.0.3
++ webkit_inspection_protocol 1.2.1
++ yaml 3.1.4
+Changed 50 dependencies!
