@@ -6,8 +6,8 @@ import java.util.Calendar
 
 /** What the home screen shows and how edits change the layout. Pure: unit tested. */
 object Home {
-    /** Favourites on the home screen; "Todas las apps" follows them. */
-    const val MAX_PINNED = 8
+    /** Favourites on the home screen; with "Todas las apps" they fill two rows of five. */
+    const val MAX_PINNED = 9
 
     /** Pinned apps that are installed, in order. Without a layout, non-system apps are suggested. */
     fun pinned(apps: List<AppInfo>, layout: Layout): List<AppInfo> {

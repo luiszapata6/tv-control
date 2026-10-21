@@ -59,27 +59,35 @@ object Art {
     fun clear() = cache.clear()
 
     /**
-     * Average of a 12x12 thumbnail where saturated pixels weigh most, so a
-     * white banner with a red logo gives red, not white. 0 if unknown.
+     * The hue that covers most of a 16x16 thumbnail (saturated pixels only):
+     * Chrome gives one of its colours, not the muddy average of all four;
+     * a white banner with a red logo gives red. 0 if there is no colour.
      */
     fun dominantColor(d: Drawable?): Int {
         if (d == null) return 0
-        val bmp = Bitmap.createBitmap(12, 12, Bitmap.Config.ARGB_8888)
+        val n = 16
+        val bmp = Bitmap.createBitmap(n, n, Bitmap.Config.ARGB_8888)
         val copy = d.constantState?.newDrawable()?.mutate() ?: d
-        copy.setBounds(0, 0, 12, 12)
+        copy.setBounds(0, 0, n, n)
         copy.draw(Canvas(bmp))
-        var r = 0.0; var g = 0.0; var b = 0.0; var total = 0.0
-        for (y in 0 until 12) for (x in 0 until 12) {
+        val weight = DoubleArray(12)
+        val sums = Array(12) { DoubleArray(3) }
+        val hsv = FloatArray(3)
+        for (y in 0 until n) for (x in 0 until n) {
             val p = bmp.getPixel(x, y)
-            val pr = Color.red(p); val pg = Color.green(p); val pb = Color.blue(p)
-            val hi = max(pr, max(pg, pb)); val lo = min(pr, min(pg, pb))
-            val sat = if (hi == 0) 0.0 else (hi - lo).toDouble() / hi
-            val w = Color.alpha(p) / 255.0 * (0.03 + sat * sat)
-            r += pr * w; g += pg * w; b += pb * w; total += w
+            if (Color.alpha(p) < 128) continue
+            Color.colorToHSV(p, hsv)
+            if (hsv[1] < 0.3f || hsv[2] < 0.25f) continue
+            val b = (hsv[0] / 30f).toInt().coerceIn(0, 11)
+            val w = hsv[1].toDouble()
+            weight[b] += w
+            sums[b][0] += Color.red(p) * w; sums[b][1] += Color.green(p) * w; sums[b][2] += Color.blue(p) * w
         }
         bmp.recycle()
-        if (total == 0.0) return 0
-        return Color.rgb((r / total).toInt(), (g / total).toInt(), (b / total).toInt())
+        val best = weight.indices.maxByOrNull { weight[it] } ?: return 0
+        val w = weight[best]
+        if (w == 0.0) return 0
+        return Color.rgb((sums[best][0] / w).toInt(), (sums[best][1] / w).toInt(), (sums[best][2] / w).toInt())
     }
 
     /** Background for icon-only apps: their colour, dark and muted (or a hue from the name). */
@@ -154,11 +162,11 @@ class AppCard(
                 } else {
                     box.setBackgroundColor(Art.darkTint(a.tint, app.label))
                     val col = ui.vertical().apply { gravity = Gravity.CENTER }
-                    val side = ui.px(heightDp * 0.4f)
+                    val side = ui.px(heightDp * 0.46f)
                     col.addView(ImageView(ui.context).apply {
                         setImageDrawable(a.icon?.newDrawable(ui.context.resources))
                         scaleType = ImageView.ScaleType.FIT_CENTER
-                        ui.clipRounded(this, heightDp * 0.4f * 0.24f)
+                        ui.clipRounded(this, heightDp * 0.46f * 0.24f)
                     }, lp(side, side))
                     col.addView(ui.text(app.label, 12f, 700).apply { gravity = Gravity.CENTER },
                         lp(WRAP, WRAP).apply { topMargin = ui.px(heightDp * 0.07f) })

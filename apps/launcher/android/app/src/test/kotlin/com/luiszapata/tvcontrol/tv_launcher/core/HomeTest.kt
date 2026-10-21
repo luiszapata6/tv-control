@@ -30,12 +30,12 @@ class HomeTest {
         assertFalse(Home.visible(apps, hidden).any { it.packageName == "dp" })
     }
 
-    @Test fun `at most eight favourites, and pinning a ninth does nothing`() {
-        val many = (1..10).map { app("p$it", "App $it") }
-        val full = Layout(order = many.take(8).map { it.packageName })
-        assertEquals(8, Home.pinned(many, Layout(order = many.map { it.packageName })).size)
+    @Test fun `at most nine favourites, and pinning a tenth does nothing`() {
+        val many = (1..11).map { app("p$it", "App $it") }
+        val full = Layout(order = many.take(9).map { it.packageName })
+        assertEquals(9, Home.pinned(many, Layout(order = many.map { it.packageName })).size)
         assertFalse(Home.canPin(many, full))
-        assertEquals(full.order, Home.pin("p9", many, full).order)
+        assertEquals(full.order, Home.pin("p10", many, full).order)
         assertEquals(listOf("p1", "p2", "p9"), Home.pin("p9", many, Layout(order = listOf("p1", "p2"))).order)
     }
 
