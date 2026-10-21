@@ -152,10 +152,11 @@ class HomeScreen(private val act: MainActivity) {
         val titleRow = ui.horizontal().apply { clipChildren = false }
         titleRow.addView(ui.text("Tus favoritos", 15f, 700, spacing = -0.15f), lp(0, WRAP, 1f))
         titleRow.addView(allAppsButton(), lp(WRAP, ui.px(30)))
-        col.addView(titleRow, lp(MATCH, WRAP).apply { topMargin = ui.px(14) })
-        col.addView(favRow.wrapper, rowLp(14f))
-        col.addView(recentTitle, lp(WRAP, WRAP).apply { topMargin = ui.px(6) })
+        // "Seguir viendo" first: what you were watching is one OK away.
+        col.addView(recentTitle, lp(WRAP, WRAP).apply { topMargin = ui.px(14) })
         col.addView(recentRow.wrapper, rowLp(14f))
+        col.addView(titleRow, lp(MATCH, WRAP).apply { topMargin = ui.px(6) })
+        col.addView(favRow.wrapper, rowLp(14f))
         return col
     }
 
@@ -291,10 +292,11 @@ class HomeScreen(private val act: MainActivity) {
     /** Where focus goes back when an overlay closes. */
     fun remember(tag: String?) { if (tag != null) focusKey = tag }
 
-    /** Home pressed: start again from the first favourite. */
+    /** Home pressed: start again from the first card. */
     fun focusFirst() {
         focusKey = null
         favRow.reset()
+        recentRow.reset()
         render()
         first()?.requestFocus()
     }
@@ -303,5 +305,6 @@ class HomeScreen(private val act: MainActivity) {
         (focusKey?.let { view.findViewWithTag<View>(it) } ?: first())?.requestFocus()
     }
 
-    private fun first(): View? = (favRow.row.getChildAt(0) as? AppCard)?.frame
+    private fun first(): View? =
+        ((recentRow.row.getChildAt(0) ?: favRow.row.getChildAt(0)) as? AppCard)?.frame
 }
