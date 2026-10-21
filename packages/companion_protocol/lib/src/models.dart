@@ -35,7 +35,7 @@ class CompanionApp {
 }
 
 class LauncherLayout {
-  const LauncherLayout({this.order = const [], this.hidden = const [], this.columns = 6});
+  const LauncherLayout({this.order = const [], this.hidden = const [], this.columns = 5});
 
   /// Pinned apps in display order.
   final List<String> order;
@@ -52,7 +52,7 @@ class LauncherLayout {
   factory LauncherLayout.fromJson(Map<String, dynamic> j) => LauncherLayout(
         order: _strings(j['order']),
         hidden: _strings(j['hidden']),
-        columns: (_int(j['columns']) ?? 6).clamp(minColumns, maxColumns),
+        columns: (_int(j['columns']) ?? 5).clamp(minColumns, maxColumns),
       );
 
   Map<String, dynamic> toJson() => {'order': order, 'hidden': hidden, 'columns': columns};
