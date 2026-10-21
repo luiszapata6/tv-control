@@ -71,6 +71,14 @@ En la app: pestaña **Apps › Conectar**. La TV muestra un código de 6 dígito
 3. Aparece un ícono de TV en la barra de menú. Clic izquierdo abre el control; clic derecho, *Salir*.
 4. El Mac se empareja con la TV por su cuenta (mismo flujo del código en pantalla).
 
+## 5. Home Assistant (opcional)
+
+No hace falta nada de este proyecto: la integración oficial **Android TV Remote** habla el mismo protocolo (librería androidtvremote2).
+
+1. Home Assistant › Ajustes › Dispositivos y servicios › *Agregar integración* › **Android TV Remote**.
+2. La TV aparece sola por mDNS; escribe el código de 6 caracteres que muestra.
+3. Obtienes encender/apagar, teclas, volumen y abrir apps por enlace. La lista de apps instaladas y el uso solo están en el launcher (companion), que Home Assistant no usa.
+
 ## Problemas comunes
 
 | Síntoma | Qué hacer |
