@@ -57,10 +57,15 @@ object Home {
         return base.copy(order = order)
     }
 
-    /** "Seguir viendo": the most recently used installed, visible apps, newest first. */
+    /** Favourites as shown: last opened first; never-opened ones keep their order at the end. */
+    fun favourites(apps: List<AppInfo>, layout: Layout, lastUsed: Map<String, Long>): List<AppInfo> =
+        pinned(apps, layout).sortedByDescending { lastUsed[it.packageName] ?: Long.MIN_VALUE } // stable sort
+
+    /** "Seguir viendo": recently used apps that are not favourites (no repeats), newest first. */
     fun recent(lastUsed: Map<String, Long>, apps: List<AppInfo>, layout: Layout, limit: Int = RECENT): List<AppInfo> {
+        val favourites = pinned(apps, layout).map { it.packageName }.toSet()
         // System apps (setup screens, vendor tools) are not something you "keep watching".
-        val byPackage = Home.visible(apps, layout).filter { !it.isSystem }.associateBy { it.packageName }
+        val byPackage = visible(apps, layout).filter { !it.isSystem && it.packageName !in favourites }.associateBy { it.packageName }
         return lastUsed.entries.sortedByDescending { it.value }.mapNotNull { byPackage[it.key] }.take(limit)
     }
 

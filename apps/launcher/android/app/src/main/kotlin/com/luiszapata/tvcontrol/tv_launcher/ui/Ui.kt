@@ -65,6 +65,7 @@ object Ic {
     const val RAIN = 0xF0695
     const val SNOW = 0xE037
     const val STORM = 0xF071B
+    const val CLOSE = 0xF647
 
     fun weather(code: Int, isDay: Boolean): Int = when (code) {
         0, 1 -> if (isDay) SUN else MOON

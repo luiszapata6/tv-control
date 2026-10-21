@@ -39,8 +39,10 @@ data class Layout(val order: List<String> = emptyList(), val hidden: List<String
     }
 }
 
-data class InputInfo(val id: String, val label: String, val kind: String) {
+/** [device]: what is plugged in, from HDMI-CEC ("PlayStation 5"), if known. */
+data class InputInfo(val id: String, val label: String, val kind: String, val device: String? = null) {
     fun toJson(): JSONObject = JSONObject().put("id", id).put("label", label).put("kind", kind)
+        .apply { if (device != null) put("device", device) }
 }
 
 data class NowPlaying(

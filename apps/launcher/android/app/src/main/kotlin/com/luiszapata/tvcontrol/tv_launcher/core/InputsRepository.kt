@@ -11,26 +11,28 @@ import com.luiszapata.tvcontrol.tv_launcher.companion.InputInfo
 class InputsRepository(private val context: Context) {
     private val manager = context.getSystemService(Context.TV_INPUT_SERVICE) as? TvInputManager
 
+    /**
+     * HDMI ports in order, each with the name of the device on it when HDMI-CEC
+     * reports one (a CEC device is its own input whose parent is the port; it
+     * must not be counted as another port), then tuners and others.
+     */
     fun inputs(): List<InputInfo> {
         val list = try {
             manager?.tvInputList.orEmpty()
         } catch (e: SecurityException) {
             emptyList()
         }
-        var hdmiIndex = 0
-        return list.filter { it.parentId == null || it.type == TvInputInfo.TYPE_HDMI }
-            .sortedBy { it.id }
-            .map { info ->
-                val kind = when (info.type) {
-                    TvInputInfo.TYPE_HDMI -> "hdmi"
-                    TvInputInfo.TYPE_TUNER -> "tuner"
-                    else -> "other"
-                }
-                val custom = info.loadCustomLabel(context)?.toString()
-                val label = custom?.takeIf { it.isNotBlank() }
-                    ?: if (kind == "hdmi") "HDMI ${++hdmiIndex}" else info.loadLabel(context).toString()
-                InputInfo(info.id, label, kind)
-            }
+        val devices = list.filter { it.parentId != null }.associateBy { it.parentId }
+        val roots = list.filter { it.parentId == null }
+        val hdmi = roots.filter { it.type == TvInputInfo.TYPE_HDMI }.sortedBy { it.id }.mapIndexed { i, info ->
+            val custom = info.loadCustomLabel(context)?.toString()?.takeIf { it.isNotBlank() }
+            val device = devices[info.id]?.loadLabel(context)?.toString()?.takeIf { it.isNotBlank() }
+            InputInfo(info.id, custom ?: "HDMI ${i + 1}", "hdmi", device)
+        }
+        val others = roots.filter { it.type != TvInputInfo.TYPE_HDMI }.sortedBy { it.id }.map { info ->
+            InputInfo(info.id, info.loadLabel(context).toString(), if (info.type == TvInputInfo.TYPE_TUNER) "tuner" else "other")
+        }
+        return hdmi + others
     }
 
     fun open(id: String): Boolean {

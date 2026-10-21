@@ -160,6 +160,15 @@ class MainActivity : Activity() {
         if (Launcher.apps.launch(pkg)) EventBus.post(LauncherEvent.ForegroundApp(pkg))
     }
 
+    /**
+     * Ends an app left in the background and frees its memory (Android TV has
+     * no recents screen to swipe it away). Only background processes: never
+     * the app on screen.
+     */
+    fun closeApp(pkg: String) {
+        (getSystemService(ACTIVITY_SERVICE) as android.app.ActivityManager).killBackgroundProcesses(pkg)
+    }
+
     fun openInput(id: String) = io.execute { Launcher.inputsRepo.open(id) }
 
     fun openSystemSettings() = start(Intent(Settings.ACTION_SETTINGS))

@@ -79,9 +79,8 @@ object Overlays {
             }
             if (position >= 0) {
                 add(Triple(Ic.REMOVE, "Quitar de Tus apps") { act.saveLayout(Home.unpin(pkg, act.apps, act.layout)) })
-                if (position > 0) add(Triple(Ic.LEFT, "Mover a la izquierda") { act.saveLayout(Home.shift(pkg, -1, act.apps, act.layout)) })
-                if (position < pinned.size - 1) add(Triple(Ic.RIGHT, "Mover a la derecha") { act.saveLayout(Home.shift(pkg, 1, act.apps, act.layout)) })
             }
+            add(Triple(Ic.CLOSE, "Cerrar app") { act.closeApp(pkg) })
             add(Triple(Ic.HIDE, "Ocultar") { act.saveLayout(Home.hide(pkg, act.apps, act.layout)) })
             add(Triple(Ic.INFO, "Información de la app") { act.openAppInfo(pkg) })
         }
@@ -97,7 +96,7 @@ object Overlays {
         AppCard.appArt(ui, app, 220f * 9 / 16)(art)
         left.addView(art, lp(ui.px(220), ui.px(220f * 9 / 16)))
         left.addView(ui.text(app.label, 22f, 700, spacing = -0.2f).apply { maxLines = 2 }, lp(ui.px(220), WRAP).apply { topMargin = ui.px(14) })
-        left.addView(ui.text(if (position >= 0) "Fijada · posición ${position + 1} de ${pinned.size}" else "No fijada", 12f, 600, C.INK3),
+        left.addView(ui.text(if (position >= 0) "En Tus apps" else "No está en Tus apps", 12f, 600, C.INK3),
             lp(WRAP, WRAP).apply { topMargin = ui.px(3) })
         panel.addView(left, lp(ui.px(220), WRAP))
 
@@ -133,14 +132,14 @@ object Overlays {
         val hdmi = act.inputs.filter { it.kind == "hdmi" }
         var first: View? = null
         hdmi.forEach { input ->
-            val (r, _) = row(ui, Ic.HDMI, input.label, heightDp = 40f) {
+            val (r, _) = row(ui, Ic.HDMI, input.label, input.device, heightDp = if (input.device != null) 48f else 40f) {
                 act.pop()
                 act.openInput(input.id)
             }
             if (first == null) first = r
             panel.addView(r, lp(MATCH, WRAP))
         }
-        root.addView(panel, flp(ui.px(220), WRAP, Gravity.END or Gravity.TOP).apply {
+        root.addView(panel, flp(ui.px(250), WRAP, Gravity.END or Gravity.TOP).apply {
             setMargins(0, ui.px(80), ui.px(SIDE + 40), 0)
         })
         enter(panel, dy = -6f)
