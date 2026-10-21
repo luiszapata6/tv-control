@@ -29,10 +29,6 @@ class _HomeScreenState extends State<HomeScreen> {
   late DateTime _now = (widget.now ?? DateTime.now)();
   Timer? _clock;
 
-  /// The focused app's colour for the ambient glow (null: quiet indigo).
-  Color? _glow;
-  String? _glowOwner;
-
   HomeController get c => widget.controller;
 
   @override
@@ -50,16 +46,6 @@ class _HomeScreenState extends State<HomeScreen> {
     super.dispose();
   }
 
-  Future<void> _onAppFocus(String package, bool focused) async {
-    if (!focused) {
-      if (_glowOwner == package) setState(() => _glow = _glowOwner = null);
-      return;
-    }
-    _glowOwner = package;
-    final tint = await c.tint(package);
-    if (mounted && _glowOwner == package) setState(() => _glow = tint ?? Palette.indigo);
-  }
-
   Future<void> _openAllApps() =>
       Navigator.of(context).push(MaterialPageRoute<void>(builder: (_) => AllAppsScreen(controller: c)));
 
@@ -73,16 +59,15 @@ class _HomeScreenState extends State<HomeScreen> {
           final multiRow = c.pinned.length > c.layout.columns;
           return Stack(
             children: [
-              Positioned.fill(
-                child: AnimatedContainer(
-                  duration: const Duration(milliseconds: 400),
-                  curve: Motion.standard,
+              // Fixed glow, painted once: deep blue top right, a touch of indigo top left, black below.
+              const Positioned.fill(
+                child: DecoratedBox(
                   decoration: BoxDecoration(
                     gradient: RadialGradient(
-                      center: const Alignment(0.56, -1.36),
-                      radius: 1.45,
-                      colors: [(_glow ?? Palette.indigo).withValues(alpha: _glow == null ? 0.08 : 0.2), const Color(0x0008090D)],
-                      stops: const [0, 0.7],
+                      center: Alignment(0.6, -1.3),
+                      radius: 1.5,
+                      colors: [Color(0x47123A8C), Color(0x00123A8C)],
+                      stops: [0, 0.7],
                     ),
                   ),
                 ),
@@ -134,7 +119,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 children: [
                                   _SectionTitle('Tus apps', trailing: '${c.pinned.length} de 12'),
                                   const SizedBox(height: 13),
-                                  _PinnedGrid(controller: c, onAppFocus: _onAppFocus),
+                                  _PinnedGrid(controller: c),
                                   SizedBox(height: multiRow ? 14 : 22),
                                   const _SectionTitle('Entradas'),
                                   const SizedBox(height: 13),
@@ -250,9 +235,8 @@ class _Header extends StatelessWidget {
 }
 
 class _PinnedGrid extends StatelessWidget {
-  const _PinnedGrid({required this.controller, required this.onAppFocus});
+  const _PinnedGrid({required this.controller});
   final HomeController controller;
-  final void Function(String package, bool focused) onAppFocus;
 
   @override
   Widget build(BuildContext context) {
@@ -283,7 +267,6 @@ class _PinnedGrid extends StatelessWidget {
                     autofocus: i == 0,
                     loadIcon: controller.icon,
                     loadTint: controller.tint,
-                    onFocusChange: (f) => onAppFocus(app.package, f),
                     onSelect: () => controller.launch(app),
                     onLongPress: () => showAppOptions(context, controller, app),
                   ),

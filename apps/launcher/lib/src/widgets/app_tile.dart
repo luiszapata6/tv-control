@@ -36,7 +36,13 @@ class AppArt extends StatelessWidget {
             final size = bytes == null || bytes.isEmpty ? null : pngSize(bytes);
             final banner = size != null && size.$1 >= size.$2 * 1.4;
             child = banner
-                ? Image.memory(bytes!, key: const ValueKey('banner'), fit: BoxFit.cover, gaplessPlayback: true, filterQuality: FilterQuality.medium)
+                ? Image.memory(bytes!,
+                    key: const ValueKey('banner'),
+                    fit: BoxFit.cover,
+                    // Decode at most the on-screen width (4 columns at 1080p), not the full PNG.
+                    cacheWidth: 480,
+                    gaplessPlayback: true,
+                    filterQuality: FilterQuality.medium)
                 : FutureBuilder<Color?>(
                     key: const ValueKey('icon'),
                     future: tint,
@@ -104,7 +110,7 @@ class _Named extends StatelessWidget {
                     child: SizedBox.square(
                       dimension: iconSide,
                       child: icon != null
-                          ? Image.memory(icon!, fit: BoxFit.cover, gaplessPlayback: true)
+                          ? Image.memory(icon!, fit: BoxFit.cover, cacheWidth: 160, gaplessPlayback: true)
                           : ColoredBox(
                               color: Palette.ink2,
                               child: Center(
