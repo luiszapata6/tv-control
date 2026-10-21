@@ -279,7 +279,7 @@ class HomeScreen(private val act: MainActivity) {
         recentRow.set(recent.map { app ->
             {
                 AppCard(ui, w, app.label, onSelect = { act.launch(app.packageName) },
-                    onLongPress = { Overlays.appOptions(act, app) }, art = AppCard.appArt(ui, app, h)).also { it.frame.tag = "recent:${app.packageName}" }
+                    onLongPress = { Overlays.appOptions(act, app, recent = true) }, art = AppCard.appArt(ui, app, h)).also { it.frame.tag = "recent:${app.packageName}" }
             }
         }, h)
         recentTitle.visibility = if (recent.isEmpty()) View.GONE else View.VISIBLE

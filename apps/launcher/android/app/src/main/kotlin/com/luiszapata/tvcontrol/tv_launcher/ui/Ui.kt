@@ -254,6 +254,9 @@ class FocusFrame(private val ui: Ui, val look: Look, radiusDp: Float, restColor:
                     longFired = true
                     cancelLongPress()
                     isPressed = false
+                    // The remote keeps repeating OK until release: those repeats would land
+                    // on the menu that just opened and pick its first option.
+                    swallowSelectUntilUp = true
                     long()
                     return true
                 }
@@ -263,6 +266,14 @@ class FocusFrame(private val ui: Ui, val look: Look, radiusDp: Float, restColor:
             }
         }
         return super.dispatchKeyEvent(event)
+    }
+
+    companion object {
+        /** Set when a hold of OK opened something; [MainActivity] drops OK until it is released. */
+        @JvmStatic var swallowSelectUntilUp = false
+
+        fun isSelect(code: Int) = code == android.view.KeyEvent.KEYCODE_DPAD_CENTER ||
+            code == android.view.KeyEvent.KEYCODE_ENTER || code == android.view.KeyEvent.KEYCODE_NUMPAD_ENTER
     }
 
     override fun setPressed(pressed: Boolean) {

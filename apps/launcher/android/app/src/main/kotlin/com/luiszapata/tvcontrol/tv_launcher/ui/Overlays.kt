@@ -67,19 +67,21 @@ object Overlays {
 
     // ------------------------------------------------------------- options
 
-    fun appOptions(act: MainActivity, app: AppInfo, onDone: (() -> Unit)? = null) {
+    /** [recent]: opened from "Seguir viendo", where closing the app is the likely intent: it goes first. */
+    fun appOptions(act: MainActivity, app: AppInfo, recent: Boolean = false, onDone: (() -> Unit)? = null) {
         val ui = act.ui
         val pkg = app.packageName
         val pinned = Home.pinned(act.apps, act.layout)
         val position = pinned.indexOfFirst { it.packageName == pkg }
         val actions = buildList<Triple<Int, String, () -> Unit>> {
+            if (recent) add(Triple(Ic.CLOSE, "Cerrar app") { act.closeApp(pkg) })
             if (position < 0 && Home.canPin(act.apps, act.layout)) {
                 add(Triple(Ic.ADD, "Agregar a favoritos") { act.saveLayout(Home.pin(pkg, act.apps, act.layout)) })
             }
             if (position >= 0) {
                 add(Triple(Ic.REMOVE, "Quitar de favoritos") { act.saveLayout(Home.unpin(pkg, act.apps, act.layout)) })
             }
-            add(Triple(Ic.CLOSE, "Cerrar app") { act.closeApp(pkg) })
+            if (!recent) add(Triple(Ic.CLOSE, "Cerrar app") { act.closeApp(pkg) })
             add(Triple(Ic.HIDE, "Ocultar") { act.saveLayout(Home.hide(pkg, act.apps, act.layout)) })
             add(Triple(Ic.INFO, "Información de la app") { act.openAppInfo(pkg) })
         }
@@ -248,7 +250,7 @@ object Overlays {
                 val row = ui.horizontal().apply { clipChildren = false; gravity = Gravity.TOP }
                 chunk.forEachIndexed { i, app ->
                     val card = AppCard(ui, w, app.label, onSelect = { act.launch(app.packageName) },
-                        onLongPress = { appOptions(act, app) { if (act.isTop(root)) rebuild?.invoke() } },
+                        onLongPress = { appOptions(act, app, onDone = { if (act.isTop(root)) rebuild?.invoke() }) },
                         pinned = Home.isPinned(app.packageName, act.apps, act.layout), art = AppCard.appArt(ui, app, w * 9 / 16))
                     card.frame.tag = "all:${app.packageName}"
                     row.addView(card, lp(WRAP, WRAP).apply { if (i > 0) marginStart = ui.px(16) })

@@ -243,6 +243,10 @@ class MainActivity : Activity() {
     fun isTop(v: View) = overlays.lastOrNull() === v
 
     override fun dispatchKeyEvent(event: KeyEvent): Boolean {
+        if (FocusFrame.swallowSelectUntilUp && FocusFrame.isSelect(event.keyCode)) {
+            if (event.action == KeyEvent.ACTION_UP) FocusFrame.swallowSelectUntilUp = false
+            return true
+        }
         if (event.keyCode == KeyEvent.KEYCODE_BACK || event.keyCode == KeyEvent.KEYCODE_ESCAPE) {
             // A launcher never exits: Back only closes what is open.
             if (event.action == KeyEvent.ACTION_UP && overlays.isNotEmpty()) pop()
