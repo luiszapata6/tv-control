@@ -53,8 +53,10 @@ class AppRepository(private val context: Context) {
         (pm.getLeanbackLaunchIntentForPackage(pkg) ?: pm.getLaunchIntentForPackage(pkg))
             ?.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED)
 
-    fun launch(pkg: String): Boolean {
+    /** [fresh]: start over (clear the app's task) instead of resuming where it was left. */
+    fun launch(pkg: String, fresh: Boolean = false): Boolean {
         val intent = launchIntent(pkg) ?: return false
+        if (fresh) intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
         return try {
             context.startActivity(intent)
             true

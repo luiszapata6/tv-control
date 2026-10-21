@@ -157,8 +157,11 @@ class MainActivity : Activity() {
 
     // --------------------------------------------------------------- actions
 
+    /** Apps closed with "Cerrar app": the next launch starts them over. */
+    private val closed = HashSet<String>()
+
     fun launch(pkg: String) {
-        if (Launcher.apps.launch(pkg)) EventBus.post(LauncherEvent.ForegroundApp(pkg))
+        if (Launcher.apps.launch(pkg, fresh = closed.remove(pkg))) EventBus.post(LauncherEvent.ForegroundApp(pkg))
     }
 
     /**
@@ -168,6 +171,10 @@ class MainActivity : Activity() {
      */
     fun closeApp(pkg: String) {
         (getSystemService(ACTIVITY_SERVICE) as android.app.ActivityManager).killBackgroundProcesses(pkg)
+        // Android keeps the app's screens to restore them: reopening must start over to feel closed.
+        closed.add(pkg)
+        val label = apps.firstOrNull { it.packageName == pkg }?.label ?: "La app"
+        android.widget.Toast.makeText(this, "$label cerrada", android.widget.Toast.LENGTH_SHORT).show()
     }
 
     fun openInput(id: String) = io.execute { Launcher.inputsRepo.open(id) }
@@ -202,6 +209,7 @@ class MainActivity : Activity() {
 
     /** Opens [v] above everything; focus stays inside it until it closes. */
     fun push(v: View) {
+        if (overlays.isEmpty()) home.remember(currentFocus?.tag as? String)
         (overlays.lastOrNull() ?: home.view).let { (it as? ViewGroup)?.descendantFocusability = ViewGroup.FOCUS_BLOCK_DESCENDANTS }
         overlays.add(v)
         root.addView(v, FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT))

@@ -288,6 +288,9 @@ class HomeScreen(private val act: MainActivity) {
         restoreFocus()
     }
 
+    /** Where focus goes back when an overlay closes. */
+    fun remember(tag: String?) { if (tag != null) focusKey = tag }
+
     /** Home pressed: start again from the first favourite. */
     fun focusFirst() {
         focusKey = null
