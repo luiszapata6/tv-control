@@ -1,0 +1,33 @@
+00:00 +0: loading /home/runner/work/tv-control/tv-control/apps/remote/test/session_test.dart
+00:00 +0: /home/runner/work/tv-control/tv-control/apps/remote/test/session_test.dart: (setUpAll)
+00:00 +0: /home/runner/work/tv-control/tv-control/apps/remote/test/session_test.dart: connects and mirrors the TV state
+00:00 +1: /home/runner/work/tv-control/tv-control/apps/remote/test/session_test.dart: volume drag steps the TV towards the target
+00:01 +2: /home/runner/work/tv-control/tv-control/apps/remote/test/session_test.dart: a new volume target during the settle window is not lost
+00:02 +3: /home/runner/work/tv-control/tv-control/apps/remote/test/session_test.dart: volume is ignored until the TV reports it
+00:02 +4: /home/runner/work/tv-control/tv-control/apps/remote/test/session_test.dart: power reports when the TV cannot be woken
+00:02 +5: /home/runner/work/tv-control/tv-control/apps/remote/test/session_test.dart: power sends the key when connected
+00:02 +6: /home/runner/work/tv-control/tv-control/apps/remote/test/app_test.dart: (setUpAll)
+00:02 +7: /home/runner/work/tv-control/tv-control/apps/remote/test/app_test.dart: (setUpAll)
+00:02 +7: /home/runner/work/tv-control/tv-control/apps/remote/test/session_test.dart: text mirroring forgets the old text after submitting
+00:02 +8: /home/runner/work/tv-control/tv-control/apps/remote/test/app_test.dart: first launch shows discovered TVs
+00:02 +9: /home/runner/work/tv-control/tv-control/apps/remote/test/app_test.dart: first launch shows discovered TVs
+00:02 +10: /home/runner/work/tv-control/tv-control/apps/remote/test/app_test.dart: first launch shows discovered TVs
+00:02 +11: /home/runner/work/tv-control/tv-control/apps/remote/test/app_test.dart: first launch shows discovered TVs
+00:02 +12: /home/runner/work/tv-control/tv-control/apps/remote/test/app_test.dart: first launch shows discovered TVs
+00:02 +13: /home/runner/work/tv-control/tv-control/apps/remote/test/app_test.dart: first launch shows discovered TVs
+00:02 +14: /home/runner/work/tv-control/tv-control/apps/remote/test/app_test.dart: first launch shows discovered TVs
+00:02 +15: /home/runner/work/tv-control/tv-control/apps/remote/test/app_test.dart: first launch shows discovered TVs
+00:03 +16: /home/runner/work/tv-control/tv-control/apps/remote/test/app_test.dart: pairing with the code shown on the TV saves it and opens the remote
+00:04 +17: /home/runner/work/tv-control/tv-control/apps/remote/test/app_test.dart: pairing with the code shown on the TV saves it and opens the remote
+00:04 +18: /home/runner/work/tv-control/tv-control/apps/remote/test/app_test.dart: pairing with the code shown on the TV saves it and opens the remote
+00:04 +19: /home/runner/work/tv-control/tv-control/apps/remote/test/app_test.dart: a mistyped code is caught before sending
+00:04 +20: /home/runner/work/tv-control/tv-control/apps/remote/test/app_test.dart: remote shows the TV and its state
+00:04 +21: /home/runner/work/tv-control/tv-control/apps/remote/test/app_test.dart: remote D-pad, OK and navigation buttons send keys
+00:04 +22: /home/runner/work/tv-control/tv-control/apps/remote/test/app_test.dart: remote holding an arrow repeats it
+00:04 +23: /home/runner/work/tv-control/tv-control/apps/remote/test/app_test.dart: remote dragging the volume slider sends volume keys
+00:05 +24: /home/runner/work/tv-control/tv-control/apps/remote/test/app_test.dart: remote dock switches pages: touchpad gestures and keyboard text
+00:05 +25: /home/runner/work/tv-control/tv-control/apps/remote/test/app_test.dart: remote apps page opens well-known apps without the launcher
+00:05 +26: /home/runner/work/tv-control/tv-control/apps/remote/test/app_test.dart: remote settings shows app usage from the launcher, most used first
+00:06 +27: /home/runner/work/tv-control/tv-control/apps/remote/test/app_test.dart: remote settings sheet lists TVs and changes the accent
+00:06 +28: /home/runner/work/tv-control/tv-control/apps/remote/test/app_test.dart: (tearDownAll)
+00:06 +28: All tests passed!
